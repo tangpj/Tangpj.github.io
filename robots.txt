@@ -12,4 +12,3 @@ Disallow: /fancybox/
 
 Sitemap: http://www.tangpj.com/sitemap.xml
 Sitemap: http://www.tangpj.com/baidusitemap.xml
-
