@@ -1,0 +1,15 @@
+# hexo robots.txt
+User-agent: *
+Allow: /
+Allow: /archives/
+
+Disallow: /vendors/
+Disallow: /js/
+Disallow: /css/
+Disallow: /fonts/
+Disallow: /vendors/
+Disallow: /fancybox/
+
+Sitemap: http://www.tangpj.com/sitemap.xml
+Sitemap: http://www.tangpj.com/baidusitemap.xml
+
