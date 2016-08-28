@@ -86,20 +86,26 @@
 
 
 
-<meta name="description" content="摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
-前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供">
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用fresco实现Android图片手势缩放功能">
 <meta property="og:url" content="http://www.tangpj.com/2016/08/12/fresco_zoomable/index.html">
 <meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
-前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
 <meta property="og:image" content="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png">
-<meta property="og:updated_time" content="2016-08-17T12:44:34.000Z">
+<meta property="og:updated_time" content="2016-08-28T01:36:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用fresco实现Android图片手势缩放功能">
-<meta name="twitter:description" content="摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
-前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
 <meta name="twitter:image" content="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png">
 
 
@@ -348,7 +354,10 @@
       
 
       
-        <p>摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。</p>
+        <blockquote>
+<p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p>摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供大家交流学习。<br><a id="more"></a></p>
 <h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><p>在开发前，需要在项目中引入fresco，引入方法是在Module的build.gradle文件的dependencies中添加一句代码</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.fresco:fresco:0.12.0'</span></div></pre></td></tr></table></figure>
@@ -437,20 +446,6 @@
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/08/11/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
 
       
       
@@ -518,7 +513,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">1</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
