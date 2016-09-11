@@ -87,21 +87,24 @@
 
 
 <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta property="og:url" content="http://www.tangpj.com/2016/09/11/searchview/index.html">
 <meta property="og:site_name" content="TANG BLOG">
 <meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif">
-<meta property="og:updated_time" content="2016-09-11T15:01:25.000Z">
+<meta property="og:updated_time" content="2016-09-11T15:07:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 
 
@@ -352,23 +355,39 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
       
         <blockquote>
 <p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
-<h1 id="Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><a href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题" class="headerlink" title="Android SearchView的高级用法，解决关于SearchView的样式与控制问题"></a>Android SearchView的高级用法，解决关于SearchView的样式与控制问题</h1><p>在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.widget包下的SearchView控件。</p>
 </blockquote>
+<h1 id="Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><a href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题" class="headerlink" title="Android SearchView的高级用法，解决关于SearchView的样式与控制问题"></a>Android SearchView的高级用法，解决关于SearchView的样式与控制问题</h1><p>在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.widget包下的SearchView控件。</p>
 <h1 id="关于SearchView"><a href="#关于SearchView" class="headerlink" title="关于SearchView"></a>关于SearchView</h1><h2 id="什么是SearchView控件？"><a href="#什么是SearchView控件？" class="headerlink" title="什么是SearchView控件？"></a>什么是SearchView控件？</h2><p>SearchView是Android自带的一款搜索View，它的功能十分强大，而且样式也十分好看。在Google发布Material Design 介绍中的搜索按钮就是通过SearchView实现的。</p>
 <h2 id="如何使用SearchView"><a href="#如何使用SearchView" class="headerlink" title="如何使用SearchView"></a>如何使用SearchView</h2><p>下面我们来介绍下在Material Design风格下如何使用SearchView。</p>
 <ol>
-<li><p>在toolbar中显示SearchView。<br>在res/menu/目录下创建文件menu_main.xml</p>
- <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" tools:context="com.example.searchview.MainActivity"><br><br>     <item android:id="@+id/search_view" android:orderincategory="101" android:title="search" android:icon="@mipmap/search" app:actionviewclass="android.widget.SearchView" app:showasaction="ifRoom|collapseActionView"><br> </item></menu>
-
-
-
-</li>
+<li>在toolbar中显示SearchView。</li>
 </ol>
-<p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            return true;<br>        }</p>
-<p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
+<p>首先在res/menu/目录下创建文件<code>menu_main.xml</code></p>
+<pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    tools:context=&quot;com.example.searchview.MainActivity&quot;&gt;
+
+    &lt;item android:id=&quot;@+id/search_view&quot;
+        android:orderInCategory=&quot;101&quot;
+        android:title=&quot;search&quot;
+        android:icon=&quot;@mipmap/search&quot;
+        app:actionViewClass=&quot;android.widget.SearchView&quot;
+        app:showAsAction=&quot;ifRoom|collapseActionView&quot;
+        /&gt;
+&lt;/menu&gt;
+</code></pre><p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单</p>
+<pre><code>@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+</code></pre><p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif" alt=""></p>
 <ol>
-<li><p>响应SearchView的的行为<br>设置好SearchView后，我们要对SearchView进行监听，监听的方法普通使用SearchView一样。获取SearchView对象并进行监听的方法如下所示。<br> @Override</p>
+<li><p>响应SearchView的的行为<br>设置好SearchView后，我们要对SearchView进行监听，监听的方法普通使用SearchView一样。获取SearchView对象并进行监听的方法如下所示。</p>
+<p> @Override</p>
 <pre><code>public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -393,47 +412,72 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
 <p>首先，通过Menu.findItem（int id）方法，通过我们在<code>menu_main.xml</code>文件中定义的id获取到对应的menuItem,然后在通过MenuItem.getActionView()方法获取actionViewClass(响应行为View，在本例子里就是获取对应的SearchView)。获取到ActionView的实例后，我们就可以通过调用对象的一些方法实现相应的行为了。例如在这里就是用Toast把输入的搜索词语显示到屏幕上。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif" alt=""></p>
 <h1 id="自定义SearchView的样式与重设监听事件"><a href="#自定义SearchView的样式与重设监听事件" class="headerlink" title="自定义SearchView的样式与重设监听事件"></a>自定义SearchView的样式与重设监听事件</h1><p>上面已经介绍了SearchView的简单的用法了，但是往往在实际开发的过程中并不能满足我们的需求。SearchView实际上是一款十分强大的View控件来的，下面我们来介绍下它到底有多么强大。</p>
-<h2 id="SearchView源码分析"><a href="#SearchView源码分析" class="headerlink" title="SearchView源码分析"></a>SearchView源码分析</h2><p>首先我们来看看它的源码。<br>    private static final boolean DBG = false;<br>        private static final String LOG_TAG = “SearchView”;</p>
-<pre><code>/**
- * Private constant for removing the microphone in the keyboard.
- */
-private static final String IME_OPTION_NO_MICROPHONE = &quot;nm&quot;;
+<h2 id="SearchView源码分析"><a href="#SearchView源码分析" class="headerlink" title="SearchView源码分析"></a>SearchView源码分析</h2><p>首先我们来看看它的源码。</p>
+<pre><code>private static final boolean DBG = false;
+    private static final String LOG_TAG = &quot;SearchView&quot;;
 
-private final SearchAutoComplete mSearchSrcTextView;
-private final View mSearchEditFrame;
-private final View mSearchPlate;
-private final View mSubmitArea;
-private final ImageView mSearchButton;
-private final ImageView mGoButton;
-private final ImageView mCloseButton;
-private final ImageView mVoiceButton;
-private final View mDropDownAnchor;
+    /**
+     * Private constant for removing the microphone in the keyboard.
+     */
+    private static final String IME_OPTION_NO_MICROPHONE = &quot;nm&quot;;
+
+    private final SearchAutoComplete mSearchSrcTextView;
+    private final View mSearchEditFrame;
+    private final View mSearchPlate;
+    private final View mSubmitArea;
+    private final ImageView mSearchButton;
+    private final ImageView mGoButton;
+    private final ImageView mCloseButton;
+    private final ImageView mVoiceButton;
+    private final View mDropDownAnchor;
 </code></pre><p>我们发现SearchView实际上是一个View的集合，有4个View、ImageView,还有一为SearchAutoComplete。我们重点关注的就是这个叫SearchAutoComplete的控件。后面大多数的功能都是围绕这个控件展开的。</p>
 <h3 id="SearchAutoComplete控件是什么？"><a href="#SearchAutoComplete控件是什么？" class="headerlink" title="SearchAutoComplete控件是什么？"></a>SearchAutoComplete控件是什么？</h3><p>我们对SearchAutoComplete的源码进行查看，简单分析它的功能。<br><code>public static class SearchAutoComplete extends AppCompatAutoCompleteTextView</code><br>通过查看源码我们可以知道SearchAutoComplete实际上就是一个AutoCompleteTextView,而AutoCompleteTextView。所以SearchAutoComplete实际上是对AutoCompleteTextView的一个拓展。而我们知道SearchView是有一个输入框和多个按钮的。所以我判断，这个SearchAutoComplete实际上就是SearchView上的输入框，那么我们可以根据这个特点，完成一些AutoCompleteTextView类似的功能。</p>
 <h3 id="SearchAutoComplete控件能做什么？"><a href="#SearchAutoComplete控件能做什么？" class="headerlink" title="SearchAutoComplete控件能做什么？"></a>SearchAutoComplete控件能做什么？</h3><p>SearchAutoComplete的特点就是有自动补全的功能。那么我们可以通过这个功能做一个类似自动补全的功能，实际上很多Android中的自动补全功能都是通过AutoCompleteTextView来实现的。所以我们可以通过SearchAutoComplete的这个特性来实现搜索提示或者历史记录功能都可以。</p>
 <h2 id="SearchView搜索提示（历史记录）的实现"><a href="#SearchView搜索提示（历史记录）的实现" class="headerlink" title="SearchView搜索提示（历史记录）的实现"></a>SearchView搜索提示（历史记录）的实现</h2><p>先让大家看看实现搜索提示的代码</p>
-<p>自定义搜索提示数组：<br>    &lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <resources><br>        <string-array name="test_array"><br>            <item>香港</item><br>            <item>广州</item><br>            <item>深圳</item><br>            <item>北京</item><br>            <item>上海</item><br>            <item>杭州</item><br>            <item>天津</item><br>            <item>长沙</item><br>        </string-array><br>    </resources></p>
-<p>实现搜索提示代码：<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            Resources resources = getResources();<br>            String [] testStrings = resources.getStringArray(R.array.test_array);<br>            final MenuItem item = menu.findItem(R.id.search_view);<br>            SearchView searchView = (SearchView) item.getActionView();</p>
-<pre><code>    int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
-    AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
-            .findViewById(completeTextId) ;
-    completeText.setThreshold(0);
-    completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,android.R.layout.simple_list_item_1,testStrings));
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
-            return false;
-        }
+<p>自定义搜索提示数组：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;string-array name=&quot;test_array&quot;&gt;
+        &lt;item&gt;香港&lt;/item&gt;
+        &lt;item&gt;广州&lt;/item&gt;
+        &lt;item&gt;深圳&lt;/item&gt;
+        &lt;item&gt;北京&lt;/item&gt;
+        &lt;item&gt;上海&lt;/item&gt;
+        &lt;item&gt;杭州&lt;/item&gt;
+        &lt;item&gt;天津&lt;/item&gt;
+        &lt;item&gt;长沙&lt;/item&gt;
+    &lt;/string-array&gt;
+&lt;/resources&gt;
+</code></pre><p>实现搜索提示代码：</p>
+<pre><code>@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        Resources resources = getResources();
+        String [] testStrings = resources.getStringArray(R.array.test_array);
+        final MenuItem item = menu.findItem(R.id.search_view);
+        SearchView searchView = (SearchView) item.getActionView();
 
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            return false;
-        }
-    });
+        int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
+        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
+                .findViewById(completeTextId) ;
+        completeText.setThreshold(0);
+        completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,android.R.layout.simple_list_item_1,testStrings));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
 
-    return true;
-}
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return true;
+    }
 </code></pre><p>从代码可以看出来</p>
 <ol>
 <li>AutoCompleteTextView ID的获取方法为<code>int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);</code>。为什么这样能获取到searchView中的AutoCompleteTextView的ID呢？我们先来看看SearchView的源码：<br> private final SearchAutoComplete mSearchSrcTextView;<br> mSearchSrcTextView = (SearchAutoComplete) findViewById(R.id.search_src_text);</li>
@@ -448,35 +492,44 @@ private final View mDropDownAnchor;
 <p>现在我们来运行看看显示的效果吧。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif" alt=""></p>
 <p>嗯，符合我们的预期，但是在我们点击下面的搜索提示的时候，程序蹦贵了。报崩溃的原因是因为SearchView搜索结果在内部是通过Cursor传递的。我们通过查看源码可以看到，SearchView的搜索结果是通过SuggestionsAdapter显示的，它的数据是来源是Cursor。而在我们的源码中是通过ArrayAdapter实现的，所以造成数据不一致所以报错了。我们知道在android中Cursor是用来操作查询数据集合的，但是实际开发中，我们的数据源不一定是来源于数据库。所以在这里我们需要对SearchView进行改造下，使它满足我们的使用目的。</p>
-<p>解决的方法为:<br>通过上面的分析，我们知道点击搜索提示列表中的搜索结果时实际上是在点击AutoCompleteTextView中的ListView的item。而通过查看AutoCompleteTextView 的源码我发现又一个setOnItemClickListener方法。通过这个方法重新设置OnItemClickListener即可解决这个问题。下面来看看解诀后的代码。<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            Resources resources = getResources();<br>            final String [] testStrings = resources.getStringArray(R.array.test_array);<br>            final MenuItem item = menu.findItem(R.id.search_view);<br>            final SearchView searchView = (SearchView) item.getActionView();</p>
-<pre><code>    int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
-    AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
-            .findViewById(completeTextId) ;
-    completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,R.layout.list_item,R.id.text,testStrings));
-    completeText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
-            searchView.setQuery(testStrings[position],true);
-        }
-    });
+<p>解决的方法为:<br>通过上面的分析，我们知道点击搜索提示列表中的搜索结果时实际上是在点击AutoCompleteTextView中的ListView的item。而通过查看AutoCompleteTextView 的源码我发现又一个setOnItemClickListener方法。通过这个方法重新设置OnItemClickListener即可解决这个问题。下面来看看解诀后的代码。</p>
+<pre><code>@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        Resources resources = getResources();
+        final String [] testStrings = resources.getStringArray(R.array.test_array);
+        final MenuItem item = menu.findItem(R.id.search_view);
+        final SearchView searchView = (SearchView) item.getActionView();
 
-    completeText.setThreshold(0);
-    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
-            return false;
-        }
+        int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
+        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
+                .findViewById(completeTextId) ;
+        completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,R.layout.list_item,R.id.text,testStrings));
+        completeText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+                searchView.setQuery(testStrings[position],true);
+            }
+        });
 
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            return false;
-        }
-    });
+        completeText.setThreshold(0);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
 
-    return true;
-}
+        return true;
+    }
 </code></pre><p>现在我们来分析下<code>searchView.setQuery(testStrings[position],true);</code>的这个方法。下面时这个方法的定义:</p>
 <pre><code>public void setQuery(CharSequence query, boolean submit) {
         mSearchSrcTextView.setText(query);
