@@ -1,0 +1,948 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android UI," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用fresco实现Android图片手势缩放功能">
+<meta property="og:url" content="http://www.tangpj.com/2016/09/11/searchview/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif">
+<meta property="og:updated_time" content="2016-09-11T14:33:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用fresco实现Android图片手势缩放功能">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2016/09/11/searchview/"/>
+
+  <title> 使用fresco实现Android图片手势缩放功能 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用fresco实现Android图片手势缩放功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-11T22:16:10+08:00" content="2016-09-11">
+              2016-09-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android-UI技术/" itemprop="url" rel="index">
+                    <span itemprop="name">Android UI技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/11/searchview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/11/searchview/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/09/11/searchview/" class="leancloud_visitors" data-flag-title="使用fresco实现Android图片手势缩放功能">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
+<h1 id="Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><a href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题" class="headerlink" title="Android SearchView的高级用法，解决关于SearchView的样式与控制问题"></a>Android SearchView的高级用法，解决关于SearchView的样式与控制问题</h1><p>在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.widget包下的SearchView控件。</p>
+</blockquote>
+<h1 id="关于SearchView"><a href="#关于SearchView" class="headerlink" title="关于SearchView"></a>关于SearchView</h1><h2 id="什么是SearchView控件？"><a href="#什么是SearchView控件？" class="headerlink" title="什么是SearchView控件？"></a>什么是SearchView控件？</h2><p>SearchView是Android自带的一款搜索View，它的功能十分强大，而且样式也十分好看。在Google发布Material Design 介绍中的搜索按钮就是通过SearchView实现的。</p>
+<h2 id="如何使用SearchView"><a href="#如何使用SearchView" class="headerlink" title="如何使用SearchView"></a>如何使用SearchView</h2><p>下面我们来介绍下在Material Design风格下如何使用SearchView。</p>
+<ol>
+<li><p>在toolbar中显示SearchView。<br>在res/menu/目录下创建文件menu_main.xml</p>
+ <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" tools:context="com.example.searchview.MainActivity"><br><br>     <item android:id="@+id/search_view" android:orderincategory="101" android:title="search" android:icon="@mipmap/search" app:actionviewclass="android.widget.SearchView" app:showasaction="ifRoom|collapseActionView"><br> </item></menu>
+
+
+
+</li>
+</ol>
+<p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            return true;<br>        }</p>
+<p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif" alt=""></p>
+<ol>
+<li><p>响应SearchView的的行为<br>设置好SearchView后，我们要对SearchView进行监听，监听的方法普通使用SearchView一样。获取SearchView对象并进行监听的方法如下所示。<br> @Override</p>
+<pre><code>public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    final MenuItem item = menu.findItem(R.id.search_view);
+    SearchView searchView = (SearchView) item.getActionView();
+    searchView.setOnQueryTextListener(new     SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    });
+    return true;
+}
+</code></pre></li>
+</ol>
+<p>首先，通过Menu.findItem（int id）方法，通过我们在<code>menu_main.xml</code>文件中定义的id获取到对应的menuItem,然后在通过MenuItem.getActionView()方法获取actionViewClass(响应行为View，在本例子里就是获取对应的SearchView)。获取到ActionView的实例后，我们就可以通过调用对象的一些方法实现相应的行为了。例如在这里就是用Toast把输入的搜索词语显示到屏幕上。</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif" alt=""></p>
+<h1 id="自定义SearchView的样式与重设监听事件"><a href="#自定义SearchView的样式与重设监听事件" class="headerlink" title="自定义SearchView的样式与重设监听事件"></a>自定义SearchView的样式与重设监听事件</h1><p>上面已经介绍了SearchView的简单的用法了，但是往往在实际开发的过程中并不能满足我们的需求。SearchView实际上是一款十分强大的View控件来的，下面我们来介绍下它到底有多么强大。</p>
+<h2 id="SearchView源码分析"><a href="#SearchView源码分析" class="headerlink" title="SearchView源码分析"></a>SearchView源码分析</h2><p>首先我们来看看它的源码。<br>    private static final boolean DBG = false;<br>        private static final String LOG_TAG = “SearchView”;</p>
+<pre><code>/**
+ * Private constant for removing the microphone in the keyboard.
+ */
+private static final String IME_OPTION_NO_MICROPHONE = &quot;nm&quot;;
+
+private final SearchAutoComplete mSearchSrcTextView;
+private final View mSearchEditFrame;
+private final View mSearchPlate;
+private final View mSubmitArea;
+private final ImageView mSearchButton;
+private final ImageView mGoButton;
+private final ImageView mCloseButton;
+private final ImageView mVoiceButton;
+private final View mDropDownAnchor;
+</code></pre><p>我们发现SearchView实际上是一个View的集合，有4个View、ImageView,还有一为SearchAutoComplete。我们重点关注的就是这个叫SearchAutoComplete的控件。后面大多数的功能都是围绕这个控件展开的。</p>
+<h3 id="SearchAutoComplete控件是什么？"><a href="#SearchAutoComplete控件是什么？" class="headerlink" title="SearchAutoComplete控件是什么？"></a>SearchAutoComplete控件是什么？</h3><p>我们对SearchAutoComplete的源码进行查看，简单分析它的功能。<br><code>public static class SearchAutoComplete extends AppCompatAutoCompleteTextView</code><br>通过查看源码我们可以知道SearchAutoComplete实际上就是一个AutoCompleteTextView,而AutoCompleteTextView。所以SearchAutoComplete实际上是对AutoCompleteTextView的一个拓展。而我们知道SearchView是有一个输入框和多个按钮的。所以我判断，这个SearchAutoComplete实际上就是SearchView上的输入框，那么我们可以根据这个特点，完成一些AutoCompleteTextView类似的功能。</p>
+<h3 id="SearchAutoComplete控件能做什么？"><a href="#SearchAutoComplete控件能做什么？" class="headerlink" title="SearchAutoComplete控件能做什么？"></a>SearchAutoComplete控件能做什么？</h3><p>SearchAutoComplete的特点就是有自动补全的功能。那么我们可以通过这个功能做一个类似自动补全的功能，实际上很多Android中的自动补全功能都是通过AutoCompleteTextView来实现的。所以我们可以通过SearchAutoComplete的这个特性来实现搜索提示或者历史记录功能都可以。</p>
+<h2 id="SearchView搜索提示（历史记录）的实现"><a href="#SearchView搜索提示（历史记录）的实现" class="headerlink" title="SearchView搜索提示（历史记录）的实现"></a>SearchView搜索提示（历史记录）的实现</h2><p>先让大家看看实现搜索提示的代码</p>
+<p>自定义搜索提示数组：<br>    &lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>    <resources><br>        <string-array name="test_array"><br>            <item>香港</item><br>            <item>广州</item><br>            <item>深圳</item><br>            <item>北京</item><br>            <item>上海</item><br>            <item>杭州</item><br>            <item>天津</item><br>            <item>长沙</item><br>        </string-array><br>    </resources></p>
+<p>实现搜索提示代码：<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            Resources resources = getResources();<br>            String [] testStrings = resources.getStringArray(R.array.test_array);<br>            final MenuItem item = menu.findItem(R.id.search_view);<br>            SearchView searchView = (SearchView) item.getActionView();</p>
+<pre><code>    int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
+    AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
+            .findViewById(completeTextId) ;
+    completeText.setThreshold(0);
+    completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,android.R.layout.simple_list_item_1,testStrings));
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    });
+
+    return true;
+}
+</code></pre><p>从代码可以看出来</p>
+<ol>
+<li>AutoCompleteTextView ID的获取方法为<code>int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);</code>。为什么这样能获取到searchView中的AutoCompleteTextView的ID呢？我们先来看看SearchView的源码：<br> private final SearchAutoComplete mSearchSrcTextView;<br> mSearchSrcTextView = (SearchAutoComplete) findViewById(R.id.search_src_text);</li>
+</ol>
+<p>我们可以看到，在SearchView中SearchAutoComplete的id是<code>R.id.search_src_text</code>所以我们可以通过View.getResources(). getIdentifier()方法来获取View的内部控件（该方法对所有的View都适用）。</p>
+<ol>
+<li><p>completeText.setThreshold(0)方法的作用是设置提示条件。设置为0的时候就是代表输入长度为0即显示提示列表，设置为1代表输入长度为1时显示提示列表，以此类推。</p>
+</li>
+<li><p>通过completeText.setAdapter()方法设置搜索提示的数据源。搜索提示View实际上是一个ListView所以这里的setAdapter方法和ListView是一样的。为了演示方便，在这里我使用了ArrayAdapter。</p>
+</li>
+</ol>
+<p>现在我们来运行看看显示的效果吧。</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif" alt=""></p>
+<p>嗯，符合我们的预期，但是在我们点击下面的搜索提示的时候，程序蹦贵了。报崩溃的原因是因为SearchView搜索结果在内部是通过Cursor传递的。我们通过查看源码可以看到，SearchView的搜索结果是通过SuggestionsAdapter显示的，它的数据是来源是Cursor。而在我们的源码中是通过ArrayAdapter实现的，所以造成数据不一致所以报错了。我们知道在android中Cursor是用来操作查询数据集合的，但是实际开发中，我们的数据源不一定是来源于数据库。所以在这里我们需要对SearchView进行改造下，使它满足我们的使用目的。</p>
+<p>解决的方法为:<br>通过上面的分析，我们知道点击搜索提示列表中的搜索结果时实际上是在点击AutoCompleteTextView中的ListView的item。而通过查看AutoCompleteTextView 的源码我发现又一个setOnItemClickListener方法。通过这个方法重新设置OnItemClickListener即可解决这个问题。下面来看看解诀后的代码。<br>    @Override<br>        public boolean onCreateOptionsMenu(Menu menu) {<br>            // Inflate the menu; this adds items to the action bar if it is present.<br>            getMenuInflater().inflate(R.menu.menu_main, menu);<br>            Resources resources = getResources();<br>            final String [] testStrings = resources.getStringArray(R.array.test_array);<br>            final MenuItem item = menu.findItem(R.id.search_view);<br>            final SearchView searchView = (SearchView) item.getActionView();</p>
+<pre><code>    int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
+    AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
+            .findViewById(completeTextId) ;
+    completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,R.layout.list_item,R.id.text,testStrings));
+    completeText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+            searchView.setQuery(testStrings[position],true);
+        }
+    });
+
+    completeText.setThreshold(0);
+    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            return false;
+        }
+    });
+
+
+    return true;
+}
+</code></pre><p>现在我们来分析下<code>searchView.setQuery(testStrings[position],true);</code>的这个方法。下面时这个方法的定义:</p>
+<pre><code>public void setQuery(CharSequence query, boolean submit) {
+        mSearchSrcTextView.setText(query);
+        if (query != null) {
+            mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
+            mUserQuery = query;
+        }
+
+        // If the query is not empty and submit is requested, submit the query
+        if (submit &amp;&amp; !TextUtils.isEmpty(query)) {
+            onSubmitQuery();
+        }
+    }
+</code></pre><p>不难看出，query就是代表设置要提交的字符串，而submit为ture表示提交该字符串，为false为不提交。这样我们就可以达到该方法实现选择搜索提示的效果。根据这一特性，我们可以在实际开发的时候根据业务逻辑自定义Adapter来实现各种复杂的功能。<br>demo地址为： <a href="https://github.com/DobbyTang/SearchViewDemo" target="_blank" rel="external">https://github.com/DobbyTang/SearchViewDemo</a></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>SearchView是Android提供的一个十分强大的搜索组件，在这里我只是自定义了其中的一小部分功能。我曾经听到过很多小伙伴抱怨SearchView十分不好用，一般在开发搜索功能的时候都是重新制作一个搜索模块。但是通过对SearchView的源码进行分析可以发现，自定义该控件的方法实际上十分简单。并且随着对它的深入分析发现，一个完整的搜索模块需要的东西它都以更加优美的方法帮我们实现了。在开发的时候，我们不妨尝试下去使用这个十分强大的控件。<br>通过这篇文章，我想告诉大家的是，多看源码！！！多看源码！！！多看源码！！！看源码的过程很辛苦，但是这是我们获得进步的最快途径，并且能在看源码的过程中能够发现一些控件的十分强大的用法。虽然不一定能完全理解，但是当你使用源码中的一些方法做出一些很酷的事情的时候，你会发现有满满的成就感，SO,有空的时候看看源码吧。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-UI/" rel="tag">#Android UI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/28/bean_to_map/" rel="next" title="Android(Java)Bean自动转换为map的方法">
+                <i class="fa fa-chevron-left"></i> Android(Java)Bean自动转换为map的方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/11/searchview/"
+           data-title="使用fresco实现Android图片手势缩放功能" data-url="http://www.tangpj.com/2016/09/11/searchview/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><span class="nav-number">1.</span> <span class="nav-text">Android SearchView的高级用法，解决关于SearchView的样式与控制问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于SearchView"><span class="nav-number">2.</span> <span class="nav-text">关于SearchView</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SearchView控件？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是SearchView控件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用SearchView"><span class="nav-number">2.2.</span> <span class="nav-text">如何使用SearchView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义SearchView的样式与重设监听事件"><span class="nav-number">3.</span> <span class="nav-text">自定义SearchView的样式与重设监听事件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView源码分析"><span class="nav-number">3.1.</span> <span class="nav-text">SearchView源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件是什么？"><span class="nav-number">3.1.1.</span> <span class="nav-text">SearchAutoComplete控件是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件能做什么？"><span class="nav-number">3.1.2.</span> <span class="nav-text">SearchAutoComplete控件能做什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView搜索提示（历史记录）的实现"><span class="nav-number">3.2.</span> <span class="nav-text">SearchView搜索提示（历史记录）的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tangpj"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>
