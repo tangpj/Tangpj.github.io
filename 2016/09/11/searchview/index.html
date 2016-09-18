@@ -99,7 +99,7 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif">
-<meta property="og:updated_time" content="2016-09-11T15:07:33.000Z">
+<meta property="og:updated_time" content="2016-09-18T12:17:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
@@ -377,108 +377,26 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
         /&gt;
 &lt;/menu&gt;
 </code></pre><p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单</p>
-<pre><code>@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-</code></pre><p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</div><div class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></div><div class="line">        getMenuInflater().inflate(R.menu.menu_main, menu);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif" alt=""></p>
 <ol>
-<li><p>响应SearchView的的行为<br>设置好SearchView后，我们要对SearchView进行监听，监听的方法普通使用SearchView一样。获取SearchView对象并进行监听的方法如下所示。</p>
-<p> @Override</p>
-<pre><code>public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_main, menu);
-    final MenuItem item = menu.findItem(R.id.search_view);
-    SearchView searchView = (SearchView) item.getActionView();
-    searchView.setOnQueryTextListener(new     SearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {
-            Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            return false;
-        }
-    });
-    return true;
-}
-</code></pre></li>
+<li>响应SearchView的的行为<br>设置好SearchView后，我们要对SearchView进行监听，监听的方法普通使用SearchView一样。获取SearchView对象并进行监听的方法如下所示。</li>
 </ol>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span></div><div class="line">    public boolean onCreateOptionsMenu(Menu menu) &#123;</div><div class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></div><div class="line">        getMenuInflater()<span class="selector-class">.inflate</span>(R.menu.menu_main, menu);</div><div class="line">        final MenuItem item = menu<span class="selector-class">.findItem</span>(R.id.search_view);</div><div class="line">        SearchView searchView = (SearchView) item<span class="selector-class">.getActionView</span>();</div><div class="line">        <span class="selector-tag">searchView</span><span class="selector-class">.setOnQueryTextListener</span>(new     SearchView.OnQueryTextListener() &#123;</div><div class="line">            <span class="variable">@Override</span></div><div class="line">            public boolean onQueryTextSubmit(String query) &#123;</div><div class="line">                Toast<span class="selector-class">.makeText</span>(MainActivity.this,query,Toast.LENGTH_SHORT)<span class="selector-class">.show</span>();</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="variable">@Override</span></div><div class="line">            public boolean onQueryTextChange(String newText) &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="selector-tag">return</span> <span class="selector-tag">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>首先，通过Menu.findItem（int id）方法，通过我们在<code>menu_main.xml</code>文件中定义的id获取到对应的menuItem,然后在通过MenuItem.getActionView()方法获取actionViewClass(响应行为View，在本例子里就是获取对应的SearchView)。获取到ActionView的实例后，我们就可以通过调用对象的一些方法实现相应的行为了。例如在这里就是用Toast把输入的搜索词语显示到屏幕上。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif" alt=""></p>
 <h1 id="自定义SearchView的样式与重设监听事件"><a href="#自定义SearchView的样式与重设监听事件" class="headerlink" title="自定义SearchView的样式与重设监听事件"></a>自定义SearchView的样式与重设监听事件</h1><p>上面已经介绍了SearchView的简单的用法了，但是往往在实际开发的过程中并不能满足我们的需求。SearchView实际上是一款十分强大的View控件来的，下面我们来介绍下它到底有多么强大。</p>
 <h2 id="SearchView源码分析"><a href="#SearchView源码分析" class="headerlink" title="SearchView源码分析"></a>SearchView源码分析</h2><p>首先我们来看看它的源码。</p>
-<pre><code>private static final boolean DBG = false;
-    private static final String LOG_TAG = &quot;SearchView&quot;;
-
-    /**
-     * Private constant for removing the microphone in the keyboard.
-     */
-    private static final String IME_OPTION_NO_MICROPHONE = &quot;nm&quot;;
-
-    private final SearchAutoComplete mSearchSrcTextView;
-    private final View mSearchEditFrame;
-    private final View mSearchPlate;
-    private final View mSubmitArea;
-    private final ImageView mSearchButton;
-    private final ImageView mGoButton;
-    private final ImageView mCloseButton;
-    private final ImageView mVoiceButton;
-    private final View mDropDownAnchor;
-</code></pre><p>我们发现SearchView实际上是一个View的集合，有4个View、ImageView,还有一为SearchAutoComplete。我们重点关注的就是这个叫SearchAutoComplete的控件。后面大多数的功能都是围绕这个控件展开的。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="built_in">boolean</span> DBG = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> LOG_TAG = <span class="string">"SearchView"</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Private constant for removing the microphone in the keyboard.</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> IME_OPTION_NO_MICROPHONE = <span class="string">"nm"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SearchAutoComplete mSearchSrcTextView;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> View mSearchEditFrame;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> View mSearchPlate;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> View mSubmitArea;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ImageView mSearchButton;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ImageView mGoButton;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ImageView mCloseButton;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ImageView mVoiceButton;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> View mDropDownAnchor;</div></pre></td></tr></table></figure>
+<p>我们发现SearchView实际上是一个View的集合，有4个View、ImageView,还有一为SearchAutoComplete。我们重点关注的就是这个叫SearchAutoComplete的控件。后面大多数的功能都是围绕这个控件展开的。</p>
 <h3 id="SearchAutoComplete控件是什么？"><a href="#SearchAutoComplete控件是什么？" class="headerlink" title="SearchAutoComplete控件是什么？"></a>SearchAutoComplete控件是什么？</h3><p>我们对SearchAutoComplete的源码进行查看，简单分析它的功能。<br><code>public static class SearchAutoComplete extends AppCompatAutoCompleteTextView</code><br>通过查看源码我们可以知道SearchAutoComplete实际上就是一个AutoCompleteTextView,而AutoCompleteTextView。所以SearchAutoComplete实际上是对AutoCompleteTextView的一个拓展。而我们知道SearchView是有一个输入框和多个按钮的。所以我判断，这个SearchAutoComplete实际上就是SearchView上的输入框，那么我们可以根据这个特点，完成一些AutoCompleteTextView类似的功能。</p>
 <h3 id="SearchAutoComplete控件能做什么？"><a href="#SearchAutoComplete控件能做什么？" class="headerlink" title="SearchAutoComplete控件能做什么？"></a>SearchAutoComplete控件能做什么？</h3><p>SearchAutoComplete的特点就是有自动补全的功能。那么我们可以通过这个功能做一个类似自动补全的功能，实际上很多Android中的自动补全功能都是通过AutoCompleteTextView来实现的。所以我们可以通过SearchAutoComplete的这个特性来实现搜索提示或者历史记录功能都可以。</p>
 <h2 id="SearchView搜索提示（历史记录）的实现"><a href="#SearchView搜索提示（历史记录）的实现" class="headerlink" title="SearchView搜索提示（历史记录）的实现"></a>SearchView搜索提示（历史记录）的实现</h2><p>先让大家看看实现搜索提示的代码</p>
-<p>自定义搜索提示数组：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;resources&gt;
-    &lt;string-array name=&quot;test_array&quot;&gt;
-        &lt;item&gt;香港&lt;/item&gt;
-        &lt;item&gt;广州&lt;/item&gt;
-        &lt;item&gt;深圳&lt;/item&gt;
-        &lt;item&gt;北京&lt;/item&gt;
-        &lt;item&gt;上海&lt;/item&gt;
-        &lt;item&gt;杭州&lt;/item&gt;
-        &lt;item&gt;天津&lt;/item&gt;
-        &lt;item&gt;长沙&lt;/item&gt;
-    &lt;/string-array&gt;
-&lt;/resources&gt;
-</code></pre><p>实现搜索提示代码：</p>
-<pre><code>@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        Resources resources = getResources();
-        String [] testStrings = resources.getStringArray(R.array.test_array);
-        final MenuItem item = menu.findItem(R.id.search_view);
-        SearchView searchView = (SearchView) item.getActionView();
-
-        int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
-        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
-                .findViewById(completeTextId) ;
-        completeText.setThreshold(0);
-        completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,android.R.layout.simple_list_item_1,testStrings));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        return true;
-    }
-</code></pre><p>从代码可以看出来</p>
+<p>自定义搜索提示数组：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string-array</span> <span class="attr">name</span>=<span class="string">"test_array"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>香港<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>广州<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>深圳<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>北京<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>上海<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>杭州<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>天津<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">item</span>&gt;</span>长沙<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">string-array</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>实现搜索提示代码：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</div><div class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></div><div class="line">        getMenuInflater().inflate(R.menu.menu_main, menu);</div><div class="line">        Resources resources = getResources();</div><div class="line">        String [] testStrings = resources.getStringArray(R.array.test_array);</div><div class="line">        <span class="keyword">final</span> MenuItem item = menu.findItem(R.id.search_view);</div><div class="line">        SearchView searchView = (SearchView) item.getActionView();</div><div class="line"></div><div class="line">        <span class="keyword">int</span> completeTextId = searchView.getResources().getIdentifier(<span class="string">"android:id/search_src_text"</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView</div><div class="line">                .findViewById(completeTextId) ;</div><div class="line">        completeText.setThreshold(<span class="number">0</span>);</div><div class="line">        completeText.setAdapter(<span class="keyword">new</span> ArrayAdapter&lt;&gt;(<span class="keyword">this</span>,android.R.layout.simple_list_item_1,testStrings));</div><div class="line">        searchView.setOnQueryTextListener(<span class="keyword">new</span> SearchView.OnQueryTextListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onQueryTextSubmit</span><span class="params">(String query)</span> </span>&#123;</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,query,Toast.LENGTH_SHORT).show();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onQueryTextChange</span><span class="params">(String newText)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>从代码可以看出来</p>
 <ol>
 <li>AutoCompleteTextView ID的获取方法为<code>int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);</code>。为什么这样能获取到searchView中的AutoCompleteTextView的ID呢？我们先来看看SearchView的源码：<br> private final SearchAutoComplete mSearchSrcTextView;<br> mSearchSrcTextView = (SearchAutoComplete) findViewById(R.id.search_src_text);</li>
 </ol>
@@ -493,57 +411,10 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif" alt=""></p>
 <p>嗯，符合我们的预期，但是在我们点击下面的搜索提示的时候，程序蹦贵了。报崩溃的原因是因为SearchView搜索结果在内部是通过Cursor传递的。我们通过查看源码可以看到，SearchView的搜索结果是通过SuggestionsAdapter显示的，它的数据是来源是Cursor。而在我们的源码中是通过ArrayAdapter实现的，所以造成数据不一致所以报错了。我们知道在android中Cursor是用来操作查询数据集合的，但是实际开发中，我们的数据源不一定是来源于数据库。所以在这里我们需要对SearchView进行改造下，使它满足我们的使用目的。</p>
 <p>解决的方法为:<br>通过上面的分析，我们知道点击搜索提示列表中的搜索结果时实际上是在点击AutoCompleteTextView中的ListView的item。而通过查看AutoCompleteTextView 的源码我发现又一个setOnItemClickListener方法。通过这个方法重新设置OnItemClickListener即可解决这个问题。下面来看看解诀后的代码。</p>
-<pre><code>@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        Resources resources = getResources();
-        final String [] testStrings = resources.getStringArray(R.array.test_array);
-        final MenuItem item = menu.findItem(R.id.search_view);
-        final SearchView searchView = (SearchView) item.getActionView();
-
-        int completeTextId = searchView.getResources().getIdentifier(&quot;android:id/search_src_text&quot;, null, null);
-        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView
-                .findViewById(completeTextId) ;
-        completeText.setAdapter(new ArrayAdapter&lt;&gt;(this,R.layout.list_item,R.id.text,testStrings));
-        completeText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
-                searchView.setQuery(testStrings[position],true);
-            }
-        });
-
-        completeText.setThreshold(0);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-
-        return true;
-    }
-</code></pre><p>现在我们来分析下<code>searchView.setQuery(testStrings[position],true);</code>的这个方法。下面时这个方法的定义:</p>
-<pre><code>public void setQuery(CharSequence query, boolean submit) {
-        mSearchSrcTextView.setText(query);
-        if (query != null) {
-            mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
-            mUserQuery = query;
-        }
-
-        // If the query is not empty and submit is requested, submit the query
-        if (submit &amp;&amp; !TextUtils.isEmpty(query)) {
-            onSubmitQuery();
-        }
-    }
-</code></pre><p>不难看出，query就是代表设置要提交的字符串，而submit为ture表示提交该字符串，为false为不提交。这样我们就可以达到该方法实现选择搜索提示的效果。根据这一特性，我们可以在实际开发的时候根据业务逻辑自定义Adapter来实现各种复杂的功能。<br>demo地址为： <a href="https://github.com/DobbyTang/SearchViewDemo" target="_blank" rel="external">https://github.com/DobbyTang/SearchViewDemo</a></p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</div><div class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></div><div class="line">        getMenuInflater().inflate(R.menu.menu_main, menu);</div><div class="line">        Resources resources = getResources();</div><div class="line">        <span class="keyword">final</span> String [] testStrings = resources.getStringArray(R.array.test_array);</div><div class="line">        <span class="keyword">final</span> MenuItem item = menu.findItem(R.id.search_view);</div><div class="line">        <span class="keyword">final</span> SearchView searchView = (SearchView) item.getActionView();</div><div class="line"></div><div class="line">        <span class="keyword">int</span> completeTextId = searchView.getResources().getIdentifier(<span class="string">"android:id/search_src_text"</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</div><div class="line">        AutoCompleteTextView completeText = (AutoCompleteTextView) searchView</div><div class="line">                .findViewById(completeTextId) ;</div><div class="line">        completeText.setAdapter(<span class="keyword">new</span> ArrayAdapter&lt;&gt;(<span class="keyword">this</span>,R.layout.list_item,R.id.text,testStrings));</div><div class="line">        completeText.setOnItemClickListener(<span class="keyword">new</span> AdapterView.OnItemClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; parent, View view, <span class="keyword">int</span> position, <span class="keyword">long</span> id)</span> </span>&#123;</div><div class="line">                searchView.setQuery(testStrings[position],<span class="keyword">true</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        completeText.setThreshold(<span class="number">0</span>);</div><div class="line">        searchView.setOnQueryTextListener(<span class="keyword">new</span> SearchView.OnQueryTextListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onQueryTextSubmit</span><span class="params">(String query)</span> </span>&#123;</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,query,Toast.LENGTH_SHORT).show();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onQueryTextChange</span><span class="params">(String newText)</span> </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>现在我们来分析下<code>searchView.setQuery(testStrings[position],true);</code>的这个方法。下面时这个方法的定义:</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public void setQuery(CharSequence <span class="keyword">query</span>, boolean submit) &#123;</div><div class="line">        mSearchSrcTextView.setText(<span class="keyword">query</span>);</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">query</span> != null) &#123;</div><div class="line">            mSearchSrcTextView.setSelection(mSearchSrcTextView.<span class="built_in">length</span>());</div><div class="line">            mUserQuery = <span class="keyword">query</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// If the query is not empty and submit is requested, submit the query</span></div><div class="line">        <span class="keyword">if</span> (submit &amp;&amp; !TextUtils.isEmpty(<span class="keyword">query</span>)) &#123;</div><div class="line">            onSubmitQuery();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>不难看出，query就是代表设置要提交的字符串，而submit为ture表示提交该字符串，为false为不提交。这样我们就可以达到该方法实现选择搜索提示的效果。根据这一特性，我们可以在实际开发的时候根据业务逻辑自定义Adapter来实现各种复杂的功能。<br>demo地址为： <a href="https://github.com/DobbyTang/SearchViewDemo" target="_blank" rel="external">https://github.com/DobbyTang/SearchViewDemo</a></p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>SearchView是Android提供的一个十分强大的搜索组件，在这里我只是自定义了其中的一小部分功能。我曾经听到过很多小伙伴抱怨SearchView十分不好用，一般在开发搜索功能的时候都是重新制作一个搜索模块。但是通过对SearchView的源码进行分析可以发现，自定义该控件的方法实际上十分简单。并且随着对它的深入分析发现，一个完整的搜索模块需要的东西它都以更加优美的方法帮我们实现了。在开发的时候，我们不妨尝试下去使用这个十分强大的控件。<br>通过这篇文章，我想告诉大家的是，多看源码！！！多看源码！！！多看源码！！！看源码的过程很辛苦，但是这是我们获得进步的最快途径，并且能在看源码的过程中能够发现一些控件的十分强大的用法。虽然不一定能完全理解，但是当你使用源码中的一些方法做出一些很酷的事情的时候，你会发现有满满的成就感，SO,有空的时候看看源码吧。</p>
 
       
