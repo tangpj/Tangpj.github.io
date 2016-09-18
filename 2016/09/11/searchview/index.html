@@ -99,7 +99,7 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif">
-<meta property="og:updated_time" content="2016-09-18T12:17:33.000Z">
+<meta property="og:updated_time" content="2016-09-18T12:21:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
@@ -363,20 +363,8 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
 <li>在toolbar中显示SearchView。</li>
 </ol>
 <p>首先在res/menu/目录下创建文件<code>menu_main.xml</code></p>
-<pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    tools:context=&quot;com.example.searchview.MainActivity&quot;&gt;
-
-    &lt;item android:id=&quot;@+id/search_view&quot;
-        android:orderInCategory=&quot;101&quot;
-        android:title=&quot;search&quot;
-        android:icon=&quot;@mipmap/search&quot;
-        app:actionViewClass=&quot;android.widget.SearchView&quot;
-        app:showAsAction=&quot;ifRoom|collapseActionView&quot;
-        /&gt;
-&lt;/menu&gt;
-</code></pre><p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">menu</span> xmln<span class="variable">s:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line">    xmln<span class="variable">s:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></div><div class="line">    xmln<span class="variable">s:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    tool<span class="variable">s:context</span>=<span class="string">"com.example.searchview.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    &lt;item android:id=<span class="string">"@+id/search_view"</span></div><div class="line">        android:orderInCategory=<span class="string">"101"</span></div><div class="line">        android:title=<span class="string">"search"</span></div><div class="line">        android:icon=<span class="string">"@mipmap/search"</span></div><div class="line">        app:actionViewClass=<span class="string">"android.widget.SearchView"</span></div><div class="line">        app:showAsAction=<span class="string">"ifRoom|collapseActionView"</span></div><div class="line">        /&gt;</div><div class="line">&lt;/<span class="keyword">menu</span>&gt;</div></pre></td></tr></table></figure>
+<p>配置完菜单选项后还需要在使用的Acitvity中添加如下代码，使用配置好的菜单</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</div><div class="line">        <span class="comment">// Inflate the menu; this adds items to the action bar if it is present.</span></div><div class="line">        getMenuInflater().inflate(R.menu.menu_main, menu);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>从上面代码可以看出，SearchView的使用和一般的菜单项没有太大的区别。只是多了app:actionViewClass这句代码。app:actionViewClass的作用是指定菜单项的行为视图，它的作用是点击菜单项后会自动根据点击时间显示相应的View组件。所以在这里可以推断，除了设置为SearchView外，还可以把这个View设置为任何你想设置的View（Button,EditText、自定义View等），在这里先不展开讨论。</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif" alt=""></p>
