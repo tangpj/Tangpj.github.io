@@ -1,0 +1,879 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android图片处理," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用fresco实现Android图片手势缩放功能">
+<meta property="og:url" content="http://www.tangpj.com/2016/08/12/fresco_zoomable/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
+<meta property="og:image" content="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png">
+<meta property="og:updated_time" content="2016-09-21T15:58:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用fresco实现Android图片手势缩放功能">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。
+前言fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂">
+<meta name="twitter:image" content="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2016/08/12/fresco_zoomable/"/>
+
+  <title> 使用fresco实现Android图片手势缩放功能 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用fresco实现Android图片手势缩放功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-12T00:16:10+08:00" content="2016-08-12">
+              2016-08-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android技术分享/" itemprop="url" rel="index">
+                    <span itemprop="name">Android技术分享</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/12/fresco_zoomable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/12/fresco_zoomable/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/08/12/fresco_zoomable/" class="leancloud_visitors" data-flag-title="使用fresco实现Android图片手势缩放功能">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p>摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供大家交流学习。<br><a id="more"></a></p>
+<h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><p>在开发前，需要在项目中引入fresco，引入方法是在Module的build.gradle文件的dependencies中添加一句代码</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.fresco:fresco:0.12.0'</span></div></pre></td></tr></table></figure>
+<p>即可。</p>
+<h2 id="集成Samples包"><a href="#集成Samples包" class="headerlink" title="集成Samples包"></a>集成Samples包</h2><p>Samples是fresco官方demo中的一个拓展包，包的目录如下图：</p>
+<p><img src="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png" alt="samples"></p>
+<p>在该包中，和手势缩放相关的包有两个，分别为：gestures和zoomable。gestures包的主要功能的检测手势，zoomable包的主要功能是提供一个支持手势缩放的draweeView。因为在项目中只用到手势缩放的view，所以我只导入了这两个包。</p>
+<p>导入方法很简单，只需要把Samples复制到工程目录下就可以。</p>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><p>导入完毕后还需要执行下面几步才能正常使用</p>
+<ol>
+<li><p>修改gradle.properties文件</p>
+<p>在工程目录的gradle.properties文件中添加</p>
+</li>
+</ol>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># Deps for gradle</div><div class="line">BUILD\_TOOLS\_VERSION=<span class="number">23.0</span><span class="number">.2</span></div><div class="line">COMPILE\_SDK\_VERSION=<span class="number">23</span></div><div class="line"></div><div class="line"># Deps for libraries</div><div class="line">JUNIT\_VERSION=<span class="number">4.12</span></div><div class="line">MOCKITO\_CORE\_VERSION=<span class="number">1.10</span><span class="number">.19</span></div><div class="line">ROBOLECTRIC\_VERSION=<span class="number">3.0</span></div><div class="line">NINEOLDANDROID\_VERSION=<span class="number">2.4</span><span class="number">.0</span></div><div class="line">SUPPORT\_LIB\_VERSION=<span class="number">23.2</span><span class="number">.1</span></div><div class="line">JSR\_305\_VERSION=<span class="number">3.0</span><span class="number">.0</span></div></pre></td></tr></table></figure>
+<ol>
+<li><p>修改settings.gradle</p>
+<p>在工程目录的settings.gradle文件中添加</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">include</span> <span class="string">':samples:gestures'</span></div><div class="line"><span class="keyword">include</span> <span class="string">':samples:zoomable'</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>在项目的Build.gradle中添加</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">project.ext &#123;</div><div class="line"><span class="attr">buildToolsVersion</span> = <span class="string">"<span class="subst">$&#123;BUILD_TOOLS_VERSION&#125;</span>"</span></div><div class="line"><span class="attr">compileSdkVersion</span> = COMPILE_SDK_VERSION.toInteger()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ol>
+<p>做完以上两个步骤后，就能正常使用支持图片缩放的ZoomalbeDraweeView了。</p>
+<h2 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h2><h3 id="查看单个图片"><a href="#查看单个图片" class="headerlink" title="查看单个图片"></a>查看单个图片</h3><ol>
+<li><p>新建一个<strong>activity_zoomable.xml</strong>布局文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?\&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span></div><div class="line"> <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line"> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line"> <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">	</div><div class="line"> <span class="tag">&lt;<span class="name">com.facebook.samples.zoomable.ZoomableDraweeView</span></span></div><div class="line">     <span class="attr">android:id</span>=<span class="string">"@+id/zoomableView"</span></div><div class="line">     <span class="attr">style</span>=<span class="string">"@style/drawee"</span></div><div class="line">     /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>ZoomableActivity.java</strong>文件</p>
+</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ZoomableActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="type">ZoomableDraweeView</span> draweeView;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">	    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">	    <span class="type">FLog</span>.setMinimumLoggingLevel(<span class="type">FLog</span>.<span class="type">VERBOSE</span>);</div><div class="line">	    <span class="type">Set</span>&lt;<span class="type">RequestListener</span>&gt; listeners = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();</div><div class="line">	    listeners.add(<span class="keyword">new</span> <span class="type">RequestLoggingListener</span>());</div><div class="line">	    <span class="type">ImagePipelineConfig</span> config = <span class="type">ImagePipelineConfig</span>.newBuilder(<span class="keyword">this</span>)</div><div class="line">	            .setRequestListeners(listeners)</div><div class="line">	            .setBitmapsConfig(<span class="type">Bitmap</span>.<span class="type">Config</span>.<span class="type">ARGB_8888</span>)</div><div class="line">	            .build();</div><div class="line">	    <span class="type">Fresco</span>.initialize(<span class="keyword">this</span>, config);</div><div class="line">	    setContentView(<span class="type">R</span>.layout.activity_zoomable);</div><div class="line">	</div><div class="line">	</div><div class="line">	    <span class="type">DraweeController</span> controller = <span class="type">Fresco</span>.newDraweeControllerBuilder()</div><div class="line">	            .setUri(<span class="string">"http://pic13.nipic.com/20110326/2457331_232645672000_2.jpg"</span>)</div><div class="line">	            .build();</div><div class="line">	    draweeView = (<span class="type">ZoomableDraweeView</span>) findViewById(<span class="type">R</span>.id.zoomableView);</div><div class="line">	    draweeView.setController(controller);</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用的方法和SimpleDraweeView差不多，不同的地方是Fresco初始化的时候需要传入ImagePipelineConfig对象，并且ZoomableDraweeView不知直接设置图片的uri，而是需要通过DraweeController对象来设置。</p>
+<p>通过上面的代码，已经能够完成图片的加载和图片的放大缩小操作。但是实际开发的时候往往需要显示一组图片，所以下面来介绍下如何使用ZoomableDraweeView展示一组图片，并支持手势放大缩小功能。</p>
+<h3 id="显示多个图片"><a href="#显示多个图片" class="headerlink" title="显示多个图片"></a>显示多个图片</h3><ol>
+<li><p>新建一个<strong>activity_zoomable_list.xml</strong>文件</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout</div><div class="line"> xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line"> android:layout_width=<span class="string">"match_parent"</span></div><div class="line"> android:layout_height=<span class="string">"match_parent"</span></div><div class="line"> android:baselineAligned=<span class="string">"false"</span></div><div class="line"> android:orientation=<span class="string">"horizontal"</span></div><div class="line"> &gt;</div><div class="line"> &lt;android<span class="selector-class">.support</span><span class="selector-class">.v4</span><span class="selector-class">.view</span><span class="selector-class">.ViewPager</span></div><div class="line">     android:id=<span class="string">"@+id/pager"</span></div><div class="line">     android:layout_width=<span class="string">"match_parent"</span></div><div class="line">     android:layout_height=<span class="string">"match_parent"</span>&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page1"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView1"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page2"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView2"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page3"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView3"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line"> &lt;/android<span class="selector-class">.support</span><span class="selector-class">.v4</span><span class="selector-class">.view</span><span class="selector-class">.ViewPager</span>&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>ZoomableListActivity.java</strong>文件</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ZoomableListActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">     <span class="type">FLog</span>.setMinimumLoggingLevel(<span class="type">FLog</span>.<span class="type">VERBOSE</span>);</div><div class="line">     <span class="type">Set</span>&lt;<span class="type">RequestListener</span>&gt; listeners = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();</div><div class="line">     listeners.add(<span class="keyword">new</span> <span class="type">RequestLoggingListener</span>());</div><div class="line">     <span class="type">ImagePipelineConfig</span> config = <span class="type">ImagePipelineConfig</span>.newBuilder(<span class="keyword">this</span>)</div><div class="line">             .setRequestListeners(listeners)</div><div class="line">             .setBitmapsConfig(<span class="type">Bitmap</span>.<span class="type">Config</span>.<span class="type">ARGB_8888</span>)</div><div class="line">             .build();</div><div class="line">     <span class="type">Fresco</span>.initialize(<span class="keyword">this</span>, config);</div><div class="line">     setContentView(<span class="type">R</span>.layout.activity_zoomable_list);</div><div class="line">	</div><div class="line">     <span class="type">MyPagerAdapter</span> adapter = <span class="keyword">new</span> <span class="type">MyPagerAdapter</span>();</div><div class="line">     <span class="type">ViewPager</span> pager = (<span class="type">ViewPager</span>) findViewById(<span class="type">R</span>.id.pager);</div><div class="line">     pager.setAdapter(adapter);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>MyPagerAdapter.java</strong>文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPagerAdapter</span> <span class="keyword">extends</span> <span class="title">PagerAdapter</span></span>&#123;</div><div class="line"></div><div class="line"> <span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     FrameLayout page = (FrameLayout) container.getChildAt(position);</div><div class="line">     ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(<span class="number">0</span>);</div><div class="line">     DraweeController controller = Fresco.newDraweeControllerBuilder()</div><div class="line">             .setUri(<span class="string">"http://pic25.nipic.com/20121112/5955207_224247025000_2.jpg"</span>)</div><div class="line">             .build();</div><div class="line">     zoomableDraweeView.setController(controller);</div><div class="line">     zoomableDraweeView.setTapListener(createTapListener(position));</div><div class="line">     page.requestLayout();</div><div class="line">     <span class="keyword">return</span> page;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>&#123;</div><div class="line">     FrameLayout page = (FrameLayout) container.getChildAt(position);</div><div class="line">     ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(<span class="number">0</span>);</div><div class="line">     zoomableDraweeView.setController(<span class="keyword">null</span>);</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> <span class="number">3</span>;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isViewFromObject</span><span class="params">(View arg0, Object arg1)</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> arg0 == arg1;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="keyword">private</span> GestureDetector.<span class="function">SimpleOnGestureListener <span class="title">createTapListener</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> GestureDetector.SimpleOnGestureListener() &#123;</div><div class="line">         <span class="meta">@Override</span></div><div class="line">         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLongPress</span><span class="params">(MotionEvent e)</span> </span>&#123;</div><div class="line">             Log.d(<span class="string">"MyPagerAdapter"</span>, <span class="string">"onLongPress: "</span> + position);</div><div class="line">         &#125;</div><div class="line">     &#125;;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在上面代码中，我通过pagerView显示多个ZoomableDraweeView（实际开发中应该使用动态添加pager的方法初始化pagerView）。具体的方法和展示单个图片差不多，区别在于用在展示多个图片的时候用ViewPager来展示。</p>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>从上述代码来看，如果项目是使用fresco来作为图片加载框架的话，那么使用samples包中的ZoomableDraweeView来实现图片的手势放大和缩小时十分简便的。而且在facebook的官方demo中有很多关于fresco的拓展用法，所以在这里笔者推荐，在你使用fresco的时候，更多关于图片操作的拓展功能可以参照或者引用facebook官方demo的方法。</p>
+<p><a href="https://github.com/DobbyTang/AndroidLearnDemo/tree/master/SampleTestDemo" target="_blank" rel="external">项目代码</a></p>
+<p>项目代码放在笔者平时练习写的一个demo集合里面，通过svn checkout命令下载。</p>
+<p><strong>注：</strong>这里介绍一个使用github时候的小诀窍给读者。下载一个项目中的单个or部分文件夹的时候，可以通过svn的checkout命令来下载。</p>
+<p>具体用法是复制具体文件夹路径，然后把/tree/master/替换成/trunk/。例如，本例子中：</p>
+<p>项目地址是：<a href="https://github.com/DobbyTang/AndroidLearnDemo/tree/master/SampleTestDemo" target="_blank" rel="external">https://github.com/DobbyTang/AndroidLearnDemo/tree/master/SampleTestDemo</a></p>
+<p>下载地址是：<a href="https://github.com/DobbyTang/AndroidLearnDemo/trunk/SampleTestDemo" target="_blank" rel="external">https://github.com/DobbyTang/AndroidLearnDemo/trunk/SampleTestDemo</a></p>
+<p>即svn checkout <a href="https://github.com/DobbyTang/AndroidLearnDemo/trunk/SampleTestDemo" target="_blank" rel="external">https://github.com/DobbyTang/AndroidLearnDemo/trunk/SampleTestDemo</a></p>
+<p>遇到这个提示的时候<code>(R)eject, accept (t)emporarily or accept (p)ermanently?</code> ，输p即可。</p>
+<p><br></p>
+<blockquote>
+<p>最近访客</p>
+</blockquote>
+<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android图片处理/" rel="tag">#Android图片处理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/28/bean_to_map/" rel="prev" title="Android(Java)Bean自动转换为map的方法">
+                Android(Java)Bean自动转换为map的方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/08/12/fresco_zoomable/"
+           data-title="使用fresco实现Android图片手势缩放功能" data-url="http://www.tangpj.com/2016/08/12/fresco_zoomable/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发准备"><span class="nav-number">2.</span> <span class="nav-text">开发准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成Samples包"><span class="nav-number">3.</span> <span class="nav-text">集成Samples包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">4.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用教程"><span class="nav-number">5.</span> <span class="nav-text">使用教程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看单个图片"><span class="nav-number">5.1.</span> <span class="nav-text">查看单个图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示多个图片"><span class="nav-number">5.2.</span> <span class="nav-text">显示多个图片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tangpj"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>

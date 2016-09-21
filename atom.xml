@@ -133,21 +133,19 @@
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://www.tangpj.com/2016/08/10/fresco_zoomable/"/>
-    <id>http://www.tangpj.com/2016/08/10/fresco_zoomable/</id>
-    <published>2016-08-10T14:07:53.000Z</published>
-    <updated>2016-09-21T15:52:07.000Z</updated>
+    <title>使用fresco实现Android图片手势缩放功能</title>
+    <link href="http://www.tangpj.com/2016/08/12/fresco_zoomable/"/>
+    <id>http://www.tangpj.com/2016/08/12/fresco_zoomable/</id>
+    <published>2016-08-11T16:16:10.000Z</published>
+    <updated>2016-09-21T15:58:53.000Z</updated>
     
-    <content type="html"><![CDATA[<hr>
-<p>title: 使用fresco实现Android图片手势缩放功能<br>date: 2016-08-12 00:16:10<br>tags: Android图片处理</p>
-<h2 id="categories-Android技术分享"><a href="#categories-Android技术分享" class="headerlink" title="categories: Android技术分享"></a>categories: Android技术分享</h2><blockquote>
+    <content type="html"><![CDATA[<blockquote>
 <p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
 <p>摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>fresco是一款十分强大的图片加载框架，但是该框架本身不支持图片的手势放大和缩小的功能。在facebook官方的github上，facebook官方给出了具体的解决方案，但是官方的demo十分难跑起来，并且官方demo中的功能较为繁杂，理解和使用都有一定的困难。所以我做了一个测试demo出来供大家交流学习。<br><a id="more"></a></p>
 <h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><p>在开发前，需要在项目中引入fresco，引入方法是在Module的build.gradle文件的dependencies中添加一句代码</p>
-<p>```<br>compile ‘com.facebook.fresco:fresco:0.12.0’<br>```</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.fresco:fresco:0.12.0'</span></div></pre></td></tr></table></figure>
 <p>即可。</p>
 <h2 id="集成Samples包"><a href="#集成Samples包" class="headerlink" title="集成Samples包"></a>集成Samples包</h2><p>Samples是fresco官方demo中的一个拓展包，包的目录如下图：</p>
 <p><img src="https://github.com/DobbyTang/MarkdownRes/raw/master/mBlog/samples/samples_tab.png" alt="samples"></p>
@@ -159,177 +157,39 @@
 <p>在工程目录的gradle.properties文件中添加</p>
 </li>
 </ol>
-<p>```</p>
-<h1 id="Deps-for-gradle"><a href="#Deps-for-gradle" class="headerlink" title="Deps for gradle"></a>Deps for gradle</h1><p>BUILD_TOOLS_VERSION=23.0.2<br>COMPILE_SDK_VERSION=23</p>
-<h1 id="Deps-for-libraries"><a href="#Deps-for-libraries" class="headerlink" title="Deps for libraries"></a>Deps for libraries</h1><p>JUNIT_VERSION=4.12<br>MOCKITO_CORE_VERSION=1.10.19<br>ROBOLECTRIC_VERSION=3.0<br>NINEOLDANDROID_VERSION=2.4.0<br>SUPPORT_LIB_VERSION=23.2.1<br>JSR_305_VERSION=3.0.0<br>```</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># Deps for gradle</div><div class="line">BUILD\_TOOLS\_VERSION=<span class="number">23.0</span><span class="number">.2</span></div><div class="line">COMPILE\_SDK\_VERSION=<span class="number">23</span></div><div class="line"></div><div class="line"># Deps for libraries</div><div class="line">JUNIT\_VERSION=<span class="number">4.12</span></div><div class="line">MOCKITO\_CORE\_VERSION=<span class="number">1.10</span><span class="number">.19</span></div><div class="line">ROBOLECTRIC\_VERSION=<span class="number">3.0</span></div><div class="line">NINEOLDANDROID\_VERSION=<span class="number">2.4</span><span class="number">.0</span></div><div class="line">SUPPORT\_LIB\_VERSION=<span class="number">23.2</span><span class="number">.1</span></div><div class="line">JSR\_305\_VERSION=<span class="number">3.0</span><span class="number">.0</span></div></pre></td></tr></table></figure>
 <ol>
 <li><p>修改settings.gradle</p>
 <p>在工程目录的settings.gradle文件中添加</p>
-<p>```<br>include ‘:samples:gestures’<br>include ‘:samples:zoomable’<br>```</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">include</span> <span class="string">':samples:gestures'</span></div><div class="line"><span class="keyword">include</span> <span class="string">':samples:zoomable'</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>在项目的Build.gradle中添加</p>
-<p>```<br>project.ext {<br>buildToolsVersion = “${BUILD_TOOLS_VERSION}”<br>compileSdkVersion = COMPILE_SDK_VERSION.toInteger()<br>}<br>```</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">project.ext &#123;</div><div class="line"><span class="attr">buildToolsVersion</span> = <span class="string">"<span class="subst">$&#123;BUILD_TOOLS_VERSION&#125;</span>"</span></div><div class="line"><span class="attr">compileSdkVersion</span> = COMPILE_SDK_VERSION.toInteger()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>​</p>
 </li>
 </ol>
 <p>做完以上两个步骤后，就能正常使用支持图片缩放的ZoomalbeDraweeView了。</p>
 <h2 id="使用教程"><a href="#使用教程" class="headerlink" title="使用教程"></a>使用教程</h2><h3 id="查看单个图片"><a href="#查看单个图片" class="headerlink" title="查看单个图片"></a>查看单个图片</h3><ol>
 <li><p>新建一个<strong>activity_zoomable.xml</strong>布局文件</p>
-<p>```<br>\&lt;?xml version=”1.0” encoding=”utf-8”?><br>\&lt;LinearLayout xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“</p>
-<pre><code>android:orientation=&quot;vertical&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;match_parent&quot;&gt;
-
-&lt;com.facebook.samples.zoomable.ZoomableDraweeView
-    android:id=&quot;@+id/zoomableView&quot;
-    style=&quot;@style/drawee&quot;
-    /&gt;
-</code></pre><p><br>```</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?\&gt;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span></div><div class="line"> <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></div><div class="line"> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line"> <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</div><div class="line">	</div><div class="line"> <span class="tag">&lt;<span class="name">com.facebook.samples.zoomable.ZoomableDraweeView</span></span></div><div class="line">     <span class="attr">android:id</span>=<span class="string">"@+id/zoomableView"</span></div><div class="line">     <span class="attr">style</span>=<span class="string">"@style/drawee"</span></div><div class="line">     /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>​</p>
 </li>
 <li><p><strong>ZoomableActivity.java</strong>文件</p>
 </li>
 </ol>
-<p>```<br>public class ZoomableActivity extends Activity {</p>
-<pre><code>private ZoomableDraweeView draweeView;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    FLog.setMinimumLoggingLevel(FLog.VERBOSE);
-    Set&lt;RequestListener&gt; listeners = new HashSet&lt;&gt;();
-    listeners.add(new RequestLoggingListener());
-    ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
-            .setRequestListeners(listeners)
-            .setBitmapsConfig(Bitmap.Config.ARGB_8888)
-            .build();
-    Fresco.initialize(this, config);
-    setContentView(R.layout.activity_zoomable);
-
-
-    DraweeController controller = Fresco.newDraweeControllerBuilder()
-            .setUri(&quot;http://pic13.nipic.com/20110326/2457331_232645672000_2.jpg&quot;)
-            .build();
-    draweeView = (ZoomableDraweeView) findViewById(R.id.zoomableView);
-    draweeView.setController(controller);
-
-
-
-}
-</code></pre><p>}<br>```</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ZoomableActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="type">ZoomableDraweeView</span> draweeView;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">	    <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">	    <span class="type">FLog</span>.setMinimumLoggingLevel(<span class="type">FLog</span>.<span class="type">VERBOSE</span>);</div><div class="line">	    <span class="type">Set</span>&lt;<span class="type">RequestListener</span>&gt; listeners = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();</div><div class="line">	    listeners.add(<span class="keyword">new</span> <span class="type">RequestLoggingListener</span>());</div><div class="line">	    <span class="type">ImagePipelineConfig</span> config = <span class="type">ImagePipelineConfig</span>.newBuilder(<span class="keyword">this</span>)</div><div class="line">	            .setRequestListeners(listeners)</div><div class="line">	            .setBitmapsConfig(<span class="type">Bitmap</span>.<span class="type">Config</span>.<span class="type">ARGB_8888</span>)</div><div class="line">	            .build();</div><div class="line">	    <span class="type">Fresco</span>.initialize(<span class="keyword">this</span>, config);</div><div class="line">	    setContentView(<span class="type">R</span>.layout.activity_zoomable);</div><div class="line">	</div><div class="line">	</div><div class="line">	    <span class="type">DraweeController</span> controller = <span class="type">Fresco</span>.newDraweeControllerBuilder()</div><div class="line">	            .setUri(<span class="string">"http://pic13.nipic.com/20110326/2457331_232645672000_2.jpg"</span>)</div><div class="line">	            .build();</div><div class="line">	    draweeView = (<span class="type">ZoomableDraweeView</span>) findViewById(<span class="type">R</span>.id.zoomableView);</div><div class="line">	    draweeView.setController(controller);</div><div class="line">	</div><div class="line">	</div><div class="line">	</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>使用的方法和SimpleDraweeView差不多，不同的地方是Fresco初始化的时候需要传入ImagePipelineConfig对象，并且ZoomableDraweeView不知直接设置图片的uri，而是需要通过DraweeController对象来设置。</p>
 <p>通过上面的代码，已经能够完成图片的加载和图片的放大缩小操作。但是实际开发的时候往往需要显示一组图片，所以下面来介绍下如何使用ZoomableDraweeView展示一组图片，并支持手势放大缩小功能。</p>
 <h3 id="显示多个图片"><a href="#显示多个图片" class="headerlink" title="显示多个图片"></a>显示多个图片</h3><ol>
 <li><p>新建一个<strong>activity_zoomable_list.xml</strong>文件</p>
-<p>```<br>\&lt;LinearLayout</p>
-<pre><code>xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_width=&quot;match_parent&quot;
-android:layout_height=&quot;match_parent&quot;
-android:baselineAligned=&quot;false&quot;
-android:orientation=&quot;horizontal&quot;
-&gt;
-&lt;android.support.v4.view.ViewPager
-    android:id=&quot;@+id/pager&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;FrameLayout
-        android:id=&quot;@+id/page1&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot; &gt;
-        &lt;com.facebook.samples.zoomable.ZoomableDraweeView
-            android:id=&quot;@+id/zoomableView1&quot;
-            style=&quot;@style/drawee&quot;
-            /&gt;
-    &lt;/FrameLayout&gt;
-
-    &lt;FrameLayout
-        android:id=&quot;@+id/page2&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot; &gt;
-        &lt;com.facebook.samples.zoomable.ZoomableDraweeView
-            android:id=&quot;@+id/zoomableView2&quot;
-            style=&quot;@style/drawee&quot;
-            /&gt;
-    &lt;/FrameLayout&gt;
-
-    &lt;FrameLayout
-        android:id=&quot;@+id/page3&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot; &gt;
-        &lt;com.facebook.samples.zoomable.ZoomableDraweeView
-            android:id=&quot;@+id/zoomableView3&quot;
-            style=&quot;@style/drawee&quot;
-            /&gt;
-    &lt;/FrameLayout&gt;
-
-&lt;/android.support.v4.view.ViewPager&gt;
-</code></pre><p></p>
-<p>```</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout</div><div class="line"> xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></div><div class="line"> android:layout_width=<span class="string">"match_parent"</span></div><div class="line"> android:layout_height=<span class="string">"match_parent"</span></div><div class="line"> android:baselineAligned=<span class="string">"false"</span></div><div class="line"> android:orientation=<span class="string">"horizontal"</span></div><div class="line"> &gt;</div><div class="line"> &lt;android<span class="selector-class">.support</span><span class="selector-class">.v4</span><span class="selector-class">.view</span><span class="selector-class">.ViewPager</span></div><div class="line">     android:id=<span class="string">"@+id/pager"</span></div><div class="line">     android:layout_width=<span class="string">"match_parent"</span></div><div class="line">     android:layout_height=<span class="string">"match_parent"</span>&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page1"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView1"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page2"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView2"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line">     &lt;FrameLayout</div><div class="line">         android:id=<span class="string">"@+id/page3"</span></div><div class="line">         android:layout_width=<span class="string">"match_parent"</span></div><div class="line">         android:layout_height=<span class="string">"match_parent"</span> &gt;</div><div class="line">         &lt;com<span class="selector-class">.facebook</span><span class="selector-class">.samples</span><span class="selector-class">.zoomable</span><span class="selector-class">.ZoomableDraweeView</span></div><div class="line">             android:id=<span class="string">"@+id/zoomableView3"</span></div><div class="line">             style=<span class="string">"@style/drawee"</span></div><div class="line">             /&gt;</div><div class="line">     &lt;/FrameLayout&gt;</div><div class="line">	</div><div class="line"> &lt;/android<span class="selector-class">.support</span><span class="selector-class">.v4</span><span class="selector-class">.view</span><span class="selector-class">.ViewPager</span>&gt;</div><div class="line"></div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
 <p>​</p>
 </li>
 <li><p><strong>ZoomableListActivity.java</strong>文件</p>
-<p>```<br>public class ZoomableListActivity extends Activity {</p>
-<pre><code>@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    FLog.setMinimumLoggingLevel(FLog.VERBOSE);
-    Set&lt;RequestListener&gt; listeners = new HashSet&lt;&gt;();
-    listeners.add(new RequestLoggingListener());
-    ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
-            .setRequestListeners(listeners)
-            .setBitmapsConfig(Bitmap.Config.ARGB_8888)
-            .build();
-    Fresco.initialize(this, config);
-    setContentView(R.layout.activity_zoomable_list);
-
-    MyPagerAdapter adapter = new MyPagerAdapter();
-    ViewPager pager = (ViewPager) findViewById(R.id.pager);
-    pager.setAdapter(adapter);
-}
-</code></pre><p>}<br>```</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ZoomableListActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line"></div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">     <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">     <span class="type">FLog</span>.setMinimumLoggingLevel(<span class="type">FLog</span>.<span class="type">VERBOSE</span>);</div><div class="line">     <span class="type">Set</span>&lt;<span class="type">RequestListener</span>&gt; listeners = <span class="keyword">new</span> <span class="type">HashSet</span>&lt;&gt;();</div><div class="line">     listeners.add(<span class="keyword">new</span> <span class="type">RequestLoggingListener</span>());</div><div class="line">     <span class="type">ImagePipelineConfig</span> config = <span class="type">ImagePipelineConfig</span>.newBuilder(<span class="keyword">this</span>)</div><div class="line">             .setRequestListeners(listeners)</div><div class="line">             .setBitmapsConfig(<span class="type">Bitmap</span>.<span class="type">Config</span>.<span class="type">ARGB_8888</span>)</div><div class="line">             .build();</div><div class="line">     <span class="type">Fresco</span>.initialize(<span class="keyword">this</span>, config);</div><div class="line">     setContentView(<span class="type">R</span>.layout.activity_zoomable_list);</div><div class="line">	</div><div class="line">     <span class="type">MyPagerAdapter</span> adapter = <span class="keyword">new</span> <span class="type">MyPagerAdapter</span>();</div><div class="line">     <span class="type">ViewPager</span> pager = (<span class="type">ViewPager</span>) findViewById(<span class="type">R</span>.id.pager);</div><div class="line">     pager.setAdapter(adapter);</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
 <li><p><strong>MyPagerAdapter.java</strong>文件</p>
-<p>```<br>public class MyPagerAdapter extends PagerAdapter{</p>
-<pre><code>public Object instantiateItem(ViewGroup container, int position) {
-    FrameLayout page = (FrameLayout) container.getChildAt(position);
-    ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(0);
-    DraweeController controller = Fresco.newDraweeControllerBuilder()
-            .setUri(&quot;http://pic25.nipic.com/20121112/5955207_224247025000_2.jpg&quot;)
-            .build();
-    zoomableDraweeView.setController(controller);
-    zoomableDraweeView.setTapListener(createTapListener(position));
-    page.requestLayout();
-    return page;
-}
-
-public void destroyItem(ViewGroup container, int position, Object object) {
-    FrameLayout page = (FrameLayout) container.getChildAt(position);
-    ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(0);
-    zoomableDraweeView.setController(null);
-}
-
-@Override
-public int getCount() {
-    return 3;
-}
-
-@Override
-public boolean isViewFromObject(View arg0, Object arg1) {
-    return arg0 == arg1;
-}
-
-private GestureDetector.SimpleOnGestureListener createTapListener(final int position) {
-    return new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public void onLongPress(MotionEvent e) {
-            Log.d(&quot;MyPagerAdapter&quot;, &quot;onLongPress: &quot; + position);
-        }
-    };
-}
-</code></pre><p>}<br>```</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyPagerAdapter</span> <span class="keyword">extends</span> <span class="title">PagerAdapter</span></span>&#123;</div><div class="line"></div><div class="line"> <span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     FrameLayout page = (FrameLayout) container.getChildAt(position);</div><div class="line">     ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(<span class="number">0</span>);</div><div class="line">     DraweeController controller = Fresco.newDraweeControllerBuilder()</div><div class="line">             .setUri(<span class="string">"http://pic25.nipic.com/20121112/5955207_224247025000_2.jpg"</span>)</div><div class="line">             .build();</div><div class="line">     zoomableDraweeView.setController(controller);</div><div class="line">     zoomableDraweeView.setTapListener(createTapListener(position));</div><div class="line">     page.requestLayout();</div><div class="line">     <span class="keyword">return</span> page;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>&#123;</div><div class="line">     FrameLayout page = (FrameLayout) container.getChildAt(position);</div><div class="line">     ZoomableDraweeView zoomableDraweeView = (ZoomableDraweeView) page.getChildAt(<span class="number">0</span>);</div><div class="line">     zoomableDraweeView.setController(<span class="keyword">null</span>);</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> <span class="number">3</span>;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="meta">@Override</span></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isViewFromObject</span><span class="params">(View arg0, Object arg1)</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> arg0 == arg1;</div><div class="line"> &#125;</div><div class="line">	</div><div class="line"> <span class="keyword">private</span> GestureDetector.<span class="function">SimpleOnGestureListener <span class="title">createTapListener</span><span class="params">(<span class="keyword">final</span> <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">new</span> GestureDetector.SimpleOnGestureListener() &#123;</div><div class="line">         <span class="meta">@Override</span></div><div class="line">         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLongPress</span><span class="params">(MotionEvent e)</span> </span>&#123;</div><div class="line">             Log.d(<span class="string">"MyPagerAdapter"</span>, <span class="string">"onLongPress: "</span> + position);</div><div class="line">         &#125;</div><div class="line">     &#125;;</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在上面代码中，我通过pagerView显示多个ZoomableDraweeView（实际开发中应该使用动态添加pager的方法初始化pagerView）。具体的方法和展示单个图片差不多，区别在于用在展示多个图片的时候用ViewPager来展示。</p>
 </li>
 </ol>
@@ -352,9 +212,7 @@ private GestureDetector.SimpleOnGestureListener createTapListener(final int posi
     
     <summary type="html">
     
-      &lt;hr&gt;
-&lt;p&gt;title: 使用fresco实现Android图片手势缩放功能&lt;br&gt;date: 2016-08-12 00:16:10&lt;br&gt;tags: Android图片处理&lt;/p&gt;
-&lt;h2 id=&quot;categories-Android技术分享&quot;&gt;&lt;a href=&quot;#categories-Android技术分享&quot; class=&quot;headerlink&quot; title=&quot;categories: Android技术分享&quot;&gt;&lt;/a&gt;categories: Android技术分享&lt;/h2&gt;&lt;blockquote&gt;
+      &lt;blockquote&gt;
 &lt;p&gt; &lt;em&gt;原创声明：&lt;/em&gt; 该文章为原创文章，未经博主同意严禁转载。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;摘要:这是一篇关于使用图片加载框架fresco实现图片的手势放大和缩小的教程，希望能对你有所帮助。&lt;/p&gt;
@@ -362,6 +220,10 @@ private GestureDetector.SimpleOnGestureListener createTapListener(final int posi
     
     </summary>
     
+      <category term="Android技术分享" scheme="http://www.tangpj.com/categories/Android%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Android图片处理" scheme="http://www.tangpj.com/tags/Android%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
