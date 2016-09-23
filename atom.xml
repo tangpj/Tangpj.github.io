@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2016-09-20T12:01:29.000Z</updated>
+  <updated>2016-09-23T07:24:06.000Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -14,6 +14,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇</title>
+    <link href="http://www.tangpj.com/2016/09/23/mvp-structure-one/"/>
+    <id>http://www.tangpj.com/2016/09/23/mvp-structure-one/</id>
+    <published>2016-09-23T07:19:33.000Z</published>
+    <updated>2016-09-23T07:24:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="￼Android架构篇－－从零开始搭建-一个完善的-MVP模式开发框架（一），MVP模式的简单介绍篇"><a href="#￼Android架构篇－－从零开始搭建-一个完善的-MVP模式开发框架（一），MVP模式的简单介绍篇" class="headerlink" title="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇"></a>￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇</h1><blockquote>
+<p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p><em>摘要：</em> 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者认为比较严重的问题。</p>
+<a id="more"></a>
+<h1 id="为什么要使用MVP模式"><a href="#为什么要使用MVP模式" class="headerlink" title="为什么要使用MVP模式"></a>为什么要使用MVP模式</h1><p>在传统的Android开发中，我们一般是使用MVC模式进行开发的。<br>传统MVC模式介绍：</p>
+<ol>
+<li>View: 视图层，对应xml文件</li>
+<li>Controller:  控制层，对应Activity和Fragment层，进行数据处理</li>
+<li>Model：实体层，负责获取实体数据</li>
+</ol>
+<p>在Android开发中采用MVC模式的一个最大的弊端就是xml作为View层视图能力实在太弱，所以一般情况下我们都是通过Controller层来辅助处理一些视图的。这样的结果就导致Controller既作为控制层的同时又承担了View层的大部分功能，采用MVC模式往往会导致Activity和Fragment中的代码非常复杂。我们将Android中采用的MVC模式称为MV模式更加恰当。</p>
+<p>MVP模式介绍：</p>
+<ol>
+<li>View: 视图层，对应xml文件与Activity/Fragment</li>
+<li>Presenter: 逻辑控制层，同时持有View和Model对象</li>
+<li>Model: 实体层，负责获取实体数据</li>
+</ol>
+<p>MVP模式的流程图如下：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp.jpg" alt="" title="MVP模式图解"></p>
+<p>采用MVP模式的优势是：</p>
+<ol>
+<li>把业务逻辑抽离到Presenter层中，View层专注于UI的处理。</li>
+<li>分离视图逻辑与业务逻辑，达到解耦的目的。</li>
+<li>提高代码的阅读性。</li>
+<li>Presenter被抽象成接口，可以根据Presenter的实现方式进行单元测试。</li>
+<li>可拓展性强。</li>
+</ol>
+<p>采用MVP模式的缺点：</p>
+<ol>
+<li>项目结构会对后期的开发和维护有一定的影响。具体视APP的体量而定。</li>
+<li>代码量会增多，如何避免编写过多功能相似的重复代码是使用MVP开发的一个重点要处理的问题。</li>
+<li>有一定的学习成本。</li>
+</ol>
+<p>综上所述，在Android上采用MVP模式的优势是：大大优化代码的维护性与拓展性的同时对代码进行深度解耦，使各个层级的分工更加明晰。</p>
+<h1 id="Android上MVP模式的简单应用"><a href="#Android上MVP模式的简单应用" class="headerlink" title="Android上MVP模式的简单应用"></a>Android上MVP模式的简单应用</h1><p>先来看看一个简单用mvp模式模拟登陆的demo，下面的示例代码和其它简单介绍MVP模式的代码没有太大区别。如果有了解过的同学可以直接跳过看下一章关于如何优化MVP模式的结构的文章。</p>
+<p>下面我们来看看在Android上用MVP模式实现简单的登录逻辑的方式：</p>
+<h2 id="登陆界面："><a href="#登陆界面：" class="headerlink" title=". 登陆界面："></a>. 登陆界面：</h2><p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_activity.png" alt="" title="登陆界面"></p>
+<ol>
+<li>项目的结构：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_structure.png" alt="" title="项目结构"></li>
+</ol>
+<p>从上面的代码结构图可看出，用MVP模式实现登陆模块需要创建6个文件，分别是M、V、P接口文件和接口的对应实现。其中LoginActivity就是View层的具体实现。这样的好处时Activity组件只需要负责处理UI相关逻辑就可以了，而相关的业务逻辑全部抽象到Presenter层中处理。通过这种方式能够很好的避免传统Android开发中的Activity/Fragment等UI组件既负责处理UI逻辑又处理业务逻辑的结果。</p>
+<h2 id="代码实现："><a href="#代码实现：" class="headerlink" title=". 代码实现："></a>. 代码实现：</h2><p>说了这么多，最后我们来看看代码的实现吧。</p>
+<ol>
+<li>ILoginModel:<figure class="highlight plain"><figcaption><span>interface ILoginModel &#123;  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    void login(String name ,String password);  </div><div class="line">&#125;</div><div class="line">`</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>`</p>
+<ol>
+<li>ILoginPresenter<figure class="highlight plain"><figcaption><span>interface ILoginPresenter &#123;  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">    void loginToServer(String userName,String password);  </div><div class="line">  </div><div class="line">    void loginSucceed();  </div><div class="line">&#125;</div><div class="line">``</div><div class="line">`</div><div class="line">3. ILoginView</div><div class="line">```public interface ILoginView &#123;  </div><div class="line">  </div><div class="line">    void showProgress(boolean enable);  </div><div class="line">  </div><div class="line">    void showLoginView();  </div><div class="line">&#125;</div><div class="line">``</div><div class="line">`</div><div class="line">上面是登陆模块对应的MVP接口的具体设计，下面我来简单介绍一下接口中的几个方法：</div><div class="line">*  `ILoginModel.login(String name ,String password)`登陆方法，通过该方法向服务器发送登陆请求。</div><div class="line">* `ILoginPresenter. loginToServer (String name ,String password)`通知Model响应登陆事件。</div><div class="line">* `ILoginPresenter. loginSucceed() `当登陆事件完成时（成功/失败），Model层要通知该方法登陆事件已完成。</div><div class="line">* `ILoginView. showProgress(boolean enable) `当Presenter层调用` loginToServer (String name ,String password) `方法时，要通过该方法通知View层显示加载动画。</div><div class="line">* `ILoginView. showLoginView()`登陆成功时，Presenter层会通过该方法通知View层登陆已成功。</div><div class="line"></div><div class="line">下面我们来看看这几个接口的具体实现。</div><div class="line"></div><div class="line">4. LoginModel:</div><div class="line">``` public class LoginModel implements ILoginModel&#123;  </div><div class="line">  </div><div class="line">    private ILoginPresenter presenter;  </div><div class="line">  </div><div class="line">    private Handler mHandler = new Handler();  </div><div class="line">  </div><div class="line">    public LoginModel(ILoginPresenter presenter) &#123;  </div><div class="line">        this.presenter = presenter;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public void login(String name ,String password) &#123;  </div><div class="line">        mHandler.postDelayed(new Runnable() &#123;  </div><div class="line">            @Override  </div><div class="line">            public void run() &#123;  </div><div class="line">                Log.d(&quot;LoginModel&quot;, &quot;run: &quot;);  </div><div class="line">                presenter.loginSucceed();  </div><div class="line">            &#125;  </div><div class="line">        &#125;,2000);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125; </div><div class="line">`</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><code>上面的Model层实现了</code>login(String name,Stringpassword)<code>登陆方法，该方法的具体实现逻辑是通过线程休眠2秒来模拟网络登陆的过程,登陆成功后会通过LoginPresenter的</code>loginSucceed()`方法来通知Presenter层登陆结果。实际开发中我们需要根据具体的业务逻辑来实现该过程。</p>
+<ol>
+<li>LoginPresenter<figure class="highlight plain"><figcaption><span>class LoginPresenter implements ILoginPresenter&#123;  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">    private ILoginModel loginModel;  </div><div class="line">  </div><div class="line">    private ILoginView loginView;  </div><div class="line">  </div><div class="line">    public LoginPresenter(ILoginView loginView) &#123;  </div><div class="line">        this.loginView = loginView;  </div><div class="line">        this.loginModel = new LoginModel(this);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public void loginToServer(String userName, String password) &#123;  </div><div class="line">        loginView.showProgress(true);  </div><div class="line">        loginModel.login(userName,password);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    @Override  </div><div class="line">    public void loginSucceed() &#123;  </div><div class="line">        loginView.showProgress(false);  </div><div class="line">        loginView.showLoginView();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div><div class="line">``</div><div class="line">`</div><div class="line">从上面代码可以看出LoginPresenter的实现逻辑很简单，首先在构造方法中获取ILoginView对象并撞见ILoginModel对象。然后当View层调用`loginToServer(String userName, String password) `方法成功时，通知View层显示加载动画并调用ILoginModel层的`login(String userName, String password) `方法向服务器发送登陆请求。当登陆成功后（即Model层通知loginSucceed方法时）通过` loginView.showProgress(false) `方法通知View层隐藏加载动画，并通知View登陆成功。</div><div class="line"></div><div class="line">6. LoginActivity</div><div class="line">对于LoginActivity我们只需要关注其中的几个方法即可</div><div class="line">```loginBtn.setOnClickListener(new View.OnClickListener() &#123;  </div><div class="line">    @Override  </div><div class="line">    public void onClick(View v) &#123;  </div><div class="line">        //模拟登陆，不需要账号密码  </div><div class="line">        loginPresenter.loginToServer(&quot;&quot;,&quot;&quot;);  </div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>```@Override<br>public void showProgress(boolean enable) {<br>    if (enable){<br>        progressBar.setVisibility(View.VISIBLE);<br>        loginLayout.setVisibility(View.GONE);<br>    }else {<br>        progressBar.setVisibility(View.GONE);<br>        loginLayout.setVisibility(View.VISIBLE);<br>    }<br>}  </p>
+<p>@Override<br>public void showLoginView() {<br>    Toast.makeText(LoginActivity.this,”登陆功”,Toast.LENGTHSHORT).show();<br>    finish();<br>}<br><code>`
+</code><br>上面时实现了ILoginView接口的两个方法。<br>结合上面的代码可以看出，当点击登陆按钮的监听事件时，我们不需要关注业务逻辑，只需要调用<code>loginPresenter.loginToServer(&quot;&quot;,&quot;&quot;);</code>方法即可，然后根据实际情况实现View层中ILoginView接口的方法即可，这样达到了UI业务与逻辑完全分离的目的。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>关于在Android上应用MVP模式开发的第一篇到这里就结束了。这只是通过简单的例子介绍MVP模式在Android上的应用罢了，读者应该也看出来了，不进行任何处理的情况下使用MVP模式进行开发时相对于传统的MV模式来说代码量与文件数量增加了很多，相信不少同学会纠结在传统MV模式的代码量与MVP模式的逻辑清晰之间。<br>随着项目的体量变大，逻辑是否清晰会大大影响到我们的开发。笔者在使用MV进行开发时，常常不得不面对几百行甚至上千行代码的Acitvity，所以笔者在这里推荐大家使用MVP模式进行开发。<br>但是作为一个优秀的码农（其实是因为我很懒）肯定不会满足于这种结果，所以笔者通过不懈的努力研究出一套可以大大减少在使用MVP模式时代码量和文件量的方法，相信在国庆之后会给出第二篇关于优化使用MVP进行开发的文章。这个系列的最终目标是给出一个从零开始搭建一个功能完善的MVP快速开发框架。<br>最后给出本文DEMO的地址：<img src="https://github.com/DobbyTang/MVP-test-demo" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;￼Android架构篇－－从零开始搭建-一个完善的-MVP模式开发框架（一），MVP模式的简单介绍篇&quot;&gt;&lt;a href=&quot;#￼Android架构篇－－从零开始搭建-一个完善的-MVP模式开发框架（一），MVP模式的简单介绍篇&quot; class=&quot;headerlink&quot; title=&quot;￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇&quot;&gt;&lt;/a&gt;￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt; &lt;em&gt;原创声明：&lt;/em&gt; 该文章为原创文章，未经博主同意严禁转载。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;摘要：&lt;/em&gt; 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者认为比较严重的问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android架构" scheme="http://www.tangpj.com/categories/Android%E6%9E%B6%E6%9E%84/"/>
+    
+    
+      <category term="MVP开发框架" scheme="http://www.tangpj.com/tags/MVP%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>Android SearchView的高级用法，解决关于SearchView的样式与控制问题</title>
