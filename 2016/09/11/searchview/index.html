@@ -88,23 +88,23 @@
 
 <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
+在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.w">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta property="og:url" content="http://www.tangpj.com/2016/09/11/searchview/index.html">
 <meta property="og:site_name" content="TANG BLOG">
 <meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
+在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.w">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2015_56_45.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-11%2021_09_12.gif">
-<meta property="og:updated_time" content="2016-09-20T12:01:29.000Z">
+<meta property="og:updated_time" content="2016-09-23T07:27:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android SearchView的高级用法，解决关于SearchView的样式与控制问题">
 <meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-Android SearchView的高级用法，解决关于SearchView的样式与控制问题在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方">
+在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.w">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/searchView/2016-09-10%2013_52_48.gif">
 
 
@@ -356,7 +356,7 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
         <blockquote>
 <p> <em>原创声明：</em> 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
-<h1 id="Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><a href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题" class="headerlink" title="Android SearchView的高级用法，解决关于SearchView的样式与控制问题"></a>Android SearchView的高级用法，解决关于SearchView的样式与控制问题</h1><p>在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.widget包下的SearchView控件。</p>
+<p>在Android开发的时候，有时候我们需要做一个关于搜索的模块。我发现很多初级工程师在开发搜索组件的时候会用EditText + Button + ListView(RecyclerView) 的方法重新制作一个searchView组件。虽然这种方案也是可行的，但是效果往往不尽人意。现在我来介绍种更为简单的方法，就是实用android.widget包下的SearchView控件。</p>
 <a id="more"></a>
 <h1 id="关于SearchView"><a href="#关于SearchView" class="headerlink" title="关于SearchView"></a>关于SearchView</h1><h2 id="什么是SearchView控件？"><a href="#什么是SearchView控件？" class="headerlink" title="什么是SearchView控件？"></a>什么是SearchView控件？</h2><p>SearchView是Android自带的一款搜索View，它的功能十分强大，而且样式也十分好看。在Google发布Material Design 介绍中的搜索按钮就是通过SearchView实现的。</p>
 <h2 id="如何使用SearchView"><a href="#如何使用SearchView" class="headerlink" title="如何使用SearchView"></a>如何使用SearchView</h2><p>下面我们来介绍下在Material Design风格下如何使用SearchView。</p>
@@ -591,7 +591,7 @@ Android SearchView的高级用法，解决关于SearchView的样式与控制问�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-SearchView的高级用法，解决关于SearchView的样式与控制问题"><span class="nav-number">1.</span> <span class="nav-text">Android SearchView的高级用法，解决关于SearchView的样式与控制问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于SearchView"><span class="nav-number">2.</span> <span class="nav-text">关于SearchView</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SearchView控件？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是SearchView控件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用SearchView"><span class="nav-number">2.2.</span> <span class="nav-text">如何使用SearchView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义SearchView的样式与重设监听事件"><span class="nav-number">3.</span> <span class="nav-text">自定义SearchView的样式与重设监听事件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView源码分析"><span class="nav-number">3.1.</span> <span class="nav-text">SearchView源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件是什么？"><span class="nav-number">3.1.1.</span> <span class="nav-text">SearchAutoComplete控件是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件能做什么？"><span class="nav-number">3.1.2.</span> <span class="nav-text">SearchAutoComplete控件能做什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView搜索提示（历史记录）的实现"><span class="nav-number">3.2.</span> <span class="nav-text">SearchView搜索提示（历史记录）的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于SearchView"><span class="nav-number">1.</span> <span class="nav-text">关于SearchView</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SearchView控件？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是SearchView控件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用SearchView"><span class="nav-number">1.2.</span> <span class="nav-text">如何使用SearchView</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义SearchView的样式与重设监听事件"><span class="nav-number">2.</span> <span class="nav-text">自定义SearchView的样式与重设监听事件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView源码分析"><span class="nav-number">2.1.</span> <span class="nav-text">SearchView源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件是什么？"><span class="nav-number">2.1.1.</span> <span class="nav-text">SearchAutoComplete控件是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchAutoComplete控件能做什么？"><span class="nav-number">2.1.2.</span> <span class="nav-text">SearchAutoComplete控件能做什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SearchView搜索提示（历史记录）的实现"><span class="nav-number">2.2.</span> <span class="nav-text">SearchView搜索提示（历史记录）的实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
           </div>
         </section>
