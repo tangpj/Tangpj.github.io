@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.tangpj.com/2016/10/15/mvp-structure-two/</loc>
+    <lastmod>2016-10-14T18:27:33.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android架构篇——从零开始搭建一个完善的MVP开发框架（二），通过泛型和抽象，简化MVP框架。</title>
+        <pubTime>2016-10-14T18:20:48.000Z</pubTime>
+        
+        <tag>MVP开发框架</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android架构" url="http://www.tangpj.com/categories/Android%E6%9E%B6%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.tangpj.com/2016/09/23/mvp-structure-one/</loc>
     <lastmod>2016-09-23T07:41:16.000Z</lastmod>
     <data>
