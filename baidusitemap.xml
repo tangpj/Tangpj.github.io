@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.tangpj.com/2016/11/04/mvp-structure-three/</loc>
+    <lastmod>2016-11-03T16:17:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理</title>
+        <pubTime>2016-11-03T16:00:53.000Z</pubTime>
+        
+        <tag>MVP开发框架</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android架构" url="http://www.tangpj.com/categories/Android%E6%9E%B6%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.tangpj.com/2016/10/15/mvp-structure-two/</loc>
     <lastmod>2016-10-23T14:57:26.000Z</lastmod>
     <data>
