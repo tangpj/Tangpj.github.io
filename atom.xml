@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2016-11-03T16:17:46.000Z</updated>
+  <updated>2016-11-04T15:14:23.000Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://www.tangpj.com/2016/11/04/mvp-structure-three/"/>
     <id>http://www.tangpj.com/2016/11/04/mvp-structure-three/</id>
     <published>2016-11-03T16:00:53.000Z</published>
-    <updated>2016-11-03T16:17:46.000Z</updated>
+    <updated>2016-11-04T15:14:23.000Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理"><a href="#Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理" class="headerlink" title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理"></a>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理</h1><blockquote>
+    <content type="html"><![CDATA[<blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
 <p><em>摘要：</em>  在<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="external">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
@@ -77,7 +77,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理&quot;&gt;&lt;a href=&quot;#Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理&quot; class=&quot;headerlink&quot; title=&quot;Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理&quot;&gt;&lt;/a&gt;Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理&lt;/h1&gt;&lt;blockquote&gt;
+      &lt;blockquote&gt;
 &lt;p&gt;原创声明： 该文章为原创文章，未经博主同意严禁转载。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;em&gt;摘要：&lt;/em&gt;  在&lt;a href=&quot;http://tangpj.com/2016/10/15/mvp-structure-two/&quot; title=&quot;上一篇文章&quot;&gt;上一篇文章&lt;/a&gt;中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。&lt;/p&gt;

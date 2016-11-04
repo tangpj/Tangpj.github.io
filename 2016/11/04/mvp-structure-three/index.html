@@ -86,27 +86,24 @@
 
 
 
-<meta name="description" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理
-原创声明： 该文章为原创文章，未经博主同意严禁转载。
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中">
+摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
 <meta property="og:url" content="http://www.tangpj.com/2016/11/04/mvp-structure-three/index.html">
 <meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理
-原创声明： 该文章为原创文章，未经博主同意严禁转载。
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中">
+摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_nuomi_category.png">
-<meta property="og:updated_time" content="2016-11-03T16:17:46.000Z">
+<meta property="og:updated_time" content="2016-11-04T15:14:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
-<meta name="twitter:description" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理
-原创声明： 该文章为原创文章，未经博主同意严禁转载。
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
 
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中">
+摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
 
 
@@ -355,7 +352,7 @@
       
 
       
-        <h1 id="Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理"><a href="#Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理" class="headerlink" title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理"></a>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理</h1><blockquote>
+        <blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
 <p><em>摘要：</em>  在<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="external">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
@@ -615,7 +612,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android框架篇——-从零开始搭建一个完善的MVP开发框架-三-，对列表型数据请求进行抽象，优化列表型数据的处理"><span class="nav-number">1.</span> <span class="nav-text">Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装列表型的Presenter基类"><span class="nav-number">1.1.</span> <span class="nav-text">封装列表型的Presenter基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IBasePaginationPresenter"><span class="nav-number">1.1.1.</span> <span class="nav-text">IBasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BasePaginationPresenter"><span class="nav-number">1.1.2.</span> <span class="nav-text">BasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMvpListView"><span class="nav-number">1.1.3.</span> <span class="nav-text">IMvpListView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本节小结"><span class="nav-number">1.1.4.</span> <span class="nav-text">本节小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际使用例子"><span class="nav-number">1.2.</span> <span class="nav-text">实际使用例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#百度天气接口"><span class="nav-number">1.2.1.</span> <span class="nav-text">百度天气接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IWeatherView"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">IWeatherView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherBean"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">WeatherBean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherPresenter"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">WeatherPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用WeatherPresenter"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">在Activity中使用WeatherPresenter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#百度糯米分类接口"><span class="nav-number">1.2.2.</span> <span class="nav-text">百度糯米分类接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#INuoMiCategoryListView"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">INuoMiCategoryListView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NuoMiCategoryPresenter"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">NuoMiCategoryPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用NuoMiCategoryPresenter"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">在Activity中使用NuoMiCategoryPresenter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.3.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装列表型的Presenter基类"><span class="nav-number">1.</span> <span class="nav-text">封装列表型的Presenter基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IBasePaginationPresenter"><span class="nav-number">1.1.</span> <span class="nav-text">IBasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BasePaginationPresenter"><span class="nav-number">1.2.</span> <span class="nav-text">BasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMvpListView"><span class="nav-number">1.3.</span> <span class="nav-text">IMvpListView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本节小结"><span class="nav-number">1.4.</span> <span class="nav-text">本节小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际使用例子"><span class="nav-number">2.</span> <span class="nav-text">实际使用例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#百度天气接口"><span class="nav-number">2.1.</span> <span class="nav-text">百度天气接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IWeatherView"><span class="nav-number">2.1.1.</span> <span class="nav-text">IWeatherView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherBean"><span class="nav-number">2.1.2.</span> <span class="nav-text">WeatherBean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherPresenter"><span class="nav-number">2.1.3.</span> <span class="nav-text">WeatherPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用WeatherPresenter"><span class="nav-number">2.1.4.</span> <span class="nav-text">在Activity中使用WeatherPresenter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#百度糯米分类接口"><span class="nav-number">2.2.</span> <span class="nav-text">百度糯米分类接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#INuoMiCategoryListView"><span class="nav-number">2.2.1.</span> <span class="nav-text">INuoMiCategoryListView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NuoMiCategoryPresenter"><span class="nav-number">2.2.2.</span> <span class="nav-text">NuoMiCategoryPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用NuoMiCategoryPresenter"><span class="nav-number">2.2.3.</span> <span class="nav-text">在Activity中使用NuoMiCategoryPresenter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
           </div>
         </section>
