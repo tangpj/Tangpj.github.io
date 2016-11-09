@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://www.tangpj.com/2016/11/09/mvp-structure-four/</loc>
+    <lastmod>2016-11-09T15:52:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发</title>
+        <pubTime>2016-11-09T15:44:37.000Z</pubTime>
+        
+        <tag>MVP开发框架</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android架构" url="http://www.tangpj.com/categories/Android%E6%9E%B6%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.tangpj.com/2016/11/04/mvp-structure-three/</loc>
     <lastmod>2016-11-04T15:14:23.000Z</lastmod>
     <data>
