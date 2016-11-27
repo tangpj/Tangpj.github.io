@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MVP开发框架," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要： 在第三篇文章有位朋友留言说：如果接口的数量有一百个，那么是不是需要写一百个Presenter?答案是不一定的,因为这个问题需要根据实际的业务需求来解决。但是这种一个接口对应一个Presenter的方式能够对项目进行最大限度的解耦，我们能够很方便的复用这个接口。
+采用MVP模式引发的一些思考笔者在研究MVP模式的时候查阅过相当多的资料">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构">
+<meta property="og:url" content="http://www.tangpj.com/2016/11/27/mvp-structure-five/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要： 在第三篇文章有位朋友留言说：如果接口的数量有一百个，那么是不是需要写一百个Presenter?答案是不一定的,因为这个问题需要根据实际的业务需求来解决。但是这种一个接口对应一个Presenter的方式能够对项目进行最大限度的解耦，我们能够很方便的复用这个接口。
+采用MVP模式引发的一些思考笔者在研究MVP模式的时候查阅过相当多的资料">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/component.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_component_project.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_component_test.png">
+<meta property="og:updated_time" content="2016-11-27T15:41:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要： 在第三篇文章有位朋友留言说：如果接口的数量有一百个，那么是不是需要写一百个Presenter?答案是不一定的,因为这个问题需要根据实际的业务需求来解决。但是这种一个接口对应一个Presenter的方式能够对项目进行最大限度的解耦，我们能够很方便的复用这个接口。
+采用MVP模式引发的一些思考笔者在研究MVP模式的时候查阅过相当多的资料">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/component.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2016/11/27/mvp-structure-five/"/>
+
+  <title> Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-27T23:38:22+08:00" content="2016-11-27">
+              2016-11-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android架构/" itemprop="url" rel="index">
+                    <span itemprop="name">Android架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/27/mvp-structure-five/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/27/mvp-structure-five/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/27/mvp-structure-five/" class="leancloud_visitors" data-flag-title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p><em>摘要：</em> 在第三篇文章有位朋友留言说：如果接口的数量有一百个，那么是不是需要写一百个Presenter?答案是不一定的,因为这个问题需要根据实际的业务需求来解决。但是这种一个接口对应一个Presenter的方式能够对项目进行最大限度的解耦，我们能够很方便的复用这个接口。</p>
+<h2 id="采用MVP模式引发的一些思考"><a href="#采用MVP模式引发的一些思考" class="headerlink" title="采用MVP模式引发的一些思考"></a>采用MVP模式引发的一些思考</h2><p>笔者在研究MVP模式的时候查阅过相当多的资料，其中有两句话令我相当的深刻。一是：使用MVP模式虽然代码量会大大增加，但是为了降低耦合和逻辑上的简洁这个牺牲是值得的。二是：有些公司是根据代码量来统计工资的，所以使用MVP模式对于那些用代码量来统计工资的开发者来说，这应该是一个优点（然而，我们公司的工资和代码量时无关）。我当初就是信了你们的邪，当项目达到一定的程度的时候如果采用网上推荐的方式，重复的代码多到你无法想象好吗？每个Presenter都要处理大量重复的逻辑，项目中存在无数个功能相同的Model（向服务器发起请求和发送回调数据到Presenter）例如进度条的显示等等。不过当笔者意识到这个问题后，就通过泛型和封装优化了代码，解决了上述的问题，所以就有了前面的四篇文章。但是有一个问题是没办法通过优化代码解决的，那就是Presenter的管理问题。</p>
+<p>这里笔者说一个例子，在开发的时候我接到一个需求是把应用中的一个模块完全移植到另外一个应用中。这个需求很简单，但是有一个问题就是：由于项目达到一定的体量后Presenter的数量和View接口文件比较多,所以在移动模块的时候需要判断那些文件时必要的，很容易漏掉某个文件或者添加了多余的文件。而且由于数据传递等原因，把模块移动到新框架中还需要重新对项目进行调试一遍又一遍才能运行起来。做完这一切所花费的时间并不短，并且还需要重新对这个模块乃至整个项目都测试一遍。</p>
+<p>把一个模块迁移到另外一个应用中其实是很常见的问题。特别是在同一间公司不同应用中相似模块背后的逻辑其实是类似的，只是View的展现有所区别而已（例如登陆模块，登陆模块采取的逻辑与登陆校验其实是类似的）。所以如果能把模块以组件的形式分离出来，当需要开发一个新app的时候，再通过一个app模块把这些模块像拼积木一样拼接起来这样不就会大大增加我们的工作效率了吗？</p>
+<p>关于组件化开发，笔者也查阅过很多大牛写的文章，这个概念看起来高尚大，实际上通过gradle可以很简单地实现组件化。采用组件化进行开发还能顺便解决我们管理Presenter的问题。因为当你采用组件化开发的时候，单个组件中的Presenter的数量其实不多的，所以采用组件化开发不用担心管理Presenter的问题（什么，你说10来个Presenter你都无法管理了？我选择死亡。。。）。如果你们某个业务组件的接口有几十个的话，这个就是你们的业务架构有问题了。</p>
+<h2 id="什么是组件化开发"><a href="#什么是组件化开发" class="headerlink" title="什么是组件化开发"></a>什么是组件化开发</h2><p>组件化开发的核心就是把业务模块封装成一个高内聚，低耦合的组件。所谓的高内聚低耦合的基本要点就是，这个业务组件完全不依赖于其它的业务组件，这个组件的功能是完善的能单独拿出来使用的，并且其它的模块能够轻松唤起这个组件进行工作。</p>
+<p>光靠文字可能大家会觉得有点难以理解，下面来看看一个关于电商平台的组件化简图</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/component.png" alt="电商平台组件化简图"></p>
+<p>这个APP有4个组件，这四个组件分别依赖于BaseLib组件，而且各个组件都是单独存在没有任何交集的。BaseLib中包含了我们前面4篇文章所开发的MVP开发框架组件、baseApp组件(这里放style，drawable资源和自定义Application)、工具类组件等。</p>
+<p>可能有读者会产生疑问，个人中心和购物车是需要登录后才能使用的功能，但是这两个组件和登陆注册模块之间是没有依赖的。那么怎么样判断App实际有没有登陆呢？在这里笔者是通过Base组件中的自定义Applcation实现的。当登陆成功后，把获取到的密钥交给Applcation处理就可以了。</p>
+<h2 id="组件化开发有什么优点"><a href="#组件化开发有什么优点" class="headerlink" title="组件化开发有什么优点"></a>组件化开发有什么优点</h2><ol>
+<li>业务组件可以很方便地移植到另外一个App。</li>
+<li>项目的分工可以更加合理，因为不同组件之间是没有依赖关系的。所以可以几个组件同时开发。</li>
+<li>可以实现组件的单独编译和测试。</li>
+<li>项目之间的耦合度更低，更好管理。</li>
+</ol>
+<p>道理大家都懂，但是具体要怎么做呢？下面我就来教你们如何实现组件化。</p>
+<h2 id="组件化的项目结构"><a href="#组件化的项目结构" class="headerlink" title="组件化的项目结构"></a>组件化的项目结构</h2><p>项目的结构</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_component_project.png" alt="项目结构图"></p>
+<p>上图中的Business就是我们的业务层代码，其中的test就是我们的一个测试组件。</p>
+<h2 id="实现组件化"><a href="#实现组件化" class="headerlink" title="实现组件化"></a>实现组件化</h2><p>组件化的关键是通过gradle脚本实现组件间的的属性变化（这里称作为属性是为了方便大家理解，实际上这个是一个插件，这个插件的作用时帮助我们构建项目，这里涉及到gradle自动化构建方面的知识，这里就不深入了）。何谓属性变化呢？不知道大家在平时开发的时候要没有认真看过build.gradle文件，这个文件的第一句代码就确定了这个Module的属性。<br>一般我们在Android Studio创建一个project的时候，我们的项目中就会带有一个Module，这个Module的名字就叫app。现在我们来看看app中build.gradle的第一句代码是怎样写的：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">'com.android.application'</span></div></pre></td></tr></table></figure></p>
+<p>这句代码的作用是规定了我们app这个Module是一个application，意思就是app这个Module的属性是application。除了application属性外我们还需要用的一个属性是library属性，这个属性规定了module是一个library，这两个属性只能同时存在一个。我们在前面用到的volley框架就是一个library。下面我们来看看它的build.gradle是怎么写的：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">'com.android.library'</span></div></pre></td></tr></table></figure></p>
+<p>因为我们组件化的要求是，组件必须能够组合一起运行也能单独开发、单独测试所以我们的组件需要能够单独运行才能满足我们的要求。<br>在Android中Module的属性必须是application才能单独运行起来。所以当我们开发完一个业务组件之后，我们把build.gradle的属性改为application就能单独运行起来了，如果需要组合在一起则需要把属性改为library即可。这里有一点是需要注意的，当Module的属性为application的时候，必须要有一个入口activity，入口activity就是指我们设置了intent-filter为Main的activity。就是下面这个：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span>  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>而作为library的时候是不能有入口activity的。</p>
+<p>这个就是组件化的具体实现，但是这样会有一个问题就是如果组件的数量过多的话，我们管理起来也是一件麻烦事，想象下你不停地重复上述的操作的情景。所以我们需要把这一个过程交给gradle脚本，实现自动化构建。</p>
+<h2 id="使用Gradle实现自动化构建"><a href="#使用Gradle实现自动化构建" class="headerlink" title="使用Gradle实现自动化构建"></a>使用Gradle实现自动化构建</h2><p>自动化构建这个听起来很厉害的概念实际上是十分简单的，我们直入主题。我们先开口项目根目录下的gradle.properties文件。<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Turn on debugging  </span></div><div class="line"><span class="attr">isDebug</span>=<span class="literal">true</span>  </div><div class="line">  </div><div class="line"><span class="comment"># Deps for gradle  </span></div><div class="line"><span class="attr">BUILD_TOOLS_VERSION</span>=<span class="number">25.0</span>.<span class="number">0</span>  </div><div class="line"><span class="attr">COMPILE_SDK_VERSION</span>=<span class="number">25</span>  </div><div class="line">  </div><div class="line"><span class="comment"># SDK versions for the samples  </span></div><div class="line"><span class="attr">MIN_SDK_VERSION</span>=<span class="number">15</span>  </div><div class="line"><span class="attr">TARGET_SDK_VERSION</span>=<span class="number">25</span>  </div><div class="line">  </div><div class="line"><span class="comment"># Deps for libraries  </span></div><div class="line"><span class="attr">GSON_VERSION</span>=<span class="number">2.7</span>  </div><div class="line"><span class="attr">FRESCO_VERSION</span>=<span class="number">0.9</span>.<span class="number">0</span>  </div><div class="line">  </div><div class="line"><span class="comment"># App Version  </span></div><div class="line"><span class="attr">VERSION_CODE</span>=<span class="number">1</span>  </div><div class="line"><span class="attr">VERSION_NAME</span>=<span class="number">1.0</span>.<span class="number">0</span></div></pre></td></tr></table></figure></p>
+<p>在这个文件中，我定义了一些全局变量。这些全局变量的作用是同一所有模块中使用的android sdk的版本和一些库的版本，在这里我们只看isDebug这个变量就可以了。isDebug为true的时候我们的所有业务组件的属性就设置为application属性，为false的时候就设置为library属性即可。至于如何解决Manifest中的入口问题，我们先来看看test组件的项目结构：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_component_test.png" alt="test组件接口"></p>
+<p>就是通过创建两个不同的Manifest文件解决的，这两个文件的区别就是debug中定义了入口activity。如果调用这个模块需要初始数据的话，我们创建一个DebugActivity就可以了。例如电商例子中，我们需要一个可以输入商品号添加商品到购物车的DebugActivity。这里需要注意的是，购物车功能需要登录才能使用，我们使用debug模式的时候需要在自定义Application中提供一个debugKey来让提供校验密钥。</p>
+<p>下面我们看看test模块中的build.gradle的代码：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line"><span class="keyword">if</span> (isDebug.toBoolean())&#123;  </div><div class="line">    apply plugin: <span class="string">'com.android.application'</span>  </div><div class="line">  </div><div class="line">&#125;<span class="keyword">else</span> &#123;  </div><div class="line">    apply plugin: <span class="string">'com.android.library'</span>  </div><div class="line">  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">android &#123;  </div><div class="line">    compileSdkVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.compileSdkVersion</span>  </div><div class="line">    buildToolsVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.buildToolsVersion</span>  </div><div class="line">  </div><div class="line">    defaultConfig &#123;  </div><div class="line">        <span class="keyword">if</span> (isDebug.toBoolean() )&#123;  </div><div class="line">            applicationId <span class="string">"com.example.test"</span>  </div><div class="line">        &#125;  </div><div class="line">        minSdkVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.minSdkVersion</span>  </div><div class="line">        targetSdkVersion rootProject<span class="selector-class">.ext</span><span class="selector-class">.targetSdkVersion</span>  </div><div class="line">        versionCode rootProject<span class="selector-class">.ext</span><span class="selector-class">.versionCode</span>  </div><div class="line">        versionName rootProject<span class="selector-class">.ext</span><span class="selector-class">.versionName</span>  </div><div class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span>  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">    buildTypes &#123;  </div><div class="line">        release &#123;  </div><div class="line">            minifyEnabled false  </div><div class="line">            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android.txt'</span>), <span class="string">'proguard-rules.pro'</span>  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    sourceSets&#123;  </div><div class="line">        main&#123;  </div><div class="line">  </div><div class="line">            <span class="keyword">if</span> (isDebug.toBoolean())&#123;  </div><div class="line">                manifest<span class="selector-class">.srcFile</span> <span class="string">'src/main/debug/AndroidManifest.xml'</span>  </div><div class="line">  </div><div class="line">            &#125;<span class="keyword">else</span> &#123;  </div><div class="line">                manifest<span class="selector-class">.srcFile</span> <span class="string">'src/main/release/AndroidManifest.xml'</span>  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">dependencies &#123;  </div><div class="line">    compile project(<span class="string">':BaseLibraries:BaseMvpLib'</span>)  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在这里只需要关注两个地方就可以，第一个就是根据isDebug的值来确定test组件的属性。第二个就是在sourceSets中根据isDebug的值来选择Manifest文件。<br>当test属性为application属性时，app Module是无法依赖test的，所以app的build.gradle文件需要根据isDebug的值来选择是否以来test组件。下面是具体实现逻辑：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;  </div><div class="line">    <span class="keyword">if</span>(isDebug.toBoolean())&#123;  </div><div class="line">        <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">':BaseLibraries:BaseApp'</span>)  </div><div class="line">    &#125;<span class="keyword">else</span>&#123;  </div><div class="line">        <span class="keyword">compile</span> <span class="keyword">project</span>(<span class="string">":Business:test"</span>)  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="对于第三章中读者提出的问题的几个解决思路"><a href="#对于第三章中读者提出的问题的几个解决思路" class="headerlink" title="对于第三章中读者提出的问题的几个解决思路"></a>对于第三章中读者提出的问题的几个解决思路</h2><p>第三章中，读者提出来了一个好问题，这个问题对于我们在使用MVP模式进行开发的时候是无法回避的。相信很多读者在看介绍MVP模式的文章的时候都会看到一个问题就是：当业务代码越来越复杂的时候Presenter会变得越来越臃肿。所以在这里，笔者采用的解决方案就是一个Presenter对应一个接口的方法来解决。<br>当采用笔者的解决方法的时候，如果同一个页面有多个Api接口的话，我们只需要在Activity / Fragment中实现多个IView接口和实例化多个Presenter就可以了。这样做的优点就是，我们的接口就好像是一块块积木一样，当我们需要使用的时候某个接口的时候，通过Presenter就可以很简单的在Activity中使用。这种方案的缺点是当App的体积到达一定的程度后Presenter的数量会很多。我们可以通过组件化的方式降低这个问题带来的影响。<br>还有一种方案就是，一个页面对应一个Presenter。这个方案有两个思路，一个是：Model负责控制多个Api接口，一个Api接口对应一个发起请求的方法。然后在Presenter中根据实际接口的情况来创建回调方法。另一种是，一个Presenter中控制多个Model然后在需要的时候使用不同的Model向服务器获取数据即可。这种方法的缺点是代码的耦合度会比较高，当页面中的接口过多的时候，Presenter会非常臃肿，并且无法在其他页面中复用这个Presenter接口。当我们某个页面中需要使用同一个接口的时候，我们必须重新实现一次。<br>笔者认为，如果我们开发的app体量不是很大的时候，我们可以使用第二种方案进行开发。如果APP体积比较大的时候，通过笔者提供的解决方法再配合组件化的项目构建方案能够应对更复杂的实际场景。所以需要采用何种方案就需要读者自行判断了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>关于介绍MVP框架的文章就到这里结束了，在这里是时候接到读者提出的问题了。<br>当我们使用MVP模式的时候Presenter文件的数量问题是无法解决的，我们只能通过其它的方法来增强我们对于Presenter的管理。相信读者也看出来了，这个解决方法和编写代码的关系并不大。这个方法的思想是使用组件化的方法来构建我们的项目实现各组件间高内聚低耦合的目的。<br>在这个篇文章中，我们所写的代码并不多，但是却解决了Presenter管理、模块化开发、单模块测试、降低项目耦合度等问题。所以这里也给读者一些建议，就是在解决问题的时候，我们要跳出我们的常规思维，有时候只需要做一小点改变结果就会大大不同。<br>项目的代码已经提交到了笔者的git中。地址是<a href="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="external">https://github.com/DobbyTang/mvp-android-framework</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVP开发框架/" rel="tag">#MVP开发框架</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/27/Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/27/mvp-structure-five/"
+           data-title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构" data-url="http://www.tangpj.com/2016/11/27/mvp-structure-five/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpeg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email：dobbytang123@gmail.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  Linked
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-gift"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#采用MVP模式引发的一些思考"><span class="nav-number">1.</span> <span class="nav-text">采用MVP模式引发的一些思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是组件化开发"><span class="nav-number">2.</span> <span class="nav-text">什么是组件化开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化开发有什么优点"><span class="nav-number">3.</span> <span class="nav-text">组件化开发有什么优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化的项目结构"><span class="nav-number">4.</span> <span class="nav-text">组件化的项目结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现组件化"><span class="nav-number">5.</span> <span class="nav-text">实现组件化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Gradle实现自动化构建"><span class="nav-number">6.</span> <span class="nav-text">使用Gradle实现自动化构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于第三章中读者提出的问题的几个解决思路"><span class="nav-number">7.</span> <span class="nav-text">对于第三章中读者提出的问题的几个解决思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tangpj"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>
