@@ -1,0 +1,888 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MVVM模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要：Google发布DataBinding已经有一年时间了，网上也有很多教程。但是在笔者看过的大部分关于MVVM在Android上的实现的教程中，都存在一个十分之严重的问题，就是大部分的介绍MVVM的文章只不过是介绍DataBinding的文章。而在这些教程中，几乎都无一例外地把DataBinding生成的Binding类(或实体类当成是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVVM在Android上的正确使用方式">
+<meta property="og:url" content="http://www.tangpj.com/2016/12/04/mvvm-structure-introduction/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要：Google发布DataBinding已经有一年时间了，网上也有很多教程。但是在笔者看过的大部分关于MVVM在Android上的实现的教程中，都存在一个十分之严重的问题，就是大部分的介绍MVVM的文章只不过是介绍DataBinding的文章。而在这些教程中，几乎都无一例外地把DataBinding生成的Binding类(或实体类当成是">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_img.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_demo_layout1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_demo_layout_2.png">
+<meta property="og:updated_time" content="2016-12-04T14:22:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVVM在Android上的正确使用方式">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+摘要：Google发布DataBinding已经有一年时间了，网上也有很多教程。但是在笔者看过的大部分关于MVVM在Android上的实现的教程中，都存在一个十分之严重的问题，就是大部分的介绍MVVM的文章只不过是介绍DataBinding的文章。而在这些教程中，几乎都无一例外地把DataBinding生成的Binding类(或实体类当成是">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_img.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2016/12/04/mvvm-structure-introduction/"/>
+
+  <title> MVVM在Android上的正确使用方式 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MVVM在Android上的正确使用方式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-04T22:10:41+08:00" content="2016-12-04">
+              2016-12-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android架构/" itemprop="url" rel="index">
+                    <span itemprop="name">Android架构</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/04/mvvm-structure-introduction/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/04/mvvm-structure-introduction/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/04/mvvm-structure-introduction/" class="leancloud_visitors" data-flag-title="MVVM在Android上的正确使用方式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p><em>摘要：</em>Google发布DataBinding已经有一年时间了，网上也有很多教程。但是在笔者看过的大部分关于MVVM在Android上的实现的教程中，都存在一个十分之严重的问题，就是大部分的介绍MVVM的文章只不过是介绍DataBinding的文章。而在这些教程中，几乎都无一例外地把DataBinding生成的Binding类(或实体类当成是ViewModel层。这两种方法都有一个十分之大的漏洞，就是作为ViewModel层，几乎没有任何控制力。在这里，笔者介绍一个笔者总结出来的如何结合DataBinding在Android实现MVVM模式。</p>
+<a id="more"></a>
+<h1 id="什么是MVVM模式？"><a href="#什么是MVVM模式？" class="headerlink" title="什么是MVVM模式？"></a>什么是MVVM模式？</h1><p> MVVM模式是指<em>Model-View-ViewModel</em>。相信看过笔者关于MVP的文章的读者也会发现，无论如何抽象化，在我们的View层中是无法避免的要处理一部分逻辑的。而MVVM模式中的View是将View的状态和行为完全抽象化，把逻辑与界面的控制完全交给ViewModel处理。<br>MVVM由下面三个核心组件组成：</p>
+<ul>
+<li><em>Model:</em> 用于获取业务数据模型</li>
+<li><em>View:</em> 定义了界面中的布局和外观</li>
+<li><em>ViewModel: </em> 逻辑控制层，负责处理数据和处理View层中的业务逻辑</li>
+</ul>
+<p>下面是笔者采用的MVVM模型：</p>
+<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_img.png" alt="MVVM模型"></p>
+<p>可以看出，这个MVVM的模型图和网上介绍MVVM是有所不同的，下面会根据这个模型图来介绍MVVM在Android。</p>
+<h1 id="DataBinding简介"><a href="#DataBinding简介" class="headerlink" title="DataBinding简介"></a>DataBinding简介</h1><blockquote>
+<p>如果了解DataBinding的读者可以直接跳过本小节</p>
+</blockquote>
+<h2 id="什么是DataBinding"><a href="#什么是DataBinding" class="headerlink" title="什么是DataBinding"></a>什么是DataBinding</h2><p>DataBinding是Google官方推出的数据绑定器，这个绑定器的作用是把数据和View绑定起来，然后数据改变的时候View会自动刷新，这个DataBinding就是我们实现MVVM模式的关键。</p>
+<h2 id="引入DataBinding"><a href="#引入DataBinding" class="headerlink" title="引入DataBinding"></a>引入DataBinding</h2><p>引入DataBinding的方式很简单，我们只需要在Module的build.gradle添加如下代码即可。<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">android&#123;  </div><div class="line"><span class="params">...</span>.  </div><div class="line">    dataBinding&#123;  </div><div class="line">        enabled <span class="literal">true</span>  </div><div class="line">    &#125;  </div><div class="line">&#125;</div><div class="line"><span class="string">`</span></div></pre></td></tr></table></figure></p>
+<p>`</p>
+<h2 id="使用DataBinding"><a href="#使用DataBinding" class="headerlink" title="使用DataBinding"></a>使用DataBinding</h2><blockquote>
+<p><em>注: </em>在这里笔者只是介绍DataBinding的其中一个使用方法，更加详细的教程读者可以上网搜索，因为这篇的重点不是DataBinding。</p>
+</blockquote>
+<p>使用DataBinding的布局文件和普通的布局文件有点不同，DataBinding布局文件的根标签是layout标签，layout里面有一个data元素和View元素，这个View元素就是我们没使用DataBinding时候的布局文件。下面看看例子代码:</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">layout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span>  </span></div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">variable</span>  </span></div><div class="line">            <span class="attr">name</span>=<span class="string">"user"</span>  </div><div class="line">            <span class="attr">type</span>=<span class="string">"com.example.mvvmdemo.UserBean"</span>/&gt;  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">        <span class="attr">android:orientation</span>=<span class="string">"vertical"</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:text</span>=<span class="string">"@</span><span class="template-variable">&#123;user.name&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>/&gt;</span>  </span></div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:text</span>=<span class="string">"@</span><span class="template-variable">&#123;user.sex&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>/&gt;</span>  </span></div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">layout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>data元素里面的user就是我们自定义的user实体类，当我们向DataBinding中设置好user类以后，我们的两个Text会自动设置text的值。</p>
+<p>UserBean实体类代码:<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserBean</span> &#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">public</span> ObservableField&lt;String&gt; name = <span class="keyword">new</span> ObservableField&lt;&gt;();  </div><div class="line">    <span class="keyword">public</span> ObservableField&lt;String&gt; sex = <span class="keyword">new</span> ObservableField&lt;&gt;();  </div><div class="line">    <span class="keyword">public</span> ObservableField&lt;Integer&gt; age = <span class="keyword">new</span> ObservableField&lt;&gt;() ;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">UserBean</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">        name.<span class="keyword">set</span>(<span class="string">"张三"</span>);  </div><div class="line">        sex.<span class="keyword">set</span>(<span class="string">"男"</span>);  </div><div class="line">        age.<span class="keyword">set</span>(<span class="number">19</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个实体类有点特别，里面的元素是DataBinding中的ObservableField类，ObservableField的作用是，当我们实体类中的值发生改变时会自动通知View刷新。所以使用DataBinding的时候，我建议使用ObservableField来定义我们的实体类。</p>
+<p>之后，我们只需要在Activity中绑定layout就可以了。下面是使用代码：<br><figure class="highlight pf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ActivityTesBinding activityTesBinding = DataBindingUtil.<span class="built_in">set</span>ContentView(this,R.layout.activity_tes);  </div><div class="line">UserBean <span class="keyword">user</span> = new UserBean();  </div><div class="line">activityTesBinding.<span class="built_in">set</span>User(<span class="keyword">user</span>);</div></pre></td></tr></table></figure></p>
+<p>在使用DataBinding的时候，我们设置布局使用DataBindingUtil工具类中的setContentView()方法，这普通的设置方法有点不一样，大家需要注意。按照我们的理论，我们设置好了user后，我们layout中的TextView显示为“张三”和“男”。在这里我就不作演示了，大家去尝试下，很简单的。</p>
+<p>好了，这就是关于DataBinding的简单介绍了，读者如果想知道更加详细的使用方法需要自行搜索。DataBinding还有更多更有趣的功能的，希望大家看完这篇文章后去实践下。</p>
+<h1 id="大部分MVVM教程的局限性"><a href="#大部分MVVM教程的局限性" class="headerlink" title="大部分MVVM教程的局限性"></a>大部分MVVM教程的局限性</h1><p>在笔者看过的大部分关于MVVM在Android上的实现的教程中，都存在一个十分之严重的问题，就是大部分的介绍MVVM的文章只不过是介绍DataBinding的文章。而在这些教程中，几乎都无一例外地把DataBinding生成的Binding类(上一小节中 ActivityTesBinding)或实体类（UserBean）当成是ViewModel层。</p>
+<p>这两种方法都有一个十分之大的漏洞，就是作为ViewModel层，几乎没有任何控制力。如果要添加其他的拓展功能的话，几乎都需要在Activity、Fragment等View层中实现。这样的做法不但无法实现代码解耦，而且如果一个页面处理的功能过多的话，代码的可读性会非常差。</p>
+<p>那么我们如何在Android上正确使用MVVM模式呢？请看下一章</p>
+<h1 id="如何在Android上正确使用MVVM模式"><a href="#如何在Android上正确使用MVVM模式" class="headerlink" title="如何在Android上正确使用MVVM模式"></a>如何在Android上正确使用MVVM模式</h1><p>在MVVM模式中，DataBinding应该是作为一个绑定器用于绑定实体类与View层，而我们的业务逻辑和View的控制应该抽象我们的ViewModel层中。其实方法很简单，我们只需要简单地把我们的Binding类传递到我们的ViewModel层中就可以实现通过ViewModel层对View层的控制了。下面我们来看看优化后的layout代码。</p>
+<h2 id="activity-main-xml"><a href="#activity-main-xml" class="headerlink" title="activity_main.xml :"></a>activity_main.xml :</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">&lt;layout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </div><div class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span>&gt;  </div><div class="line">  </div><div class="line">    &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.CoordinatorLayout</span>  </div><div class="line">        android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">        android:layout_height=<span class="string">"match_parent"</span>  </div><div class="line">        android:fitsSystemWindows=<span class="string">"true"</span>  </div><div class="line">        tools:context=<span class="string">"com.example.mvvmdemo.MainActivity"</span>&gt;  </div><div class="line">  </div><div class="line">        &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.AppBarLayout</span>  </div><div class="line">            android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">            android:theme=<span class="string">"@style/AppTheme.AppBarOverlay"</span>&gt;  </div><div class="line">  </div><div class="line">            &lt;android<span class="selector-class">.support</span><span class="selector-class">.v7</span><span class="selector-class">.widget</span><span class="selector-class">.Toolbar</span>  </div><div class="line">                android:id=<span class="string">"@+id/toolbar"</span>  </div><div class="line">                android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">                android:layout_height=<span class="string">"?attr/actionBarSize"</span>  </div><div class="line">                android:<span class="attribute">background</span>=<span class="string">"?attr/colorPrimary"</span>  </div><div class="line">                app:popupTheme=<span class="string">"@style/AppTheme.PopupOverlay"</span> /&gt;  </div><div class="line">  </div><div class="line">        &lt;/android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.AppBarLayout</span>&gt;  </div><div class="line">  </div><div class="line">        &lt;include layout=<span class="string">"@layout/content_main"</span>  </div><div class="line">            android:id=<span class="string">"@+id/content_main"</span>  </div><div class="line">            /&gt;  </div><div class="line">  </div><div class="line">        &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.FloatingActionButton</span>  </div><div class="line">            android:id=<span class="string">"@+id/fab"</span>  </div><div class="line">            android:layout_width=<span class="string">"wrap_content"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">            android:layout_gravity=<span class="string">"bottom|end"</span>  </div><div class="line">            android:layout_margin=<span class="string">"@dimen/fab_margin"</span>  </div><div class="line">            app:srcCompat=<span class="string">"@android:drawable/ic_dialog_email"</span> /&gt;  </div><div class="line">  </div><div class="line">    &lt;/android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.CoordinatorLayout</span>&gt;  </div><div class="line">  </div><div class="line">&lt;/layout&gt;</div></pre></td></tr></table></figure>
+<h2 id="content-main"><a href="#content-main" class="headerlink" title="content_main:"></a>content_main:</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">&lt;layout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </div><div class="line">    xmlns:app=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </div><div class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span>&gt;  </div><div class="line">  </div><div class="line">    &lt;data&gt;  </div><div class="line">        &lt;variable  </div><div class="line">            name=<span class="string">"viewModel"</span>  </div><div class="line">            type=<span class="string">"com.example.mvvmdemo.MainViewModel"</span>/&gt;  </div><div class="line">  </div><div class="line">    &lt;/data&gt;  </div><div class="line">  </div><div class="line">    &lt;LinearLayout  </div><div class="line">        android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">        android:layout_height=<span class="string">"match_parent"</span>  </div><div class="line">        android:<span class="attribute">padding</span>=<span class="string">"@dimen/activity_vertical_margin"</span>  </div><div class="line">        android:orientation=<span class="string">"vertical"</span>  </div><div class="line">        app:layout_behavior=<span class="string">"@string/appbar_scrolling_view_behavior"</span>  </div><div class="line">        tools:context=<span class="string">"com.example.mvvmdemo.MainActivity"</span>  </div><div class="line">        tools:showIn=<span class="string">"@layout/activity_main"</span>&gt;  </div><div class="line">  </div><div class="line">        &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>  </div><div class="line">            android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>&gt;  </div><div class="line">  </div><div class="line">            &lt;EditText  </div><div class="line">                android:id=<span class="string">"@+id/name"</span>  </div><div class="line">                android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">                android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">                android:hint=<span class="string">"姓名"</span>  </div><div class="line">                android:layout_margin=<span class="string">"@dimen/activity_vertical_margin"</span> /&gt;  </div><div class="line">  </div><div class="line">        &lt;/android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>&gt;  </div><div class="line">  </div><div class="line">        &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>  </div><div class="line">            android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>&gt;  </div><div class="line">  </div><div class="line">            &lt;EditText  </div><div class="line">                android:id=<span class="string">"@+id/sex"</span>  </div><div class="line">                android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">                android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">                android:hint=<span class="string">"性别"</span>  </div><div class="line">                android:layout_margin=<span class="string">"@dimen/activity_vertical_margin"</span> /&gt;  </div><div class="line">  </div><div class="line">        &lt;/android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>&gt;  </div><div class="line">  </div><div class="line">  </div><div class="line">        &lt;android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>  </div><div class="line">            android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>&gt;  </div><div class="line">  </div><div class="line">            &lt;EditText  </div><div class="line">                android:id=<span class="string">"@+id/age"</span>  </div><div class="line">                android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">                android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">                android:hint=<span class="string">"年龄"</span>  </div><div class="line">                android:inputType=<span class="string">"number"</span>  </div><div class="line">                android:layout_margin=<span class="string">"@dimen/activity_vertical_margin"</span> /&gt;  </div><div class="line">  </div><div class="line">        &lt;/android<span class="selector-class">.support</span><span class="selector-class">.design</span><span class="selector-class">.widget</span><span class="selector-class">.TextInputLayout</span>&gt;  </div><div class="line">  </div><div class="line">        &lt;Button  </div><div class="line">            android:layout_width=<span class="string">"match_parent"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">            android:text=<span class="string">"提交"</span>  </div><div class="line">            android:onClick=<span class="string">"@&#123;viewModel.applyUser&#125;"</span>/&gt;  </div><div class="line">  </div><div class="line">        &lt;TextView  </div><div class="line">            android:layout_width=<span class="string">"wrap_content"</span>  </div><div class="line">            android:layout_height=<span class="string">"wrap_content"</span>  </div><div class="line">            android:layout_margin=<span class="string">"@dimen/activity_vertical_margin"</span>  </div><div class="line">            android:text=<span class="string">"@&#123;viewModel.user.name + '\n'  + viewModel.user.sex +           '\n' + viewModel.user.age&#125;"</span> /&gt;  </div><div class="line">    &lt;/LinearLayout&gt;  </div><div class="line">  </div><div class="line">&lt;/layout&gt;</div></pre></td></tr></table></figure>
+<p>这里依然是采用MD风格的界面设计，现在我们主要来看<em>content_main</em>中的代码。我们可以看到layout中的代码和上一节中介绍的差不多，但是这里引入了一个叫<em>MainViewModel</em>的类，这个就是笔者提到的ViewModel类。我们可以看到，button中的<code>android:onClick=&quot;@{viewModel.applyUser}&quot;</code>这句代码的作用就是把View层中这个 Button的点击逻辑交给<em> MainViewModel</em>中的<em> applyUser</em>方法处理，并且我们的User类也是通过ViewModel来引用的。<br>上面这个只是ViewModel在这里的其中一个应用而已。下面来看看Activity和ViewModel中的代码。</p>
+<h2 id="MainActivity"><a href="#MainActivity" class="headerlink" title="MainActivity:"></a>MainActivity:</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MainActivity</span> <span class="title">extends</span> <span class="title">AppCompatActivity</span> &#123;  </div><div class="line">  </div><div class="line">    @<span class="function">Override  </span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(<span class="params">Bundle savedInstanceState</span>) &#123;  </div><div class="line">        super.onCreate(savedInstanceState);  </div><div class="line"><span class="comment">//        创建ViewModel          </span></div><div class="line">        ActivityMainBinding activityMainBinding  </div><div class="line">                = DataBindingUtil.setContentView(<span class="keyword">this</span>,R.layout.activity_main);  </div><div class="line">        MainViewModel mainViewModel = <span class="keyword">new</span> MainViewModel(<span class="keyword">this</span>,activityMainBinding);  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">`</div><div class="line"></div><div class="line">MainActivity的代码很简单，它的核心就是创建MainViewModel这一句，其他的逻辑都交给了ViewModel处理。当我们的遇到无法在ViewModel内部处理的业务时（例如菜单监控等），我们可以通过在View层中调用ViewModel的方法来实现。</div><div class="line"></div><div class="line"><span class="meta">## MainViewModel: </span></div><div class="line">```  </div><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MainViewModel</span> &#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> ActivityMainBinding activityMainBinding;  </div><div class="line">    <span class="keyword">private</span> ContentMainBinding contentMainBinding;  </div><div class="line">    <span class="keyword">private</span> AppCompatActivity activity;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> UserBean user;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MainViewModel</span>(<span class="params">AppCompatActivity activity, ActivityMainBinding activityMainBinding</span>)</span>&#123;  </div><div class="line">        <span class="keyword">this</span>.activity = activity;  </div><div class="line">        <span class="keyword">this</span>.activityMainBinding = activityMainBinding;  </div><div class="line">        <span class="keyword">this</span>.contentMainBinding = activityMainBinding.contentMain;  </div><div class="line">        init();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">        activity.setSupportActionBar(activityMainBinding.toolbar);  </div><div class="line">        activityMainBinding.fab.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </div><div class="line">            @<span class="function">Override  </span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">View view</span>) &#123;  </div><div class="line">                Snackbar.make(view, <span class="string">"Replace with your own action"</span>, Snackbar.LENGTH_LONG)  </div><div class="line">                        .setAction(<span class="string">"Action"</span>, <span class="literal">null</span>).show();  </div><div class="line">            &#125;  </div><div class="line">        &#125;);  </div><div class="line">        user = <span class="keyword">new</span> UserBean();  </div><div class="line">        contentMainBinding.setViewModel(<span class="keyword">this</span>);  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyUser</span>(<span class="params">View v</span>)</span>&#123;  </div><div class="line">        Snackbar.make(v,<span class="string">"提交成功"</span>,Snackbar.LENGTH_SHORT).setAction(<span class="string">"Action"</span>,<span class="literal">null</span>).show();  </div><div class="line">        user.name.<span class="keyword">set</span>(contentMainBinding.name.getText().toString());  </div><div class="line">        user.sex.<span class="keyword">set</span>(contentMainBinding.sex.getText().toString());  </div><div class="line">        user.age.<span class="keyword">set</span>(Integer.valueOf(contentMainBinding.age.getText().toString()));  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码中要特别注意的一句代码就是：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">contentMainBinding.setViewModel(<span class="keyword">this</span>);</div></pre></td></tr></table></figure></p>
+<p>这句代码就实现了我们的ViewModel层与View层layout文件的绑定，这样就使得View层中的layout能调用ViewModel中的一些方法，在本例子中就是button控件调用<code>public void applyUser(View v)</code>方法。</p>
+<p>代码很简单，这种方案的核心思想就是：</p>
+<ol>
+<li>View层中通过DataBinding生成Binding实例</li>
+<li>View层把生成的Binding实例传递给ViewModel层</li>
+<li>ViewModel层通过把自身与Binding实例绑定，从而实现View中layout与ViewModel的绑定。</li>
+</ol>
+<p>通过这种方法还有一个好处就是，我们的layout文件中data标签中只需要引入ViewModel就可以了，其它的数据对象统一在ViewModel中处理。</p>
+<p>我们来看看Demo效果图<br><em>初始化：</em><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_demo_layout1.png" alt="初始化Demo"></p>
+<p><em>对User重新复赋值：</em><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvvm/mvvm_demo_layout_2.png" alt="重新赋值"></p>
+<h1 id="网上对于MVVM的一些错误解读"><a href="#网上对于MVVM的一些错误解读" class="headerlink" title="网上对于MVVM的一些错误解读"></a>网上对于MVVM的一些错误解读</h1><p>除了上述提到的使用Binding充当ViewModel层的错误解读外，还有一种大家注意的模式就是所谓的MVPVM模式。这种模式的核心思想就是在MVVM的基础上加上Presenter层。笔者实在是有点搞不懂为什么要这样分层，首先Presenter和ViewModel层都是逻辑控制层，同一个功能没必要分出两层。其次就是笔者认为在APP中分出三层已经能很好地完成任务了，如果分成四层的话不好管理的同时还会增加代码的复杂度，因为你无法很好区分Presenter和ViewModel的具体功能。所以笔者在这里建议，绝对不要使用所谓的MVPVM模式来进行开发。MVVM已经能很好地满足我们的开发需求了。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>对MVVM在Android上的应用到这里就结束了，看过笔者关于MVP模式框架设计的读者应该会知道，这只是个开端。所以笔者在后面会专门写一个系列关于介绍如何设计一个MVVM框架的文章的。在写这个系列文章之前，首先会有一系列的基础技术的介绍和一些技术解决方案，有兴趣的读者请留意哦。<br>老规矩，放出Demo的下载地址：<a href="https://github.com/DobbyTang/MvvmDemo" target="_blank" rel="external">https://github.com/DobbyTang/MvvmDemo</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MVVM模式/" rel="tag">#MVVM模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/27/mvp-structure-five/" rel="next" title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构">
+                <i class="fa fa-chevron-left"></i> Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/04/mvvm-structure-introduction/"
+           data-title="MVVM在Android上的正确使用方式" data-url="http://www.tangpj.com/2016/12/04/mvvm-structure-introduction/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpeg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email：dobbytang123@gmail.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  Linked
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-gift"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是MVVM模式？"><span class="nav-number">1.</span> <span class="nav-text">什么是MVVM模式？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DataBinding简介"><span class="nav-number">2.</span> <span class="nav-text">DataBinding简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是DataBinding"><span class="nav-number">2.1.</span> <span class="nav-text">什么是DataBinding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入DataBinding"><span class="nav-number">2.2.</span> <span class="nav-text">引入DataBinding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用DataBinding"><span class="nav-number">2.3.</span> <span class="nav-text">使用DataBinding</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#大部分MVVM教程的局限性"><span class="nav-number">3.</span> <span class="nav-text">大部分MVVM教程的局限性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何在Android上正确使用MVVM模式"><span class="nav-number">4.</span> <span class="nav-text">如何在Android上正确使用MVVM模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#activity-main-xml"><span class="nav-number">4.1.</span> <span class="nav-text">activity_main.xml :</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#content-main"><span class="nav-number">4.2.</span> <span class="nav-text">content_main:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MainActivity"><span class="nav-number">4.3.</span> <span class="nav-text">MainActivity:</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网上对于MVVM的一些错误解读"><span class="nav-number">5.</span> <span class="nav-text">网上对于MVVM的一些错误解读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tangpj"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>
