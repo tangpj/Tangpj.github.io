@@ -4,14 +4,14 @@
 
     
   <url>
-    <loc>http://www.tangpj.com/2016/11/27/mvp-structure-five/</loc>
-    <lastmod>2016-12-04T14:22:18.000Z</lastmod>
+    <loc>http://www.tangpj.com/2016/12/04/mvvm-structure-introduction/</loc>
+    <lastmod>2016-12-04T14:26:12.000Z</lastmod>
     <data>
         <display>
-        <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构</title>
-        <pubTime>2016-11-27T15:38:22.000Z</pubTime>
+        <title>MVVM在Android上的正确使用方式</title>
+        <pubTime>2016-12-04T14:10:41.000Z</pubTime>
         
-        <tag>MVP开发框架</tag>
+        <tag>MVVM模式</tag>
          
          
            
@@ -24,14 +24,14 @@
 
     
   <url>
-    <loc>http://www.tangpj.com/2016/12/04/mvvm-structure-introduction/</loc>
-    <lastmod>2016-12-04T14:22:17.000Z</lastmod>
+    <loc>http://www.tangpj.com/2016/11/27/mvp-structure-five/</loc>
+    <lastmod>2016-12-04T14:22:18.000Z</lastmod>
     <data>
         <display>
-        <title>MVVM在Android上的正确使用方式</title>
-        <pubTime>2016-12-04T14:10:41.000Z</pubTime>
+        <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(五)，通过组件化开发优化项目的结构</title>
+        <pubTime>2016-11-27T15:38:22.000Z</pubTime>
         
-        <tag>MVVM模式</tag>
+        <tag>MVP开发框架</tag>
          
          
            
