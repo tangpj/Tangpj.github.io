@@ -1,0 +1,876 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android UI," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。摘要：在使用RecyclerView的过程中，笔者发现RecyclerView其实有更多的可能性，在github上也有很多关于RecyclerView的优秀项目。这是笔者发起的一个开源的项目，目前这个项目相对比较简单，对于这个开源库，笔者的期待是能够逐渐添加一些更有趣更高效的使用方式。如果有读者对这个项目有兴趣的话，可以和笔者一起参与到这个库的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你需要的一个RecyclerView工具类">
+<meta property="og:url" content="http://www.tangpj.com/2017/02/17/recyclerviewutils/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。摘要：在使用RecyclerView的过程中，笔者发现RecyclerView其实有更多的可能性，在github上也有很多关于RecyclerView的优秀项目。这是笔者发起的一个开源的项目，目前这个项目相对比较简单，对于这个开源库，笔者的期待是能够逐渐添加一些更有趣更高效的使用方式。如果有读者对这个项目有兴趣的话，可以和笔者一起参与到这个库的">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_decoration.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_lines.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_adapter_1.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_adapter_2.gif">
+<meta property="og:updated_time" content="2017-02-17T12:37:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你需要的一个RecyclerView工具类">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。摘要：在使用RecyclerView的过程中，笔者发现RecyclerView其实有更多的可能性，在github上也有很多关于RecyclerView的优秀项目。这是笔者发起的一个开源的项目，目前这个项目相对比较简单，对于这个开源库，笔者的期待是能够逐渐添加一些更有趣更高效的使用方式。如果有读者对这个项目有兴趣的话，可以和笔者一起参与到这个库的">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_decoration.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2017/02/17/recyclerviewutils/"/>
+
+  <title> 你需要的一个RecyclerView工具类 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你需要的一个RecyclerView工具类
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-17T20:28:14+08:00" content="2017-02-17">
+              2017-02-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/AndroidUI技术/" itemprop="url" rel="index">
+                    <span itemprop="name">AndroidUI技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/17/recyclerviewutils/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/17/recyclerviewutils/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/17/recyclerviewutils/" class="leancloud_visitors" data-flag-title="你需要的一个RecyclerView工具类">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。<br><em>摘要：</em>在使用RecyclerView的过程中，笔者发现RecyclerView其实有更多的可能性，在github上也有很多关于RecyclerView的优秀项目。这是笔者发起的一个开源的项目，目前这个项目相对比较简单，对于这个开源库，笔者的期待是能够逐渐添加一些更有趣更高效的使用方式。如果有读者对这个项目有兴趣的话，可以和笔者一起参与到这个库的开发和维护工作之中。参与的方式不限，读者可以提交自己的优秀代码、通知笔者一些有趣的功能（我会根据实际来实现）、完善项目的README文件都是可以的。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="抛砖引玉"><a href="#抛砖引玉" class="headerlink" title="抛砖引玉"></a>抛砖引玉</h1><p>目前这个库能支持的功能有：封装好的Adapter、支持二级列表功能的Adapter、完善的分割线类（你确定你不是来钓鱼的？）。项目地址是：<a href="https://github.com/DobbyTang/RecyclerUtil" target="_blank" rel="external">https://github.com/DobbyTang/RecyclerUtil</a></p>
+<h1 id="SimpleAdapter"><a href="#SimpleAdapter" class="headerlink" title="SimpleAdapter"></a>SimpleAdapter</h1><p>SimpleAdapter的作用是快速实现Adapter的开发，其中支持的功能是</p>
+<ol>
+<li>快速添加顶部和底部，并且可以根据需要监听底部和顶部的事件</li>
+<li>维护列表数据</li>
+<li>实现点击事件</li>
+<li>简化开发的步骤<br>其中SimpleAdapter的顶部和底部是依赖于RecyclerView的生命周期的，避免了内存溢出和在Fragment中的部分场景使用会导致崩溃的问题。</li>
+</ol>
+<h1 id="SecondaryAdapter"><a href="#SecondaryAdapter" class="headerlink" title="SecondaryAdapter"></a>SecondaryAdapter</h1><p>SecondaryAdapter的作用是实现一个支持二级列表功能的Adapter。可以用于一些特殊的场景中（购物车，二级分类列表等）。</p>
+<h1 id="SimpleDecoration"><a href="#SimpleDecoration" class="headerlink" title="SimpleDecoration"></a>SimpleDecoration</h1><p>的是分割线类，它的作用的快速添加分割线并且支持多种效果。</p>
+<ol>
+<li>线段分割线</li>
+<li>透明分割线</li>
+<li>自定义图片分割线</li>
+<li>自定义分割线的宽度</li>
+</ol>
+<p>笔者在参考一些网上的分割线代码的时候，发现当分割线的宽度过大的时候会出现一个问题：在使用表格类型的布局的时候，由于分割线会占用一定的空间，会影响第一个或最后一个item的大小。文字大家可能比较难以理解，可以看看下面的图解：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_decoration.png" alt=""><br>从上图可以看出问题所在。<br>分割线的绘制原理是通过重新计算Item所占的空间计算出分割线所占的位置，然后在这些位置上绘制线段实现的。上图的纵向分割线笔者是通过在普通Item的右边计算分割线的位置后绘制的，计算出item处于最后一列时则不绘制右边的分割线。所以当item的列数为n的时候，纵向需要绘制的分割线为n - 1。<br>当分割线的宽度不大时这样做时没有问题的，但是当分割线的宽度比较大时，我们会发现由于在最后一列的位置上没有绘制分割线，所以最后一列item的width值实际上是比其它的item要大的，这就造成了item的宽度不一致的问题。<br>SimpleDecoration解决了上述的问题，并且拓展了分割线的功能，我们可以看看SimpleDecoration的实际效果。<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_lines.png" alt=""><br>上图中分割线的宽度时32dp，可以明显看出各个item的大小都是一样的。但是需要注意的是，因为我们纵向分割线的位置和大小都是重新计算过的，所以纵向分割线的宽度会比32dp大一点。</p>
+<h1 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h1><p>由于时间关系，笔者写了个简单的demo供大家参考，如果大家有兴趣的话可以去笔者的github中下载该项目。<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_adapter_1.gif" alt="SimpleAdapter" title="SimpleAdapter"><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/recyclerUtils/recycler_view_adapter_2.gif" alt="SecondaryAdapter" title="SecondaryAdapter"></p>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><h2 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h2><p>首先在工程目录下的build.gradle文件中的allprojects-> repositories下添加<code>maven { url &#39;https://jitpack.io&#39; }</code>如下所示</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">allprojects &#123;  </div><div class="line">    repositories &#123;  </div><div class="line">        ...  </div><div class="line">        maven &#123; url <span class="string">'https://jitpack.io'</span> &#125;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后在需要使用这个库的module目录下的build.gradle文件中添加依赖。<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dependencies</span> &#123;  </div><div class="line">        <span class="keyword">compile</span> <span class="string">'com.github.DobbyTang:RecyclerUtil:1.0.3'</span>  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="SimpleAdapter使用"><a href="#SimpleAdapter使用" class="headerlink" title="SimpleAdapter使用"></a>SimpleAdapter使用</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestSimpleAdapter</span> <span class="keyword">extends</span> <span class="title">SimpleAdapter&lt;UserBean&gt;</span></span>&#123;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    public <span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> onCreateNormalView(<span class="type">ViewGroup</span> parent) &#123;  </div><div class="line">        <span class="type">View</span> view = <span class="type">LayoutInflater</span>.from(parent.getContext()).inflate(<span class="type">R</span>.layout.itemuser,parent,<span class="literal">false</span>);  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">UserHolder</span>(view);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    public void onBindNormalView(<span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> normalHolder, int position, <span class="type">UserBean</span> value) &#123;  </div><div class="line">        ((<span class="type">UserHolder</span>) normalHolder).name.setText(value.name);  </div><div class="line">        ((<span class="type">UserHolder</span>) normalHolder).age.setText(value.age + <span class="string">""</span>);  </div><div class="line">        ((<span class="type">UserHolder</span>) normalHolder).sex.setText(value.sex);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">UserHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;  </div><div class="line">  </div><div class="line">        <span class="type">TextView</span> name;  </div><div class="line">        <span class="type">TextView</span> age;  </div><div class="line">        <span class="type">TextView</span> sex;  </div><div class="line">  </div><div class="line">        public <span class="type">UserHolder</span>(<span class="type">View</span> itemView) &#123;  </div><div class="line">            <span class="keyword">super</span>(itemView);  </div><div class="line">            name = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.itemusername);  </div><div class="line">            age = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.itemuserage);  </div><div class="line">            sex = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.itemusersex);  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看出，SimpleAdapter的使用方法和普通的RecyclerView.Adapter的使用方法是差不多的，但是SimpleAdapter简洁很多。 我们只定义一个ViewHolder，然后覆盖onCreateNormalView()和onBindNormalView()方法就可以完成一个简单的Adapter了。如果你想添加Header和footer的话也很简单，只需要覆盖<code>setHeaderView()</code>和<code>setFooterView()</code>方法就可以了。如果需要对header和footer进行监听或数据绑定，只需要分别覆盖<code>onBindHeaderView()</code>和<code>onBindFooterView()</code>即可。<br>完整代码如下：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span>  </div><div class="line">public int setHeaderView() &#123;  </div><div class="line">    return R<span class="selector-class">.layout</span><span class="selector-class">.header_user</span>;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="variable">@Override</span>  </div><div class="line">public int setFooterView() &#123;  </div><div class="line">    return R<span class="selector-class">.layout</span><span class="selector-class">.footer_user</span>;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void onBindHeaderView(View header) &#123;  </div><div class="line">    <span class="selector-tag">header</span><span class="selector-class">.findViewById</span>(R.id.header_button)  </div><div class="line">            <span class="selector-class">.setOnClickListener</span>(new View.OnClickListener() &#123;  </div><div class="line">                <span class="variable">@Override</span>  </div><div class="line">                public void onClick(View v) &#123;  </div><div class="line">                    Snackbar<span class="selector-class">.make</span>(v,<span class="string">"点击Header上的Button"</span>,Snackbar.LENGTH_SHORT)<span class="selector-class">.show</span>();  </div><div class="line">                &#125;  </div><div class="line">    &#125;);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">@<span class="selector-tag">Override</span>  </div><div class="line"><span class="selector-tag">public</span> <span class="selector-tag">void</span> <span class="selector-tag">onBindFooterView</span>(View footer) &#123;  </div><div class="line">    <span class="selector-tag">footer</span><span class="selector-class">.findViewById</span>(R.id.footer_button)  </div><div class="line">            <span class="selector-class">.setOnClickListener</span>(new View.OnClickListener() &#123;  </div><div class="line">                <span class="variable">@Override</span>  </div><div class="line">                public void onClick(View v) &#123;  </div><div class="line">                    Snackbar<span class="selector-class">.make</span>(v,<span class="string">"点击Footer上的Button"</span>,Snackbar.LENGTH_SHORT)<span class="selector-class">.show</span>();  </div><div class="line">                &#125;  </div><div class="line">            &#125;);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>完成Adapter后的使用方法和普通的Apapter一样。<br><figure class="highlight abnf"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">adapter</span> = new TestSimpleAdapter()<span class="comment">;  </span></div><div class="line">list.setLayoutManager(new LinearLayoutManager(getActivity()))<span class="comment">;  </span></div><div class="line">list.setAdapter(adapter)<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>当我们需要设置Adapter的数据时，只需要调用<code>SimpleAdapter</code>的<code>setData()</code>方法即可，更多的使用方法请查看源码注释。</p>
+<h2 id="SecondaryAdapter-使用"><a href="#SecondaryAdapter-使用" class="headerlink" title="SecondaryAdapter 使用"></a>SecondaryAdapter 使用</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span>  </div><div class="line">public <span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> onCreateGroupHolder(<span class="type">ViewGroup</span> parent) &#123;  </div><div class="line">    <span class="type">View</span> view = <span class="type">LayoutInflater</span>.from(parent.getContext())  </div><div class="line">            .inflate(<span class="type">R</span>.layout.friendgroupitem,parent,<span class="literal">false</span>);  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">TitleHolder</span>(view);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="meta">@Override</span>  </div><div class="line">public <span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> onCreateChildHolder(<span class="type">ViewGroup</span> parent) &#123;  </div><div class="line">    <span class="type">View</span> view = <span class="type">LayoutInflater</span>.from(parent.getContext())  </div><div class="line">            .inflate(<span class="type">R</span>.layout.friendsubitem,parent,<span class="literal">false</span>);  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">FriendHolder</span>(view);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="meta">@Override</span>  </div><div class="line">public void onBindGroupHolder(<span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> holder, <span class="type">FriendGroupBean</span> friendGroupBean) &#123;  </div><div class="line">    ((<span class="type">TitleHolder</span>)holder).groupName.setText(friendGroupBean.title);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="meta">@Override</span>  </div><div class="line">public void onBindChildHolder(<span class="type">RecyclerView</span>.<span class="type">ViewHolder</span> holder, <span class="type">UserBean</span> userBean) &#123;  </div><div class="line">    ((<span class="type">FriendHolder</span>) holder).name.setText(userBean.name);  </div><div class="line">    ((<span class="type">FriendHolder</span>) holder).age.setText(userBean.age + <span class="string">""</span>);  </div><div class="line">    ((<span class="type">FriendHolder</span>) holder).sex.setText(userBean.sex);  </div><div class="line">    <span class="keyword">if</span> (userBean.imgId != <span class="number">0</span>)&#123;  </div><div class="line">        ((<span class="type">FriendHolder</span>) holder).avatar.setImageResource(userBean.imgId);  </div><div class="line">    &#125;<span class="keyword">else</span> &#123;  </div><div class="line">        ((<span class="type">FriendHolder</span>) holder).avatar.setImageResource(<span class="type">R</span>.mipmap.iclauncher);  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">public static <span class="class"><span class="keyword">class</span> <span class="title">TitleHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;  </div><div class="line">  </div><div class="line">    <span class="type">TextView</span> groupName;  </div><div class="line">  </div><div class="line">    public <span class="type">TitleHolder</span>(<span class="type">View</span> itemView) &#123;  </div><div class="line">        <span class="keyword">super</span>(itemView);  </div><div class="line">        groupName = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.title);  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">FriendHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span></span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> <span class="type">ImageView</span> avatar;  </div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> name;  </div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> age;  </div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> sex;  </div><div class="line">  </div><div class="line">    public <span class="type">FriendHolder</span>(<span class="type">View</span> itemView) &#123;  </div><div class="line">        <span class="keyword">super</span>(itemView);  </div><div class="line">        avatar = (<span class="type">ImageView</span>) itemView.findViewById(<span class="type">R</span>.id.friendsubavatar);  </div><div class="line">        name = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.friendsubname);  </div><div class="line">        age = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.friendsubage);  </div><div class="line">        sex = (<span class="type">TextView</span>) itemView.findViewById(<span class="type">R</span>.id.friendsubsex);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>SecondaryAdapter的使用方法也十分简单，和普通的Adapter的区别是需要分别编写两个ViewHolder和分别创建布局即可，使用方法也和普通的Adapter一致。其中需要注意的是设置数据的方法。</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;FriendGroupBean&gt; <span class="built_in">data</span>;  </div><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">List</span>&lt;UserBean&gt;&gt; userList = <span class="literal">new</span> ArrayList&lt;&gt;();  </div><div class="line">adapter.setData(<span class="built_in">data</span>,userList);</div></pre></td></tr></table></figure>
+<p>其中setData()的第一个参数是List\<friendgroupbean\>，第二个参数是List\<list\<userbean\>>，第二个参数是一个二维列表，这点需要大家注意。更详细的使用方法读者可以查看源码注释哦。</list\<userbean\></friendgroupbean\></p>
+<h2 id="SimpleDecoration-使用"><a href="#SimpleDecoration-使用" class="headerlink" title="SimpleDecoration 使用"></a>SimpleDecoration 使用</h2><p>SimpleDecoration提供了多个工厂方法，分别是：</p>
+<ol>
+<li>newTransparentDivider(Context context),创建默认透明分割线，默认宽度为16dp</li>
+<li>newTransparentDivider(Context context, int interva)，创建指定宽度的透明分割线</li>
+<li>newLinesDivider(Context context)，创建普通的分割线，默认宽度为1dp</li>
+<li>newLinesDivider(Context context, int interval)，创建指定宽度的普通分割线</li>
+<li>newDrawableDivider(Context context, int interval , @DrawableRes int drawableId)，创建指定图片和指定宽度的分割线。</li>
+<li>newDrawableDivider(Context context, int interval, Drawable drawable)同上</li>
+</ol>
+<p>通过工厂方法创建出需要的分割线对象后，调用RecyclerView的addItemDecoration()添加到RecyclerView中即可。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>这就是目前的RecyclerViewUtil工具类中提供的主要功能，功能虽然不多，但是这些都是我们在日常开发中经常遇到的问题。在后续维护中，笔者会进一步提供封装好的RecyclerView相关的Fragment,Activity等。我也希望读者在使用的过程中有什么有趣的想法和建议的话，可以联系本人进行开发，笔者会斟酌开发的。当然，通过github发起pull requests共同完善这个项目也是极好的。</p>
+<p><a href="http://tangpj.com/2016/12/04/mvvm-structure-introduction/" title="MVVM在Android上的正确使用方式" target="_blank" rel="external"></a><br><a href="http://tangpj.com/2016/09/23/mvp-structure-one/" title="Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇" target="_blank" rel="external"></a><br><a href="http://tangpj.com/2016/09/11/searchview/" title="Android SearchView的高级用法，解决关于SearchView的样式与控制问题" target="_blank" rel="external"></a><br><a href="http://tangpj.com/2016/08/12/fresco_zoomable/" title="使用fresco实现Android图片手势缩放功能" target="_blank" rel="external"></a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-UI/" rel="tag">#Android UI</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/04/mvvm-structure-introduction/" rel="next" title="MVVM在Android上的正确使用方式">
+                <i class="fa fa-chevron-left"></i> MVVM在Android上的正确使用方式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/17/recyclerviewutils/"
+           data-title="你需要的一个RecyclerView工具类" data-url="http://www.tangpj.com/2017/02/17/recyclerviewutils/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpeg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email：dobbytang123@gmail.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  Linked
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-gift"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抛砖引玉"><span class="nav-number">1.</span> <span class="nav-text">抛砖引玉</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SimpleAdapter"><span class="nav-number">2.</span> <span class="nav-text">SimpleAdapter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SecondaryAdapter"><span class="nav-number">3.</span> <span class="nav-text">SecondaryAdapter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SimpleDecoration"><span class="nav-number">4.</span> <span class="nav-text">SimpleDecoration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#效果展示"><span class="nav-number">5.</span> <span class="nav-text">效果展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用方法"><span class="nav-number">6.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导入库"><span class="nav-number">6.1.</span> <span class="nav-text">导入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SimpleAdapter使用"><span class="nav-number">6.2.</span> <span class="nav-text">SimpleAdapter使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SecondaryAdapter-使用"><span class="nav-number">6.3.</span> <span class="nav-text">SecondaryAdapter 使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SimpleDecoration-使用"><span class="nav-number">6.4.</span> <span class="nav-text">SimpleDecoration 使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"tangpj"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>
