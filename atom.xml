@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2017-04-24T08:01:43.000Z</updated>
+  <updated>2017-05-02T09:00:54.000Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -14,6 +14,220 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android（Java）日期和时间处理完全解析——使用Gson和Joda-Time优雅地处理日常开发中关于时间处理的问题</title>
+    <link href="http://www.tangpj.com/2017/05/02/dateformat/"/>
+    <id>http://www.tangpj.com/2017/05/02/dateformat/</id>
+    <published>2017-05-02T08:27:08.000Z</published>
+    <updated>2017-05-02T09:00:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/date/date_clock.jpg" alt=""></p>
+<blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p><em>简介：</em>对于Android和Java开发者来说，时间的处理是我们必须掌握的知识。如果你尝试过造时间处理方面的轮子的话，你就会知道，关于时间的处理是一个非常复杂的问题。我们在处理时间时需要把时间转化成能让计算机理解的形式，而Java 8之前的库对日期和时间的支持是非常不理想的。Java 8种提供了全新的时间API供我们使用，这些API在java.time包下。Android开发者需要注意的是，虽然Android Studio 2.4已经开始支持Java 8了，但是却无法导入java.time包下的类文件，这个问题应该是Android Studio的BUG。因为这个原因，所以笔者在这里介绍的是Java 8之前如何处理好时间和日期相关的问题。</p>
+<a id="more"></a>
+<h2 id="Java旧版本时间API的简介"><a href="#Java旧版本时间API的简介" class="headerlink" title="Java旧版本时间API的简介"></a>Java旧版本时间API的简介</h2><p>在Java 1.0中，对日期和时间的处理只能够以来java.util.Date类。正如类名所表达的，这个类无法表示日期，只能以毫秒的精度表示时间。更糟糕的是它的易用性，由于某些设计决策，这个类的易用性被深深地损害了，比如：年份的起始选择是1900年，月份的起始选择是0。这意味着，如果你要表示2017年4月30日的话，需要创建下面这样的Date实例：<br><code>Date date = new Date(117,3,30);</code><br>它的打印效果为：<br>Sun Apr 30 00:00:00 CST 2017<br>看起来不是十分直观。此外，Date类的toString方法返回的字符串也很容易误导人。以我们的例子而言，它的返回值中甚至还包含了时区CST，即中国时间。但这并不表示Date类在任何方面支持时区。<br>随着Java 1.0退出历史的舞台，Date类的种种问题和限制几乎一扫而光，但是很明显，这些问题的解决是伴随着兼容性的牺牲的。所以在Java 1.1中，Date类的很多方法都被废弃了。取而代之的是java.util.Calendar类。很不幸，Calendar类也有类似的问题和设计缺陷。导致使用这些方法写出的代码非常容易出错。比如，月份依旧是从0开始计算的。而更糟糕的是，同时存在Date和Calendar这两个类也增加了程序员的困惑。此外，有的特性只在某一个类有提供，比如用于以语言无关方式格式化和解析日期或时间的DateFormat方法就只在Date里面有。<br>DateFormat方法也有它自己的问题。比如，它不是线程安全的。<br>最后，Date和Calendar类都是可变的，想下将2017年4月30日改变为2017年5月1日的后果？这种设计会将你拖入维护的噩梦。<br>所以我们需要一个第三方的日期和时间库。在这里我们介绍的是Joda-Time。Java 8中java.time包中整合了很多Joda-Time的特性。</p>
+<h2 id="Joda-Time的简单介绍"><a href="#Joda-Time的简单介绍" class="headerlink" title="Joda-Time的简单介绍"></a>Joda-Time的简单介绍</h2><p>引入MAVEN依赖<br><code>compile &#39;net.danlew:android.joda:2.9.9&#39;</code></p>
+<h3 id="核心类介绍"><a href="#核心类介绍" class="headerlink" title="核心类介绍"></a>核心类介绍</h3><ul>
+<li><em>Instant: </em>不可变的类，用来表示时间轴上一个瞬时的点</li>
+<li><em>DateTime: </em>不可变的类，用来替换JDK的Calendar类</li>
+<li><em>LocalDate: </em>不可变的类，表示一个本地的日期，而不包含时间部分（没有时区信息）</li>
+<li><em>LocalTime: </em>    不可变的类，表示一个本地的时间，而不包含日期部分（没有时区信息）</li>
+<li><em>LocalDateTime: </em>不可变的类，表示一个本地的日期－时间（没有时区信息）</li>
+</ul>
+<h3 id="DateTime简介"><a href="#DateTime简介" class="headerlink" title="DateTime简介"></a>DateTime简介</h3><p>DateTime是我们用得比较多的一个类，在这里笔者简单介绍下它的使用方法。首先我们来介绍下它的构造方法。</p>
+<ul>
+<li>DateTime()：这个无参的构造方法会创建一个在当前系统所在时区的当前时间，精确到毫秒。</li>
+<li>DateTime(long instant)：接受一个一个long类型的时间戳（它表示这个时间戳距1970-01-01T00:00:00Z的毫秒数）。创建时间实例，使用默认的时区。</li>
+<li>DateTime(Object instant)：这个构造方法可以通过一个Object对象构造一个实例。这个Object对象可以是这些类型：ReadableInstant, String, Calendar和Date。其中String的格式需要是ISO8601格式，详见：<a href="http://www.joda.org/joda-time/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser--" title="ISODateTimeFormat.dateTimeParser()" target="_blank" rel="external">ISODateTimeFormat.dateTimeParser()</a>。</li>
+<li>DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute)：这个构造方法可以根据具体的时间构造一个实例。</li>
+</ul>
+<h4 id="DateTime常用API"><a href="#DateTime常用API" class="headerlink" title="DateTime常用API"></a>DateTime常用API</h4><p>下面我们来介绍一下，DateTime类中常用的API。</p>
+<h5 id="get方法集合（如getYear）："><a href="#get方法集合（如getYear）：" class="headerlink" title="get方法集合（如getYear）："></a>get方法集合（如getYear）：</h5><p>get系列方法主要用于获取DateTime的一些具体信息，我们可以通过方法名来推断具体的作用。如getDayForYear，这个方法的作用是获取该DateTime实例属于该年的第几天。我们可以看看2017年4月30日这个例子。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">DateTime dateTime = new DateTime(<span class="number">2017</span>,<span class="number">04</span>,<span class="number">30</span>,<span class="number">0</span>,<span class="number">0</span>);  </div><div class="line">System.out.println(<span class="string">"这天是2017年的第"</span> + dateTime.getDayOfYear() + <span class="string">"天"</span>);</div></pre></td></tr></table></figure></p>
+<p>我们可以看看输出的打印的结果是：<br>这天是2017年的第120天<br>Joda-Time会自动帮我们处理闰年与月份的问题，好了我们现在可以打开日历软件看看这天是不是2017年的第30天了。<br>get方法集还有很多十分有用的API，读者可以自己体验下。</p>
+<h5 id="with方法集合（如withYear）："><a href="#with方法集合（如withYear）：" class="headerlink" title="with方法集合（如withYear）："></a>with方法集合（如withYear）：</h5><p>with方法集合主要是用来设置DateTime实例的一些属性的，如我们可以把2017年4月30日设置为2017年3月30日。上文提到过，DateTime是不可变类，所以with系列方法并没有改变原对象的属性，而是返回了一个新的对象。下面我们可以看看我们将2017年4月30日设置为2017年3月30日的代码。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DateTime dateTime = new DateTime(<span class="number">2017</span>,<span class="number">04</span>,<span class="number">30</span>,<span class="number">0</span>,<span class="number">0</span>);  </div><div class="line">DateTime withDateTime = dateTime.withMonthOfYear(<span class="number">3</span>);  </div><div class="line">System.out.println(withDateTime);</div></pre></td></tr></table></figure></p>
+<p>打印的结果是：2017-03-30T00:00:00.000Z<br>我们可以看到，月份已经变为3月了。</p>
+<h5 id="plus-minus方法集合（如：plusDay）"><a href="#plus-minus方法集合（如：plusDay）" class="headerlink" title="plus/minus方法集合（如：plusDay）"></a>plus/minus方法集合（如：plusDay）</h5><p>plus方法集合的功能是返回DateTime实例的某个属性增加／减少一定的时间后的实力。这里我们需要注意的一点是，我们可以把plus/minus方法集合想象成翻日历牌一样，所有的计算都是合法的，并不会出现输入一场的情况。下面我们可以来看看把2017年4月30增加3天的例子。<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">DateTime dateTime = new DateTime(<span class="number">2017</span>,<span class="number">04</span>,<span class="number">30</span>,<span class="number">0</span>,<span class="number">0</span>);  </div><div class="line">DateTime plusDays = dateTime.plusDays(<span class="number">3</span>);  </div><div class="line">System.out.println(plusDays);</div></pre></td></tr></table></figure></p>
+<p>打印的结果是：2017-05-03T00:00:00.000Z<br>这系列运算并不会抛出异常或返回2017年4月33日这样的错误结果的。</p>
+<p>由于这篇文章的重点不是介绍Joda-Time这个库，所以关于Joda-Time的介绍到这里就结束了，有兴趣的读者可以阅读官方API文档或者去看一些优秀的Blog加深理解也是可以的。下面我们来介绍本文的重点了，我们如何在Android日常开发中优雅地处理时间相关的问题。</p>
+<h2 id="通过Gson优雅地处理时间"><a href="#通过Gson优雅地处理时间" class="headerlink" title="通过Gson优雅地处理时间"></a>通过Gson优雅地处理时间</h2><p>首先给大家看一则最近的热门微博话题下的一则微博。<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/date/date_weibo_hot.png" alt="" title="微博热门话题"><br>我们主要关注笔者标记的两个时间，可以看到微博是把时间转化为更容易让我们理解的形式来表示的。我们来分析下各个时间段微博的现实形式，以2017年5月1日 22:00:00是现在为例。</p>
+<ul>
+<li>2017年5月1日 22:00:40   ->  40秒前</li>
+<li>2017年5月1日 22:40:05   ->  40分钟前</li>
+<li>2017年5月1日 10:30:20    ->  今天10:30</li>
+<li>2017年4月30日 10:30:32 ->  昨天10:30</li>
+<li>2017年3月20日 20:30:30 ->  3月20日 20:30</li>
+<li>2014年3月20日 17:20:00  ->  2014年3月20日 17:20</li>
+</ul>
+<p>我们可以看到微博会按照一定的规律对时间进行格式化，格式化后的效果笔者认为更适合阅读微博时的时间显示。一般使用Date或Calendar进行实现类似的功能会有两个问题：</p>
+<ol>
+<li>代码不够优雅</li>
+<li>实现该功能十分繁琐</li>
+</ol>
+<p>那么我们如何优雅的处理这个问题呢？答案就是通过Gson和Joda-Time。服务器回传过来的时间数据一般是一串类似格式的字符串（微博采用的就是该格式）：<br><code>&quot;Tue Apr 25 23:33:03 +0800 2017&quot;</code></p>
+<h3 id="使用Gson把时间字符串转换成Date类型"><a href="#使用Gson把时间字符串转换成Date类型" class="headerlink" title="使用Gson把时间字符串转换成Date类型"></a>使用Gson把时间字符串转换成Date类型</h3><p>我们知道Gson可以把Json数据转化成任何我们需要的类型，那么这串关于时间的字符串用Gson当然也能够轻易转化为Date类型啦。那我我们如何使用Gson来处理呢？我们先来看看使用Gson进行处理的代码：<br>首先我们要创建能解析上面格式时间的Gson实例：<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="type">Gson</span> gson = <span class="function"><span class="keyword">new</span> <span class="title">GsonBuilder</span>()  </span></div><div class="line">                  <span class="comment">//设置需要解析的时间格式  </span></div><div class="line">		.<span class="title">setDateFormat</span>("<span class="type">EEE</span> <span class="type">MMM</span> dd <span class="type">HH</span>:mm:ss <span class="type">Z</span> yyyy")  </div><div class="line">		.<span class="title">create</span>();</div></pre></td></tr></table></figure></p>
+<p>setDateFormat的参数内容我们暂时先放下，在下一节笔者我详细解释这串字符串的含义的。</p>
+<p>我们可以模拟下解析微博内容来测试下，我们需要解析的数据是：<br>{“date”:”Tue May 02 10:02:03 +0800 2017”,”text”:”Hello word”}</p>
+<p><em>微博实体类：</em><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Weibo &#123;  </div><div class="line">	<span class="comment">//微博创建时间  </span></div><div class="line">	<span class="keyword">public</span> Date date;  </div><div class="line">  </div><div class="line">	<span class="comment">//正文  </span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">String</span> <span class="built_in">text</span>;  </div><div class="line">  </div><div class="line">	<span class="keyword">public</span> Weibo(<span class="keyword">String</span> date ,<span class="keyword">String</span> <span class="built_in">text</span>)&#123;  </div><div class="line">		<span class="keyword">this</span>.date = <span class="keyword">new</span> Date(date);  </div><div class="line">		<span class="keyword">this</span>.<span class="built_in">text</span> = <span class="built_in">text</span>;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	@Override  </div><div class="line">	<span class="keyword">public</span> <span class="keyword">String</span> toString() &#123;  </div><div class="line">		<span class="built_in">return</span> <span class="string">"这条微博创建的时间是："</span> + date + <span class="string">"\n微博正文："</span> + <span class="built_in">text</span> ;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>使用Gson解析</em><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Weibo weobo = gson.fromJson(json,Weibo.<span class="keyword">class</span>);  </div><div class="line">System.out.<span class="built_in">println</span>(weobo);</div></pre></td></tr></table></figure></p>
+<p>打印的结果：<br>这条微博创建的时间是：Tue May 02 10:02:03 CST 2017<br>微博正文：Hello word</p>
+<p>这里我们需要注意一点是，使用上面创建的gson来直接解析时间会报错的。如：<br><code>Date date = gson.fromJson(&quot;Tue May 02 10:02:03 +0800 2017&quot;,Date.class);</code><br>上面这行代码会抛出一个JsonSyntaxException异常。</p>
+<p>这个错误是和Gson有关，我们日常使用的情况下，基本不会遇到直接解析Date数据的需求的，所以这种情况我们可以不做处理。如果想解决这个问题的话，我们可以重写一个用于解析时间的TyepAdapter来处理，在这里就不细说下去了。</p>
+<h3 id="通过Joda-Time把时间转换成更容易理解的格式"><a href="#通过Joda-Time把时间转换成更容易理解的格式" class="headerlink" title="通过Joda-Time把时间转换成更容易理解的格式"></a>通过Joda-Time把时间转换成更容易理解的格式</h3><p>根据上文的分析，我们需要把时间转换成类似微博这种表现形式的话，需要把获取到的时间和系统当前时间进行比较，然后再转换。我们先来看看代码：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> class DateFormatUtil &#123;  </div><div class="line">  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ONE_SECOND_AGO = <span class="string">"秒前"</span>;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">String</span> ONE_MINUTE_AGO = <span class="string">"分钟前"</span>;  </div><div class="line">  </div><div class="line">	@SuppressLint(<span class="string">"SimpleDateFormat"</span>)  </div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">String</span> format(Date date) &#123;  </div><div class="line">                 <span class="comment">//把时区转换为东8区  </span></div><div class="line">                 TimeZone timeZone = TimeZone.getTimeZone(<span class="string">"GMT+8"</span>);  </div><div class="line">                 DateTimeZone.setDefault(DateTimeZone.forTimeZone(timeZone));  </div><div class="line">  </div><div class="line">		DateTime nowDateTime = DateTime.now();  </div><div class="line">		DateTime dateTime = <span class="keyword">new</span> DateTime(date);  </div><div class="line">		<span class="keyword">return</span> formatDate(dateTime,nowDateTime);  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	@SuppressLint(<span class="string">"SimpleDateFormat"</span>)  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">String</span> formatDate(DateTime dateTime,DateTime nowDateTime)&#123;  </div><div class="line">		<span class="built_in">int</span> seconds = Seconds.secondsBetween(dateTime,nowDateTime).getSeconds();  </div><div class="line">		<span class="keyword">if</span> (seconds &lt; <span class="number">60</span>) &#123;  </div><div class="line">			<span class="keyword">return</span> seconds + ONE_SECOND_AGO;  </div><div class="line">		&#125;  </div><div class="line">  </div><div class="line">		<span class="built_in">int</span> minutes = Minutes.minutesBetween(dateTime,nowDateTime).getMinutes();  </div><div class="line">		<span class="keyword">if</span> (minutes &lt; <span class="number">60</span>) &#123;  </div><div class="line">			<span class="keyword">return</span> minutes + ONE_MINUTE_AGO;  </div><div class="line">		&#125;  </div><div class="line">  </div><div class="line">		<span class="built_in">int</span> <span class="built_in">day</span> = nowDateTime.getDayOfYear() - dateTime.getDayOfYear();  </div><div class="line">		<span class="built_in">int</span> <span class="built_in">year</span> = nowDateTime.getYear() - dateTime.getYear();  </div><div class="line">		<span class="keyword">if</span> (<span class="built_in">year</span> &lt; <span class="number">1</span> &amp;&amp; <span class="built_in">day</span> &lt; <span class="number">1</span>) &#123;  </div><div class="line">			SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"今天 HH:mm"</span>);  </div><div class="line">			<span class="keyword">return</span> simpleDateFormat.format(dateTime.toDate());  </div><div class="line">		&#125;  </div><div class="line">  </div><div class="line">		<span class="keyword">if</span> (<span class="built_in">year</span> &lt; <span class="number">1</span> &amp;&amp; <span class="built_in">day</span> &lt; <span class="number">2</span>) &#123;  </div><div class="line">			SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"昨天 HH:mm"</span>);  </div><div class="line">			<span class="keyword">return</span> simpleDateFormat.format(dateTime.toDate());  </div><div class="line">		&#125;  </div><div class="line">		<span class="keyword">if</span> (<span class="built_in">year</span> &lt; <span class="number">1</span>) &#123;  </div><div class="line">			SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"MM月dd日 HH:mm"</span>);  </div><div class="line">			<span class="keyword">return</span> simpleDateFormat.format(dateTime.toDate());  </div><div class="line">		&#125;  </div><div class="line">  </div><div class="line">		SimpleDateFormat simpleDateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy年MM月dd日 HH:mm"</span>);  </div><div class="line">		<span class="keyword">return</span> simpleDateFormat.format(dateTime.toDate());  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们可以看到，代码十分简单，只是把对微博时间处理的分析结果简单地转化为代码而已。只是简单地把上面分析的结果转化成代码而已。<br>现在我们来测试下DateFormatUtil这个类吧，假设现在的时间是2017年5月2日14点43分，我们的测试代码是：<br><figure class="highlight gauss"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Date</span> date0 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Tue May 02 14:43:03 +0800 2017"</span>);  </div><div class="line"><span class="built_in">Date</span> date1 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Tue May 02 14:08:03 +0800 2017"</span>);  </div><div class="line"><span class="built_in">Date</span> date2 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Tue May 02 02:00:03 +0800 2017"</span>);  </div><div class="line"><span class="built_in">Date</span> date3 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Mon May 1 09:32:13 +0800 2017"</span>);  </div><div class="line"><span class="built_in">Date</span> date4 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Tue Apr 25 23:33:03 +0800 2017"</span>);  </div><div class="line"><span class="built_in">Date</span> date5 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">"Thu Aug 4 12:03:03 +0800 2016"</span>);  </div><div class="line">  </div><div class="line">  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date0));  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date1));  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date2));  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date3));  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date4));  </div><div class="line"><span class="keyword">System</span>.out.println(DateFormatUtil.<span class="keyword">format</span>(date5));</div></pre></td></tr></table></figure></p>
+<p>输出结果：<br>1分钟前<br>36分钟前<br>今天 02:00<br>昨天 09:32<br>04月25日 23:33<br>2016年08月04日 12:03</p>
+<p>为了方便大家理解笔者删除了部分不重要的代码，只留下核心代码供大家学习，各位可以根据实际需求修改后再使用。</p>
+<h2 id="DateFormat使用介绍与字段解析"><a href="#DateFormat使用介绍与字段解析" class="headerlink" title="DateFormat使用介绍与字段解析"></a>DateFormat使用介绍与字段解析</h2><p>前文在介绍使用Gson解析Date数据的时候出现过一行这样的代码：<br><code>setDateFormat(&quot;EEE MMM dd HH:mm:ss Z yyyy&quot;)</code><br>很多朋友对”EEE MMM dd HH:mm:ss Z yyyy”这个字符串处于一知半解的状况，这个字符串是用来控制时间的格式的，我们首先简单了解下各个字母的作用与其含义。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th style="text-align:center">日期或时间元素</th>
+<th style="text-align:center">表示</th>
+<th style="text-align:center">例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">G</td>
+<td style="text-align:center">Era 标志符</td>
+<td style="text-align:center">Text</td>
+<td style="text-align:center">AD</td>
+</tr>
+<tr>
+<td style="text-align:center">y</td>
+<td style="text-align:center">年</td>
+<td style="text-align:center">Year</td>
+<td style="text-align:center">1971; 71</td>
+</tr>
+<tr>
+<td style="text-align:center">M</td>
+<td style="text-align:center">年中的月份</td>
+<td style="text-align:center">Month</td>
+<td style="text-align:center">July; Jul; 07</td>
+</tr>
+<tr>
+<td style="text-align:center">w</td>
+<td style="text-align:center">年中的周数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">13</td>
+</tr>
+<tr>
+<td style="text-align:center">W</td>
+<td style="text-align:center">月份中的周数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">D</td>
+<td style="text-align:center">年中的天数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">232</td>
+</tr>
+<tr>
+<td style="text-align:center">d</td>
+<td style="text-align:center">月份中的天数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">F</td>
+<td style="text-align:center">月份中的星期</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">E</td>
+<td style="text-align:center">星期中的天数</td>
+<td style="text-align:center">Text</td>
+<td style="text-align:center">Tuesday; Tue</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">Am/pm 标记</td>
+<td style="text-align:center">Text</td>
+<td style="text-align:center">PM</td>
+</tr>
+<tr>
+<td style="text-align:center">H</td>
+<td style="text-align:center">一天中的小时数（0-23）</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">12</td>
+</tr>
+<tr>
+<td style="text-align:center">k</td>
+<td style="text-align:center">一天中的小时数（1-24）</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">24</td>
+</tr>
+<tr>
+<td style="text-align:center">K</td>
+<td style="text-align:center">am/pm 中的小时数（0-11）</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">h</td>
+<td style="text-align:center">am/pm 中的小时数（1-12）</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">12</td>
+</tr>
+<tr>
+<td style="text-align:center">m</td>
+<td style="text-align:center">小时中的分钟数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">30</td>
+</tr>
+<tr>
+<td style="text-align:center">s</td>
+<td style="text-align:center">分钟中的秒数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">55</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td style="text-align:center">毫秒数</td>
+<td style="text-align:center">Number</td>
+<td style="text-align:center">978</td>
+</tr>
+<tr>
+<td style="text-align:center">z</td>
+<td style="text-align:center">时区</td>
+<td style="text-align:center">General time zone</td>
+<td style="text-align:center">Pacific Standard Time; PST; GMT-08:00</td>
+</tr>
+<tr>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">时区</td>
+<td style="text-align:center">RFC 822 time zone</td>
+<td style="text-align:center">-0800</td>
+</tr>
+</tbody>
+</table>
+<p>需要特别注意的是：字符是区分大小写的，如HH:mm:ss中HH是代表小时采用24小时制，而hh则表示采用12小时制。<br>那么我们的字母的数量代表什么意思呢？还是使用上面的例子：<br>“EEE MMM dd HH:mm:ss Z yyyy”<br>其中我们星期中的天数E，年中的月份M的格式为EEE MMM。这样写的作用是最多显示3位的意思。那么HH就是代表小时采用24小时制并显示两位数字，yyyy则代表年份为4位。上面格式对应的一个时间例如如下：<br>“ Tue May 02 14:43:03 +0800 2017”<br>“ 17年07月12日” 我们可以采用下面这个DateFormat来解析：<br>“ yy年MM月dd日” </p>
+<p>回到上面那段通过GsonBuilder创建Gson的代码中：<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="type">Gson</span> gson = <span class="function"><span class="keyword">new</span> <span class="title">GsonBuilder</span>()  </span></div><div class="line">                  <span class="comment">//设置需要解析的时间格式  </span></div><div class="line">		.<span class="title">setDateFormat</span>("<span class="type">EEE</span> <span class="type">MMM</span> dd <span class="type">HH</span>:mm:ss <span class="type">Z</span> yyyy")  </div><div class="line">		.<span class="title">create</span>();</div></pre></td></tr></table></figure></p>
+<p>如果我们需要解释的时间格式是”17年07月12日 12:35:11” 那么我们只需要把<br><code>.setDateFormat(&quot;EEE MMM dd HH:mm:ss Z yyyy&quot;)</code><br>替换成<br><code>.setDateFormat(&quot;yy年MM月dd日 HH:mm:ss&quot;)</code><br>即可。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>时间方面的文章介绍到这里就结束了，至于为什么会写一篇这样的基础文章呢？答案是因为笔者和其他人交流的时候发现，对于时间的处理，很多人都只是知其然而不知其所以然，所以笔者就把一些简单的小心得分享给大家。<br>关于优雅地时间处理的问题一直是Java中一个比较大的问题，而这个问题在Java 8之前一直都无法解决，只能通过Joda-Time之类的第三方库来减轻这些问题带来的影响。现在Java 8已经提供了一套全新的关于时间处理的方面的库，但不知道为什么到今天为止Android Studio 2.4暂时还不支持。笔者估计是和Android系统中时间处理方面的兼容性有关（如日期相关控件是通过java.util.Calendar实现的）。<br>如果Android Studio 2.4支持java.time包的话，那么我们可以用java.time包替换Joda-Time库。Joda-Time 库的作者参与了java.time包的API设计，所以java.time包API的使用方式和Joda-Time库是十分类似的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/date/date_clock.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明： 该文章为原创文章，未经博主同意严禁转载。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;简介：&lt;/em&gt;对于Android和Java开发者来说，时间的处理是我们必须掌握的知识。如果你尝试过造时间处理方面的轮子的话，你就会知道，关于时间的处理是一个非常复杂的问题。我们在处理时间时需要把时间转化成能让计算机理解的形式，而Java 8之前的库对日期和时间的支持是非常不理想的。Java 8种提供了全新的时间API供我们使用，这些API在java.time包下。Android开发者需要注意的是，虽然Android Studio 2.4已经开始支持Java 8了，但是却无法导入java.time包下的类文件，这个问题应该是Android Studio的BUG。因为这个原因，所以笔者在这里介绍的是Java 8之前如何处理好时间和日期相关的问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android技术分享" scheme="http://www.tangpj.com/categories/Android%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Java,Android" scheme="http://www.tangpj.com/tags/Java-Android/"/>
+    
+  </entry>
   
   <entry>
     <title>写给Android开发者的Java 8简单入门教程</title>
