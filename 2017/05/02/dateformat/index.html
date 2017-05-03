@@ -98,7 +98,7 @@
 简介：对于Android和Java开发者来说，时间的处理是我们必须掌握的知识。如果你尝试过造时间处理方面的轮子的话，你就会知道，关于时间的处理是一个非常复杂的问题。我们在处理时间时需要把时间转化成能让计算机理解的形式，而Java 8之前的库对日期和时间的支持是非常不理想的。Java 8种提供了全新的时间API供我们使用，这些API在jav">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/date/date_clock.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/date/date_weibo_hot.png">
-<meta property="og:updated_time" content="2017-05-02T09:00:54.000Z">
+<meta property="og:updated_time" content="2017-05-03T01:02:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android（Java）日期和时间处理完全解析——使用Gson和Joda-Time优雅地处理日常开发中关于时间处理的问题">
 <meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
@@ -540,6 +540,9 @@
 <p>回到上面那段通过GsonBuilder创建Gson的代码中：<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="type">Gson</span> gson = <span class="function"><span class="keyword">new</span> <span class="title">GsonBuilder</span>()  </span></div><div class="line">                  <span class="comment">//设置需要解析的时间格式  </span></div><div class="line">		.<span class="title">setDateFormat</span>("<span class="type">EEE</span> <span class="type">MMM</span> dd <span class="type">HH</span>:mm:ss <span class="type">Z</span> yyyy")  </div><div class="line">		.<span class="title">create</span>();</div></pre></td></tr></table></figure></p>
 <p>如果我们需要解释的时间格式是”17年07月12日 12:35:11” 那么我们只需要把<br><code>.setDateFormat(&quot;EEE MMM dd HH:mm:ss Z yyyy&quot;)</code><br>替换成<br><code>.setDateFormat(&quot;yy年MM月dd日 HH:mm:ss&quot;)</code><br>即可。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>时间方面的文章介绍到这里就结束了，至于为什么会写一篇这样的基础文章呢？答案是因为笔者和其他人交流的时候发现，对于时间的处理，很多人都只是知其然而不知其所以然，所以笔者就把一些简单的小心得分享给大家。<br>关于优雅地时间处理的问题一直是Java中一个比较大的问题，而这个问题在Java 8之前一直都无法解决，只能通过Joda-Time之类的第三方库来减轻这些问题带来的影响。现在Java 8已经提供了一套全新的关于时间处理的方面的库，但不知道为什么到今天为止Android Studio 2.4暂时还不支持。笔者估计是和Android系统中时间处理方面的兼容性有关（如日期相关控件是通过java.util.Calendar实现的）。<br>如果Android Studio 2.4支持java.time包的话，那么我们可以用java.time包替换Joda-Time库。Joda-Time 库的作者参与了java.time包的API设计，所以java.time包API的使用方式和Joda-Time库是十分类似的。</p>
+<blockquote>
+<p>参考资料：《Java 8 实战》强烈建议对Java 8有兴趣的朋友看下本书</p>
+</blockquote>
 
       
     </div>
