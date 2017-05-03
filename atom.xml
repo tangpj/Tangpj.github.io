@@ -234,7 +234,7 @@
     <link href="http://www.tangpj.com/2017/04/24/java8-inAndroid/"/>
     <id>http://www.tangpj.com/2017/04/24/java8-inAndroid/</id>
     <published>2017-04-24T07:48:53.000Z</published>
-    <updated>2017-04-24T08:01:43.000Z</updated>
+    <updated>2017-05-03T01:01:23.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。<br><em>简介：</em>Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生兴趣，从而使用Java 8进行开发。</p>
@@ -304,6 +304,9 @@
 <p>笔者整理了一个Java 8中的函数式接口表格供大家参考：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png" alt=""><br>这里需要注意的一点是，原始类型特化。我们知道，普通类型如：int，double等是无法使用泛型的。所以我们需要用它们的装箱类来使用泛型，如Integer，Double。装箱使用泛型会带来一个问题就是运行效率的问题，装箱类的自动装箱和拆箱会大大影响程序的运行效率。所以在Java 8中提供了一系列特化类型的类和接口等，以消除自动装箱盒拆箱带来的的影响。</p>
 <h2 id="Java-8中常用的流操作符"><a href="#Java-8中常用的流操作符" class="headerlink" title="Java 8中常用的流操作符"></a>Java 8中常用的流操作符</h2><p>上面的例子中，我们简单的介绍过流的操作符。在这里笔者整理了一个关于流的操作符的表格，方便读者使用的时候用来参考。<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_operating.png" alt=""></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>从这篇文章可以得出一个结论：Java 8除了使我们编程变得更加简单外，还大大加强了代码的可读性。而对作为开发者的我们来说，使用Java 8能够简化代码的同时让我们专注于逻辑而不必写一堆模版代码。<br>这篇文章只是Java 8的简单的介绍文章，实际上Java 8提供的功能更加强大，有兴趣的读者可以继续深入了解下。大家也可以关注我的博客，我会不时发表一些关于Java 8文章的。</p>
+<blockquote>
+<p>参考资料：《Java 8 实战》强烈建议对Java 8有兴趣的朋友看下本书</p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
