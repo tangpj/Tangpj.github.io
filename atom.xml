@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2018-05-14T04:38:00.003Z</updated>
+  <updated>2018-05-14T04:47:06.625Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/"/>
     <id>http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/</id>
     <published>2018-05-12T11:14:59.000Z</published>
-    <updated>2018-05-14T04:38:00.003Z</updated>
+    <updated>2018-05-14T04:47:06.625Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg" alt=""></p>
 <blockquote>
@@ -86,6 +86,8 @@
 <p><strong>项目结构如图所示：</strong><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_demo_dir.jpg" alt=""><br>其中databindingcompilerv1为Data Binding Compiler V1下的示例代码<br>其中databindingcompilerv2为Data Binding Compiler V2下的示例代码</p>
 <p><a href="https://github.com/DobbyTang/Android-advanced-blueprint" target="_blank" rel="external">Data Binding Compiler V2 示例代码</a></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Data Binding Compiler V2主要是解决了Data Binding不能感知View层生命周期的问题。<br>在Android开发中我们的控制层（这里指ViewModel）的生命周期和View层组件的生命周期是不能保持一致的，大多数情况下，控制层的生命周期会比View层长。例如，我们发起网络请求的时候，在请求回调之前View有被销毁的可能，如果在View被销毁后控制层再更新View层，这个时候我们就会遇到讨厌的NPE异常。Lifecycle系列组件的主要功能就是使控制层能够感知View层的生命周期。而Data Binding Compiler V2则是为了使Data Binding能够使用Lifecycle中的LiveData从而获得感知生命周期的能力，即达成Data Binding 的lifecycle-aware。</p>
+<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p><a href="https://github.com/DobbyTang" target="_blank" rel="external">GitHub</a></p>
+<p>微信公众号：<br>如果你觉得这片文章对你有所启发的话，可以关注我的微信公众号哦<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/wechat/my_wechat.jpeg" alt=""></p>
 ]]></content>
     
     <summary type="html">
