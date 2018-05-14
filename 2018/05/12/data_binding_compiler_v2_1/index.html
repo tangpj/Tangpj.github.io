@@ -1,0 +1,905 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Android," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+前言： Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。
+Dat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础">
+<meta property="og:url" content="http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+前言： Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。
+Dat">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_demo_dir.jpg">
+<meta property="og:updated_time" content="2018-05-14T04:38:00.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
+
+前言： Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。
+Dat">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/"/>
+
+  <title> Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础 | TANG BLOG </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">TANG BLOG</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Tang的技术笔记</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-12T19:14:59+08:00" content="2018-05-12">
+              2018-05-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android技术分享/" itemprop="url" rel="index">
+                    <span itemprop="name">Android技术分享</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/05/12/data_binding_compiler_v2_1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/05/12/data_binding_compiler_v2_1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/05/12/data_binding_compiler_v2_1/" class="leancloud_visitors" data-flag-title="Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg" alt=""></p>
+<blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
+</blockquote>
+<p><strong>前言：</strong> Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。</p>
+<h2 id="Data-Binding和LiveData的兼容问题"><a href="#Data-Binding和LiveData的兼容问题" class="headerlink" title="Data Binding和LiveData的兼容问题"></a>Data Binding和LiveData的兼容问题</h2><p>在DataBinding Compiler V1的环境下，DataBinding和LiveData是无法兼容的。这句话是什么意思呢？我们先来看看平时我们使用DataBinding的代码片段。</p>
+<h3 id="Data-Binding"><a href="#Data-Binding" class="headerlink" title="Data Binding"></a>Data Binding</h3><p><strong>布局代码片段</strong><br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">data</span>&gt;</span>  </span></div><div class="line">	<span class="tag">&lt;<span class="name">variable</span>  </span></div><div class="line">		<span class="attr">name</span>= <span class="string">"text"</span>  </div><div class="line">		<span class="attr">type</span>=<span class="string">"android.databinding.ObservableField&amp;lt;String&gt;"</span>/&gt;  </div><div class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">	<span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">	<span class="attr">android:layoutheight</span>=<span class="string">"40dp"</span>  </div><div class="line">	<span class="attr">android:text</span>=<span class="string">“@</span><span class="template-variable">&#123;text&#125;</span><span class="xml"><span class="tag">“  </span></span></div><div class="line">	/&gt;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：xml不能直接使用‘\&lt;’所以我们需要使用转义符：”&lt;”<br><strong>使用代码片段</strong><br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">XXXBinding binding = ...  </div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> ObservableField&lt;<span class="keyword">String</span>&gt; <span class="built_in">text</span> = <span class="keyword">new</span> ObservableField&lt;&gt;();  </div><div class="line">binding.setText(<span class="built_in">text</span>)  </div><div class="line"><span class="built_in">text</span>.<span class="built_in">set</span>(<span class="string">" hello word "</span>)`</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>上面的代码片段是DataBinding的简单使用方法。</p>
+<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>我们知道LiveData是Google官方推出的生命周期感知的数据包装组件，用来搭建MVVM框架有天然的优势，能很好协调控制层与展示层生命周期不一致的问题（这里是指View层与ViewModel层）下面我们来看下使用LiveData更新UI的代码片段。</p>
+<p><strong>ViewModel代码片段</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">TestModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="type">MutableLiveData</span>&lt;<span class="type">String</span>&gt; text = <span class="keyword">new</span> <span class="type">MutableLiveData</span>&lt;&gt;();  </div><div class="line">  </div><div class="line">	public <span class="type">LiveData</span>&lt;<span class="type">String</span>&gt; getText() &#123;  </div><div class="line">		<span class="keyword">return</span> text;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>View层代码片段</strong><br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">viewModel</span>. <span class="selector-tag">getText</span>()<span class="selector-class">.observe</span>(this, observe -&gt; &#123;  </div><div class="line">	tvText<span class="selector-class">.setText</span>(observe);  </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>当我们在ViewModel中调用 text.postValue(obj)方法时，UI层的observe方法就会收到回调，通过<code>tvText.setText(observe);</code>这句代码来更新tvText。</p>
+<p>例如，我们可以在ViewModel中通过下面的代码来更新UI层<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">text</span>.posValue(<span class="string">"hello word !"</span>)</div></pre></td></tr></table></figure></p>
+<p>可以看出，无论是使用DataBinding还是LiveData，都能实现View层和ViewModel层解耦的目的，并且能ViewModel层中的数据变化来实现View层的更新，这就是我们常说<strong>数据驱动视图</strong>。</p>
+<blockquote>
+<p>数据驱动视图：只要数据变化, 就重新渲染视图</p>
+</blockquote>
+<h3 id="ObservableField与LiveData"><a href="#ObservableField与LiveData" class="headerlink" title="ObservableField与LiveData"></a>ObservableField与LiveData</h3><p>我们知道DataBinding是通过ObservableField来实现数据的双向绑定的，而ObservableField本质上就是一个被观察者，而我们的xml布局文件和就是观察者，当ObservableField产生变化是会通知我们的布局文件更新布局（观察者模式）。<br>ObservableField如何实现通知布局文件更新的原理我们这里先不深入讨论，这里笔者只给出一个结论，ObservableField被View层（这里指我们的xml布局文件）以弱引用的方式引用，当ObservableField更新时，会通过监听器通知View层，并且ObservableField是对View层生命周期不敏感的。所以通过ObservableField实现数据双向绑定并不是一个完美的方案。</p>
+<p>我们可以考虑使用LiveData来实现双向绑定。<br>我们先来回顾一下监听LiveData方法：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">viewModel</span>. <span class="selector-tag">getText</span>()<span class="selector-class">.observe</span>(this, observe -&gt; &#123;  </div><div class="line">	tvText<span class="selector-class">.setText</span>(observe);  </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>非常简单，只在调用LiveData的observe，设置一个Observer<br>回调监听器就可以了。</p>
+<p><strong>那么上文提到的Databinding与LiveData不兼容是指什么呢？</strong><br>从上面的分析我们可以看出ObservableField与LiveData的使用方式完全是完全不一样的，ObservableField可以通过直接在布局文件中设置实现双向绑定。而LiveData必须通过代码设置监听器，并且需要手动调用待更新的控件才能实现控件的更新。就是说LiveData只能通知UI层有数据需要更新，更新后的数据是什么，但是并不能自动帮你实现View的更新。并且当View层的数据更新后，LiveData也没办法自动获取View层的更新。</p>
+<blockquote>
+<p>例如：在使用EditText的时候，要获取EditText的改变，需要调用EditText的getText方法，而ObservableField只需要调用get()方法即可</p>
+</blockquote>
+<p>LiveData在Data Binding Compiler V1下是无法使用类似ObservableField的方式实现数据绑定的（单向也不行），这就是笔者所说的<strong>DataBinding与LiveData不兼容。</strong><br>当我们使用DataBinding与Lifecycle组合搭建MVVM框架的时候，需要根据业务的具体需要来选择使用LiveData还是ObservableField。类似下面的代码：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> ObservableBoolean dataLoading = <span class="keyword">new</span> ObservableBoolean(<span class="keyword">false</span>);  </div><div class="line">  </div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;<span class="keyword">Void</span>&gt; mTaskUpdated = <span class="keyword">new</span> MutableLiveData &lt;&gt;();</div></pre></td></tr></table></figure></p>
+<p>但是实际开发的时候，我们往往无法在ObservableField与LiveData中作出很好的选择，因为它们的优缺点都太明显了。<br>我们总结一下ObservableField与LiveData的优缺点。<br><strong> ObservableField</strong><br>优点：使用方便，能快速实现双向绑定<br>缺点：使用弱引用的方式与View层，并且不能根据View层的生命周期来发送通知</p>
+<p><strong>LiveData</strong><br>优点：能根据View层的生命周期来发送通知事件<br>缺点：使用麻烦，与View层耦合大，并且不支持数据与View绑定</p>
+<h2 id="Data-Binding-Compiler-V2"><a href="#Data-Binding-Compiler-V2" class="headerlink" title="Data Binding Compiler V2"></a>Data Binding Compiler V2</h2><p>我们要说的主角就是，Data Binding Compiler V2 。</p>
+<h3 id="什么是Data-Binding-Compiler呢？"><a href="#什么是Data-Binding-Compiler呢？" class="headerlink" title="什么是Data Binding Compiler呢？"></a>什么是Data Binding Compiler呢？</h3><p>Data Binding Compiler是Data Binding的编译器，它的主要作用就是编译出我们在使用Data Binding时需要使用的辅助代码。例如：ActivityxxxBinding格式的类文件就是由Data Binding Compiler编译生成的，并且ObservableField数据双向绑定也是由编译器编译的代码提供支持的。<br>Data Binding Compiler  V2是Data Binding的第二代编译器，这个编译器和V1编译器最大的不同就是：V1编译器只支持ObservableField系列的数据包装类与View层的双向绑定，而V2编译器能让LiveData支持Data Binding双向绑定。<br>我们可以看看在V2编译器环境下LiveData实现双向绑定的代码片段：<br><strong>布局代码片段</strong><br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">data</span>&gt;</span>  </span></div><div class="line">	<span class="tag">&lt;<span class="name">variable</span>  </span></div><div class="line">	<span class="attr">name</span>=<span class="string">"text"</span>  </div><div class="line">	<span class="attr">type</span>=<span class="string">"android.arch.lifecycle.LiveData&amp;lt;String&gt;"</span>/&gt;  </div><div class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">	<span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">	<span class="attr">android:layoutheight</span>=<span class="string">"40dp"</span>  </div><div class="line">	<span class="attr">android:text</span>=<span class="string">“@</span><span class="template-variable">&#123;text&#125;</span><span class="xml"><span class="tag">“  </span></span></div><div class="line">	/&gt;</div></pre></td></tr></table></figure></p>
+<p><strong>使用代码片段</strong><br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">XXXBinding binding = ...  </div><div class="line">binding.setLifecycleOwner(<span class="keyword">this</span>);  </div><div class="line">MutableLiveData&lt;<span class="keyword">String</span>&gt; <span class="built_in">text</span> = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">binding.setText(<span class="built_in">text</span>);  </div><div class="line"><span class="built_in">text</span>.postValue(<span class="string">" hello word "</span>);</div></pre></td></tr></table></figure></p>
+<p>可以看出，在Data Binding Compiler V2 环境下，使用LiveData实现双向绑定的方法和使用Observable实现双向绑定的方法基本山是一样的。通过Data Binding Compiler V2我们能把LiveData不能实现双向绑定和使用麻烦的缺点彻底解决，并且还能保留LiveData能感知View层生命周期的优点保留下来。</p>
+<h3 id="如何使用Data-Binding-Compiler-V2？"><a href="#如何使用Data-Binding-Compiler-V2？" class="headerlink" title="如何使用Data Binding Compiler  V2？"></a>如何使用Data Binding Compiler  V2？</h3><h4 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h4><p>要使用Data Binding Compiler V2 的话，可能需要升级一下开发环境，需要的配置如下。</p>
+<ul>
+<li>Android Studio 版本需要升级到3.1 Canary 6以上</li>
+<li>gradle版本需要升级到 alpha06以上</li>
+<li><p>gradle-wrapper.properties中的distributionUrl需要改成gradle-4.4</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">distributionUrl=https\<span class="symbol">://services</span>.gradle.org/distributions/gradle-<span class="number">4.4</span>-all.zip</div></pre></td></tr></table></figure>
+</li>
+<li><p>需要在gradle.properties文件中启用databinding V2</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android<span class="selector-class">.databinding</span><span class="selector-class">.enableV2</span>=true</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当我们配置完后，重新clear一下项目就可以开启Data Binding Compiler V2了。</p>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><p>我们以一个模拟登陆的例子来简单介绍如何使用Data Binding Compiler V2。</p>
+<p><strong>数据类</strong></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Account &#123;  </div><div class="line">	<span class="keyword">private</span> MutableLiveData&lt;<span class="keyword">String</span>&gt; accountNum = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">	<span class="keyword">private</span> MutableLiveData&lt;<span class="keyword">String</span>&gt; password = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">  </div><div class="line">	Account(<span class="keyword">String</span> accountNum, <span class="keyword">String</span> password)&#123;  </div><div class="line">		<span class="keyword">this</span>.accountNum.setValue(accountNum);  </div><div class="line">		<span class="keyword">this</span>.password.setValue(password);  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="keyword">public</span> MutableLiveData&lt;<span class="keyword">String</span>&gt; getAccountNum()&#123;  </div><div class="line">		<span class="built_in">return</span> accountNum;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="keyword">public</span> MutableLiveData&lt;<span class="keyword">String</span>&gt; getPassword()&#123;  </div><div class="line">		<span class="built_in">return</span> password;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>xml布局文件</strong></p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span>  </span></div><div class="line"><span class="tag">&lt;<span class="name">layout</span> <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>  </span></div><div class="line">	<span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>&gt;  </div><div class="line">  </div><div class="line">	<span class="tag">&lt;<span class="name">data</span>&gt;</span>  </div><div class="line">		<span class="tag">&lt;<span class="name">variable</span>  </span></div><div class="line">			<span class="attr">name</span>=<span class="string">"viewModel"</span>  </div><div class="line">			<span class="attr">type</span>=<span class="string">"tang.com.databindingcompilerv2.login.LoginViewModel"</span>/&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">import</span> <span class="attr">type</span>=<span class="string">"android.view.View"</span>/&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line">	<span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span>  </span></div><div class="line">		<span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </div><div class="line">		<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">		<span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">android.support.design.widget.TextInputLayout</span>  </span></div><div class="line">			<span class="attr">android:id</span>=<span class="string">"@+id/til_account_num"</span>  </div><div class="line">			<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">			<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">			<span class="attr">android:layout_marginEnd</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginStart</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginTop</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span>&gt;  </div><div class="line">  </div><div class="line">			<span class="tag">&lt;<span class="name">android.support.design.widget.TextInputEditText</span>  </span></div><div class="line">				<span class="attr">android:id</span>=<span class="string">"@+id/et_account_num"</span>  </div><div class="line">				<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">				<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">				<span class="attr">android:text</span>=<span class="string">"@=</span><span class="template-variable">&#123;viewModel.account.accountNum&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>  </span></span></div><div class="line">				<span class="attr">android:hint</span>=<span class="string">"@string/account_prompt"</span>/&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;/<span class="name">android.support.design.widget.TextInputLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">android.support.design.widget.TextInputLayout</span>  </span></div><div class="line">			<span class="attr">android:id</span>=<span class="string">"@+id/til_password"</span>  </div><div class="line">			<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">			<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">			<span class="attr">android:layout_marginEnd</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginStart</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintTop_toBottomOf</span>=<span class="string">"@+id/til_account_num"</span>&gt;  </div><div class="line">  </div><div class="line">			<span class="tag">&lt;<span class="name">android.support.design.widget.TextInputEditText</span>  </span></div><div class="line">				<span class="attr">android:id</span>=<span class="string">"@+id/et_password"</span>  </div><div class="line">				<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">				<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">				<span class="attr">android:inputType</span>=<span class="string">"textWebPassword"</span>  </div><div class="line">				<span class="attr">android:text</span>=<span class="string">"@=</span><span class="template-variable">&#123;viewModel.account.password&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>  </span></span></div><div class="line">				<span class="attr">android:hint</span>=<span class="string">"@string/password_prompt"</span> /&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;/<span class="name">android.support.design.widget.TextInputLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">android.support.v7.widget.AppCompatButton</span>  </span></div><div class="line">			<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">			<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">			<span class="attr">android:layout_marginBottom</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginEnd</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginStart</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:text</span>=<span class="string">"@string/login"</span>  </div><div class="line">			<span class="attr">android:onClick</span>=<span class="string">"@</span><span class="template-variable">&#123;viewModel.login&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>  </span></span></div><div class="line">			<span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span> /&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">ProgressBar</span>  </span></div><div class="line">			<span class="attr">android:id</span>=<span class="string">"@+id/progressBar"</span>  </div><div class="line">			<span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">			<span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">			<span class="attr">android:layout_marginBottom</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginEnd</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginStart</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginTop</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:isVisible</span>=<span class="string">"@</span><span class="template-variable">&#123;viewModel.isLoading&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>  </span></span></div><div class="line">			/&gt;  </div><div class="line">  </div><div class="line">		<span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">			<span class="attr">android:id</span>=<span class="string">"@+id/tv_prompt"</span>  </div><div class="line">			<span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">			<span class="attr">android:layout_height</span>=<span class="string">"40dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginEnd</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginLeft</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginRight</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:layout_marginStart</span>=<span class="string">"8dp"</span>  </div><div class="line">			<span class="attr">android:text</span>=<span class="string">"@</span><span class="template-variable">&#123;viewModel.loginPrompt&#125;</span><span class="xml"><span class="tag"><span class="string">"</span>  </span></span></div><div class="line">			<span class="attr">app:layout_constraintEnd_toEndOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintStart_toStartOf</span>=<span class="string">"parent"</span>  </div><div class="line">			<span class="attr">app:layout_constraintTop_toBottomOf</span>=<span class="string">"@+id/til_password"</span> /&gt;  </div><div class="line">  </div><div class="line">	<span class="tag">&lt;/<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">layout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>ViewModel</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginViewModel</span> <span class="keyword">extends</span> <span class="title">ViewModel</span> </span>&#123;  </div><div class="line">  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"LoginViewModel"</span>;  </div><div class="line">  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;Boolean&gt; isLoading = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;Account&gt; account = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> MutableLiveData&lt;String&gt; loginPrompt = <span class="keyword">new</span> MutableLiveData&lt;&gt;();  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">LoginViewModel</span><span class="params">()</span></span>&#123;  </div><div class="line">		account.postValue(<span class="keyword">new</span> Account(<span class="string">""</span>,<span class="string">""</span>));  </div><div class="line">		isLoading.postValue(<span class="keyword">false</span>);  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(View view)</span></span>&#123;  </div><div class="line">		String loginMsg =  <span class="string">"accountNum = "</span> + Objects.requireNonNull(account.getValue()).getAccountNum().getValue()  </div><div class="line">				+ <span class="string">"\npassword = "</span> + Objects.requireNonNull(account.getValue()).getPassword().getValue();  </div><div class="line">		Log.d(TAG,<span class="string">"\n正在登陆中....\n"</span>  </div><div class="line">			   + loginMsg);  </div><div class="line">		loginPrompt.postValue(<span class="string">"正在登陆账号："</span> + Objects.requireNonNull(account.getValue()).getAccountNum().getValue());  </div><div class="line">		isLoading.postValue(<span class="keyword">true</span>);  </div><div class="line">			<span class="keyword">new</span> Handler().postDelayed(() -&gt; &#123;  </div><div class="line">				Log.d(TAG,<span class="string">"登陆成功....\n"</span>);  </div><div class="line">				isLoading.postValue(<span class="keyword">false</span>);  </div><div class="line">				Intent intent = <span class="keyword">new</span> Intent(view.getContext(), MainActivity.class);  </div><div class="line">				intent.putExtra(<span class="string">"hello"</span>, loginMsg);  </div><div class="line">				view.getContext().startActivity(intent);  </div><div class="line">				loginPrompt.postValue(<span class="string">""</span>);  </div><div class="line">			&#125;, <span class="number">2000</span>);  </div><div class="line">  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> MutableLiveData&lt;Boolean&gt; <span class="title">getIsLoading</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> isLoading;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> Account <span class="title">getAccount</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> account.getValue();  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> MutableLiveData&lt;String&gt; <span class="title">getLoginPrompt</span><span class="params">()</span> </span>&#123;  </div><div class="line">		<span class="keyword">return</span> loginPrompt;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Activity</strong><br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;  </div><div class="line">  </div><div class="line">	<span class="meta">@Override</span>  </div><div class="line">	<span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;  </div><div class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);  </div><div class="line">		<span class="type">ActivityMainBinding</span> binding = <span class="type">DataBindingUtil</span>.setContentView(<span class="keyword">this</span>, <span class="type">R</span>.layout.activity_main);  </div><div class="line">		binding.setHello(getIntent().getStringExtra(<span class="string">"hello"</span>) + <span class="string">"\n hello word !"</span>);  </div><div class="line">		binding.setLifecycleOwner(<span class="keyword">this</span>);  </div><div class="line">  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>到这里，我们就能愉快地Data Binding Compiler V2了。<br>从测试代码可以看出，代码和我们使用Data Binding Compiler V1的时候差不多，有区别的地方只有两点：</p>
+<ol>
+<li>ObservableField替换成LiveData</li>
+<li>binding对象需要调用setLifecycleOwner(LifecycleOwner lifecycleOwner<br>)设置lifecycleOwner对象。</li>
+</ol>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><p>笔者在GitHub上面建立了一个项目，以后所有的文章的测试DEMO都会上传到这个项目上，有兴趣的读者可以关注下。<br>这篇文章的示例在项目中的todoDatabinding文件下。</p>
+<p><strong>项目结构如图所示：</strong><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_demo_dir.jpg" alt=""><br>其中databindingcompilerv1为Data Binding Compiler V1下的示例代码<br>其中databindingcompilerv2为Data Binding Compiler V2下的示例代码</p>
+<p><a href="https://github.com/DobbyTang/Android-advanced-blueprint" target="_blank" rel="external">Data Binding Compiler V2 示例代码</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Data Binding Compiler V2主要是解决了Data Binding不能感知View层生命周期的问题。<br>在Android开发中我们的控制层（这里指ViewModel）的生命周期和View层组件的生命周期是不能保持一致的，大多数情况下，控制层的生命周期会比View层长。例如，我们发起网络请求的时候，在请求回调之前View有被销毁的可能，如果在View被销毁后控制层再更新View层，这个时候我们就会遇到讨厌的NPE异常。Lifecycle系列组件的主要功能就是使控制层能够感知View层的生命周期。而Data Binding Compiler V2则是为了使Data Binding能够使用Lifecycle中的LiveData从而获得感知生命周期的能力，即达成Data Binding 的lifecycle-aware。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-Android/" rel="tag">#Java,Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/06/dateformat2/" rel="next" title="Android（Java）日期和时间处理完全解析(下)——使用Gson优雅地处理日常开发中关于时间处理的问题">
+                <i class="fa fa-chevron-left"></i> Android（Java）日期和时间处理完全解析(下)——使用Gson优雅地处理日常开发中关于时间处理的问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.jpeg"
+               alt="Tang" />
+          <p class="site-author-name" itemprop="name">Tang</p>
+          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email：dobbytang123@gmail.com
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
+                  
+                    <i class="fa fa-fw fa-linkedin-square"></i>
+                  
+                  Linked
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-gift"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Binding和LiveData的兼容问题"><span class="nav-number">1.</span> <span class="nav-text">Data Binding和LiveData的兼容问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Binding"><span class="nav-number">1.1.</span> <span class="nav-text">Data Binding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LiveData"><span class="nav-number">1.2.</span> <span class="nav-text">LiveData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ObservableField与LiveData"><span class="nav-number">1.3.</span> <span class="nav-text">ObservableField与LiveData</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Binding-Compiler-V2"><span class="nav-number">2.</span> <span class="nav-text">Data Binding Compiler V2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Data-Binding-Compiler呢？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是Data Binding Compiler呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用Data-Binding-Compiler-V2？"><span class="nav-number">2.2.</span> <span class="nav-text">如何使用Data Binding Compiler  V2？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境配置"><span class="nav-number">2.2.1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">使用方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">3.</span> <span class="nav-text">示例代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<span id="busuanzi_container_site_pv">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<span id="busuanzi_container_site_uv">
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次
+</span>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tangpj-com';
+      var disqus_identifier = '2018/05/12/data_binding_compiler_v2_1/';
+      var disqus_title = "Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础";
+      var disqus_url = 'http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+</body>
+</html>
