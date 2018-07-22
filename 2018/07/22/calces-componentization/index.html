@@ -92,7 +92,7 @@
 
 背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
 <meta property="og:type" content="article">
-<meta property="og:title" content="把脑子扔掉，让Gradle帮你实现Android组件化模块构建">
+<meta property="og:title" content="Gradle自动实现Android组件化模块构建">
 <meta property="og:url" content="http://www.tangpj.com/2018/07/22/calces-componentization/index.html">
 <meta property="og:site_name" content="TANG BLOG">
 <meta property="og:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。
@@ -109,9 +109,9 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_nostatistics%402x.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_test.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/wechat/tang_qr_code.png">
-<meta property="og:updated_time" content="2018-07-22T11:11:49.539Z">
+<meta property="og:updated_time" content="2018-07-22T13:02:54.711Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="把脑子扔掉，让Gradle帮你实现Android组件化模块构建">
+<meta name="twitter:title" content="Gradle自动实现Android组件化模块构建">
 <meta name="twitter:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。
 —— 村上春树
 
@@ -140,7 +140,7 @@
 
   <link rel="canonical" href="http://www.tangpj.com/2018/07/22/calces-componentization/"/>
 
-  <title> 把脑子扔掉，让Gradle帮你实现Android组件化模块构建 | TANG BLOG </title>
+  <title> Gradle自动实现Android组件化模块构建 | TANG BLOG </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +290,7 @@
             
             
               
-                把脑子扔掉，让Gradle帮你实现Android组件化模块构建
+                Gradle自动实现Android组件化模块构建
               
             
           </h1>
@@ -343,7 +343,7 @@
 
           
           
-             <span id="/2018/07/22/calces-componentization/" class="leancloud_visitors" data-flag-title="把脑子扔掉，让Gradle帮你实现Android组件化模块构建">
+             <span id="/2018/07/22/calces-componentization/" class="leancloud_visitors" data-flag-title="Gradle自动实现Android组件化模块构建">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -383,7 +383,7 @@
 <li>能够根据需求引入或删除某些业务模块</li>
 <li>通过不同模块的组合，组成不同的App</li>
 </ol>
-<p>对于第一点：需要根据技术架构和业务架构来划分模块，这里需要根据实际情况来考虑。我们需要优化的是第二点和第三点。</p>
+<p>对于第一点：需要根据技术架构和业务架构来划分模块，这里需要根据实际情况来考虑。我们需要优化的是第二、三、四点。</p>
 <p>对于第二点：Android是通过应用com.android.application或com.android.library来决定该模块是以App模式还是以Library模式构建。App模式和Library模式的最大区别就是，App能够启动，而Library不可以。所以如果我们的模块能独立启动的话，我们需要每次手动去改动模块的build.gradle文件。好一点的做法定义一个布尔值来判断是否处于debug模式，但是这里有个问题是，不是每个模块都能独立启动的。所以无论采用何种方案，都需要我们手动管理。</p>
 <p>对于第三点：当我们开发好业务模块后，可能我们需要频繁的新增或删除某些业务模块。如果是这样的话，我们也是需要频繁手动修改App的build.gradle。</p>
 <p>对于第四点：有时候，我们可能会在不同的App中引用相同的组件（例如：滴滴的普通版和企业版，普通版包含企业版的功能），这个时候，我们也不希望要频繁手动管理组件依赖，特别是在组件还可以独立运行的时候。</p>
@@ -823,7 +823,7 @@
     <script type="text/javascript">
       var disqus_shortname = 'tangpj-com';
       var disqus_identifier = '2018/07/22/calces-componentization/';
-      var disqus_title = "把脑子扔掉，让Gradle帮你实现Android组件化模块构建";
+      var disqus_title = "Gradle自动实现Android组件化模块构建";
       var disqus_url = 'http://www.tangpj.com/2018/07/22/calces-componentization/';
 
       function run_disqus_script(disqus_script){
