@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2018-05-14T04:47:06.625Z</updated>
+  <updated>2018-07-22T11:11:49.539Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -16,17 +16,164 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>把脑子扔掉，让Gradle帮你实现Android组件化模块构建</title>
+    <link href="http://www.tangpj.com/2018/07/22/calces-componentization/"/>
+    <id>http://www.tangpj.com/2018/07/22/calces-componentization/</id>
+    <published>2018-07-22T10:09:35.000Z</published>
+    <updated>2018-07-22T11:11:49.539Z</updated>
+    
+    <content type="html"><![CDATA[<p align="center"><br><br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/github/calces_logo.jpg" alt="Material Render Phone"><br><br></p>
+
+<blockquote>
+<p>不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。</p>
+<p align="right">—— 村上春树</p>
+
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业务模块来保证工程的健壮性和稳定性。现在问题来了，当组件的数量变得越来多的时候，我们如何管理业务组件呢？</p>
+<blockquote>
+<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。<br><a id="more"></a></p>
+</blockquote>
+<h2 id="为什么我们要用Gradle管理组件呢？"><a href="#为什么我们要用Gradle管理组件呢？" class="headerlink" title="为什么我们要用Gradle管理组件呢？"></a>为什么我们要用Gradle管理组件呢？</h2><p>先来看看Android组件化需要实现的目标。<a href="#组件化构建简述">(什么是组件化构建？)</a></p>
+<ol>
+<li>按照业务逻辑划分模块</li>
+<li>项目模块能够单独启动测试</li>
+<li>能够根据需求引入或删除某些业务模块</li>
+<li>通过不同模块的组合，组成不同的App</li>
+</ol>
+<p>对于第一点：需要根据技术架构和业务架构来划分模块，这里需要根据实际情况来考虑。我们需要优化的是第二点和第三点。</p>
+<p>对于第二点：Android是通过应用com.android.application或com.android.library来决定该模块是以App模式还是以Library模式构建。App模式和Library模式的最大区别就是，App能够启动，而Library不可以。所以如果我们的模块能独立启动的话，我们需要每次手动去改动模块的build.gradle文件。好一点的做法定义一个布尔值来判断是否处于debug模式，但是这里有个问题是，不是每个模块都能独立启动的。所以无论采用何种方案，都需要我们手动管理。</p>
+<p>对于第三点：当我们开发好业务模块后，可能我们需要频繁的新增或删除某些业务模块。如果是这样的话，我们也是需要频繁手动修改App的build.gradle。</p>
+<p>对于第四点：有时候，我们可能会在不同的App中引用相同的组件（例如：滴滴的普通版和企业版，普通版包含企业版的功能），这个时候，我们也不希望要频繁手动管理组件依赖，特别是在组件还可以独立运行的时候。</p>
+<p>所以，在我们实践组件化的时候，最大的问题就是，我们需要频繁的手动build.gradle文件来管理组件应用的插件和App的依赖。</p>
+<h2 id="使用Gradle来管理组件"><a href="#使用Gradle来管理组件" class="headerlink" title="使用Gradle来管理组件"></a>使用Gradle来管理组件</h2><p>先安利下笔者写的Gradle插件：<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>。如果觉得这个插件有用的话，可以star下，如果你有更好的想法的话，可以向我提交pull request。</p>
+<p>废话少说，一下是通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>快速实现Android组件化构建的流程。</p>
+<p>Demo地址：<a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="external">SimpleCalces</a></p>
+<p>项目结构：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/simple_calces_dir.png" alt="simple_calces_dir"></p>
+<ol>
+<li><p>引入依赖库<br>在Gradle 2.1及更高版本的插件构建脚本代码：<br>在项目的build.gradle中</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line">plugins &#123;</div><div class="line">  <span class="built_in">id</span> <span class="string">"calces.modules"</span> <span class="built_in">version</span> <span class="string">"1.0.11"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在较旧版本的Gradle中或需要动态配置的情况下的插件构建脚本代码：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="section">buildscript</span> &#123;</div><div class="line">  <span class="section">repositories</span> &#123;</div><div class="line">    <span class="section">maven</span> &#123;</div><div class="line">      <span class="attribute">url</span> <span class="string">"https://plugins.gradle.org/m2/"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  dependencies &#123;</div><div class="line">    <span class="attribute">classpath</span> <span class="string">"gradle.plugin.com.tangpj.tools:calces:1.0.11"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">apply plugin: <span class="string">"calces.appConfig"</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>在项目build.gradle配置AppConfig</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">appConfig &#123;</div><div class="line">    debugEnable false</div><div class="line"></div><div class="line">    apps &#123;</div><div class="line">        app&#123;</div><div class="line">            modules <span class="string">':library1'</span>, <span class="string">':library2'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    modules&#123;</div><div class="line">        library1&#123;</div><div class="line">            mainActivity <span class="string">".Library1Activity"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.library1"</span></div><div class="line">            isRunAlone true</div><div class="line">        &#125;</div><div class="line">        library2&#123;</div><div class="line">            mainActivity <span class="string">".Library2Activity"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.library2"</span></div><div class="line">            isRunAlone true</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>在modules（子模块）引入模块自动化构建插件 (注意：不需要手动配置com.android.library或com.android.application)</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">'calces.modules'</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样我们就完成了组件化的构建了，是的，我们不再需要再手动管理单个组件了与App的构建了，通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>，我们能实现快速的组件化构建与多App同时构建。</p>
+<p>那么问题来了，我们如何实现组件间的通信呢？在简单的项目中，推荐该Demo一样，通过使用Android<a href="https://developer.android.com/reference/android/content/Intent" target="_blank" rel="external">隐式Intent</a>来实现组件间通信。在中大型项目中，笔者推荐使用阿里的路由解决方案：<a href="https://github.com/alibaba/ARouter" target="_blank" rel="external"><strong>ARouter</strong></a>。具体使用方法参考官方文档就可以了，使用方法十分简单。</p>
+<blockquote>
+<p><strong>注意：</strong>在使用隐式Intent实现组件件通信的时候需要注意找不到相应组件异常：java.lang.IllegalStateException: Could not execute method of the activity。导致这个异常的原因是找不到目标组件导致的，所以在实际开发的时候，需要捕获这一异常，并且根据项目实际情况来进行实际的处理。使用ARouter框架则能通过设置降级策略来实现异常处理（查看ARouter文档了解更多）。</p>
+</blockquote>
+<p>如果只是实现项目的简单组件化，那么看到这里就可以了，如果希望实现更加灵活的组件化架构的读者可以继续看下去，下面笔者将全面分析组件化的优势与笔者总结的组件化构建思想。</p>
+<h2 id="组件化构建简述"><a href="#组件化构建简述" class="headerlink" title="组件化构建简述"></a>组件化构建简述</h2><p>组件化构建与其说是一种技术，不如说是一种思想。组件化构建是通过对项目重新划分成一个个高内聚、低耦合的模块来解决项目过于臃肿，代码过于复杂的一种架构思想。</p>
+<p>我们通过对Google官方的架构演示Demo todo-mvp进行拆分来对Android组件化进行深入的分析。</p>
+<p><strong>Demo地址：</strong><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="external">TodoCalces</a></p>
+<blockquote>
+<p>todo系列app是Google <a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external"><strong>android-architecture</strong></a>项目中为了演示Android架构的最佳实现而编写的一系列演示Demo。todo app的特点是，它足够简单，代码量少，易于理解。但是又不会过于简单，因为它是一个包含完成功能的App。它实现了任务列表、任务详情、新建任务、编辑任务、统计任务的功能。</p>
+</blockquote>
+<p>todo-mvp实现的功能：</p>
+<ul>
+<li>任务列表</li>
+<li>任务详情</li>
+<li>新增/编辑任务</li>
+<li>统计任务</li>
+</ul>
+<p>我们将以todo-mvp的功能来划分为4个业务模块，将底层划分为2个模块，分别是superLib（提供mvp架构支持与其它的一些支持库功能）与dataLib（数据支持模块，Room提供底层数据库支持功能）。对于大型项目还可以加入resLib支持模块，用来存放公共图片资源、字符穿资源、样式等。</p>
+<p>架构划分图如下：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_architecture.png" alt="Todo Calces Architecture "></p>
+<p>从架构图可以看出，所有的业务组件都依赖底层库，而APP又依赖于业务组件，APP组件在这里是作为一个独立组件存在的。在一般的组件化实践中，都不包含APP这个组件的，APP组件的存在是有其意义的。</p>
+<p>首先，我们的组件化除了实现组件的独立管理和动态配置APP所依赖的组件外，还有一个十分重要的目的就是，通过组合不同的组件，打包多个不同的APP。例如，QQ有分普通版和轻聊版，轻聊版是功能简化版的QQ。如果我们使用组件化来管理工程的话，我们只需要把不需要的模块移除掉就可以了。而APP组件在这里的作用是充当一个包装盒，把需要的组件包装进来。并且我们可以通过控制包装盒的样式来配置不同的APP风格。在这里我们可以通过Application中的Style来实现。</p>
+<p>这里我们还是以todo-mvp为例，例如我们需要实现一个不包含统计功能的todo APP，按照我们的原理，我们只需要去掉statistics的依赖就可以了。</p>
+<p>架构划分图如下：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_no_statistic_architecture.png" alt="Todo No Statistic Architectur"></p>
+<p>如果nostatsitcs需要不同的配色的方案的话，只需要在AndroidManifest的application标签中配置对应的theme就可以了。</p>
+<h2 id="使用Calces实现todo-mvp的组件化"><a href="#使用Calces实现todo-mvp的组件化" class="headerlink" title="使用Calces实现todo-mvp的组件化"></a>使用Calces实现todo-mvp的组件化</h2><p>通过上面的分析，我们来试下对todo-mvp项目按照业务功能来划分组件。我们先来看看划分后的目录：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_todo_mvp.jpg" alt="todo_calces_dir"></p>
+<p>好了，我们已经对todo-mvp项目进行初步的划分了。根据上面分析的理论得知，我们的业务模块是可以单独运行的，并且我们能够快速构建一个不包含statistics模块的APP。</p>
+<p>我们只需要使用<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>就能快速实现我们需要的功能。</p>
+<p>按照<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>的教程，我们得知，实现<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>只需要三个步骤：</p>
+<ol>
+<li>引入依赖库</li>
+<li>在项目的build.gradle中配置AppConfig</li>
+<li>在业务模块中引入模块自动化构c持续 </li>
+</ol>
+<p>第一点和第三点在其它所有项目中的配置都是一样的，在这里不作论述，下面我们看看对于TodoCalces项目，我们要如何配置AppConfig 。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="section">appConfig</span> &#123;</div><div class="line"></div><div class="line">    <span class="attribute">debugEnable</span> <span class="literal">false</span></div><div class="line"></div><div class="line">    apps &#123;</div><div class="line">        <span class="section">app</span> &#123;</div><div class="line">            <span class="attribute">mainActivity</span> <span class="string">"com.tangpj.tasks.TasksActivity"</span></div><div class="line">            modules <span class="string">':modules:addtask'</span>,</div><div class="line">                    <span class="string">':modules:taskdetail'</span>,</div><div class="line">                    <span class="string">':modules:tasks'</span>,</div><div class="line">                    <span class="string">':modules:statistics'</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        app2 &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">'nostatistic'</span></div><div class="line">            applicationId <span class="string">'com.tangpj.nostatistic'</span></div><div class="line">            modules <span class="string">':modules:addtask'</span>,</div><div class="line">                    <span class="string">':modules:taskdetail'</span>,</div><div class="line">                    <span class="string">':modules:tasks'</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    modules &#123;</div><div class="line">        <span class="section">addtask</span> &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:addtask"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.addtask"</span></div><div class="line">            mainActivity <span class="string">".AddEditTaskActivity"</span></div><div class="line">            isRunAlone <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        taskdetail &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:taskdetail"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.taskdetail"</span></div><div class="line">            mainActivity <span class="string">".TaskDetailActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">        task &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:tasks"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.tasks"</span></div><div class="line">            mainActivity <span class="string">".TasksActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        statistics &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:statistics"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.statistics"</span></div><div class="line">            mainActivity <span class="string">".StatisticsActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>根据AppConfig可以得出，我们分别配置了2个APP，分别是app1和app2。并且app2中是没有依赖statistics的。现在我们两个APP运行的对比图。</p>
+<p>app1(带statistics模块)：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_calces.jpg" alt="todo_calces"></p>
+<p>app2(不带statistics模块)：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_nostatistics%402x.png" alt="nostatistic"></p>
+<p>从运行图可以看出，app1和app2的配色方案是不一样的，并且app2中不带statistics模块，通过对项目实行合理的划分和引入<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>就能够快速实现组件化构建了。</p>
+<p><strong>结论：</strong>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>能轻松实现业务组件的管理，多APP的快速构建。当我们的业务组件只有4个的时候，可能无法体现Calces的优势，但是如果我们的业务组件有40个的时候，<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>给我们带来的优势就非常明显了。我们可以通过灵活依赖不同的组件，实现快速构建多个APP的目的。就像<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>的介绍图案一样，把组件当成积木来使用。</p>
+<h2 id="如何测试"><a href="#如何测试" class="headerlink" title="如何测试"></a>如何测试</h2><p>Android自动化测试展开来说是一个非常大并且不算简单的工程，在这里笔者不打算展开来说。只是简单的介绍组件化构建如何让我们更方便地去测试。</p>
+<p>并不是所有的自动化测试都一样，它们通常在使用范围、实现难度和执行时间上存在不同。我们一般把自动化测试划分为三种分别是：</p>
+<ol>
+<li>单元测试：目的是测试代码的最小单元。在基于Java的项目中，这个单元是一个方法。单元测试容易编写，快速执行，并在开发过程中针对代码的正确性提供宝贵的反馈。</li>
+<li>集成测试：用来测试一个完成的组件或子系统，确保多个类之间的交互是否按预期运行。集成测试需要比单元测试需要更长的执行时间，而且更加难以维护，失败的原因难以诊断。</li>
+<li>功能测试：通常用于测试应用程序端到端的功能，包括从用户的角度与所有外部系统的交互。当我们讨论用户角度时，通常是指用户界面。因为用户界面会随着时间的推移发生变动，维护功能测试代码会变得乏味而耗时。</li>
+</ol>
+<p>为了优化投资回报率，代码库应该包含大量的单元测试、少量集成测试以及更少的功能测试。</p>
+<p>占比如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_test.png" alt="自动化测试金字塔"></p>
+<p>从上文知道，在我们的组件化分的时候，会划分一个基础依赖库（superLib）。基础依赖库为我们的项目提供了基本的支持，并且该库在项目中是比较稳定、并且不包含业务逻辑的，所以在基础依赖库中，我们应该大量应用单元测试。而集成测试则适用于我们的数据依赖库（dataLib）中，我们可以通过集成测试来验证产品代码与数据模块的交互。而我们的业务模块中包含了大量的业务逻辑，这部分是经常变动的部分，我们可以为我们的业务模块编写一些UI自动化测试代码，但是因为业务（界面）经常变动的原因，所以这部分测试代码是难以维护，并且复用性十分低的。。</p>
+<p><strong>最后，我们得出的结论是：应该把主要精力放在单元测试上，所以如果当你的精力不足以编写所有测试代码的时候，你应该把主要的精力放在单元测试上，而不是放在收益最小的功能测试上。</strong></p>
+<p>关于自动化测试，笔者给的建议就到这里了，如果需要深入理解测试的话，可以自行查找资料，或者关注笔者的博客。后续的博客中，有可能会写关于自动化测试相关的知识。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>插件，我们在实现Android组件化时只需要关注如何合理划分组件的架构与如何实现组件间的通信就可以了。对于Android组件化来说，最主要问题有两个:</p>
+<ol>
+<li>大型项目如何合理划分组件模块</li>
+<li>当项目的组件数量非常多的时候如何管理</li>
+</ol>
+<p>第二个问题，可以通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>快速解决，至于第一个问题，笔者给出的指导就是，业务模块在合理的情况下要尽可能的小，因为越小的模块，越容易达到高内聚低耦合的目的。读者不需要担心项目模块划分得过于细不便于管理的问题，因为<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>能够轻松帮你管理好各个模块。</p>
+<h2 id="历史精选"><a href="#历史精选" class="headerlink" title="历史精选"></a>历史精选</h2><p><a href="http://tangpj.com/2018/05/12/data_binding_compiler_v2_1/" target="_blank" rel="external"><strong>Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础</strong></a></p>
+<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>如果这片文章对你有所启发的话，可以关注下笔者的公众号或<a href="https://github.com/Tangpj" target="_blank" rel="external">GitHub</a>。</p>
+<p>扫一扫关注我：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/wechat/tang_qr_code.png" alt="qr"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p align=&quot;center&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;img src=&quot;https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/github/calces_logo.jpg&quot; alt=&quot;Material Render Phone&quot;&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。&lt;/p&gt;
+&lt;p align=&quot;right&quot;&gt;—— 村上春树&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业务模块来保证工程的健壮性和稳定性。现在问题来了，当组件的数量变得越来多的时候，我们如何管理业务组件呢？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;原创声明： 该文章为原创文章，未经博主同意严禁转载。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Android技术分享" scheme="http://www.tangpj.com/categories/Android%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+    
+    
+      <category term="Java,Android,Groovy" scheme="http://www.tangpj.com/tags/Java-Android-Groovy/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础</title>
     <link href="http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/"/>
     <id>http://www.tangpj.com/2018/05/12/data_binding_compiler_v2_1/</id>
     <published>2018-05-12T11:14:59.000Z</published>
-    <updated>2018-05-14T04:47:06.625Z</updated>
+    <updated>2018-07-22T10:11:51.730Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg" alt=""></p>
 <blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
 <p><strong>前言：</strong> Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。</p>
+<a id="more"></a>
 <h2 id="Data-Binding和LiveData的兼容问题"><a href="#Data-Binding和LiveData的兼容问题" class="headerlink" title="Data Binding和LiveData的兼容问题"></a>Data Binding和LiveData的兼容问题</h2><p>在DataBinding Compiler V1的环境下，DataBinding和LiveData是无法兼容的。这句话是什么意思呢？我们先来看看平时我们使用DataBinding的代码片段。</p>
 <h3 id="Data-Binding"><a href="#Data-Binding" class="headerlink" title="Data Binding"></a>Data Binding</h3><p><strong>布局代码片段</strong><br><figure class="highlight dust"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">data</span>&gt;</span>  </span></div><div class="line">	<span class="tag">&lt;<span class="name">variable</span>  </span></div><div class="line">		<span class="attr">name</span>= <span class="string">"text"</span>  </div><div class="line">		<span class="attr">type</span>=<span class="string">"android.databinding.ObservableField&amp;lt;String&gt;"</span>/&gt;  </div><div class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">	<span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">	<span class="attr">android:layoutheight</span>=<span class="string">"40dp"</span>  </div><div class="line">	<span class="attr">android:text</span>=<span class="string">“@</span><span class="template-variable">&#123;text&#125;</span><span class="xml"><span class="tag">“  </span></span></div><div class="line">	/&gt;</div></pre></td></tr></table></figure></p>
 <blockquote>
@@ -93,7 +240,10 @@
     <summary type="html">
     
       &lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/databinding/data_binding_compiler_v2.jpeg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;bl
+&lt;blockquote&gt;
+&lt;p&gt;原创声明： 该文章为原创文章，未经博主同意严禁转载。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;前言：&lt;/strong&gt; Android常用的架构有：MVC、MVP、MVVM，而MVVM是唯一一个官方提供支持组件的架构，我们可以通过Android lifecycle系列组件、DataBinding或者通过组合两者的形式来打造一个强大的MVVM架构。而DataBinding Compiler V2就是为了解决目前的MVVM架构中的缺点而诞生的。&lt;/p&gt;
     
     </summary>
     
