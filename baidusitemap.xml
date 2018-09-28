@@ -4,30 +4,20 @@
 
     
   <url>
-    <loc>http://www.tangpj.com/2018/09/29/calces-careen/</loc>
-    <lastmod>2018-09-28T16:19:44.973Z</lastmod>
+    <loc>http://www.tangpj.com/2018/09/29/calces-screen/</loc>
+    <lastmod>2018-09-28T16:34:23.215Z</lastmod>
     <data>
         <display>
         <title>给你一个全自动的屏幕适配方案（基于SW方案）！—— 解放你和UI的双手</title>
         <pubTime>2018-09-28T16:11:20.000Z</pubTime>
         
+        <tag>Java,Android,Groovy</tag>
+         
          
            
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.tangpj.com/2018/09/27/calces_careen/</loc>
-    <lastmod>2018-09-28T16:11:29.114Z</lastmod>
-    <data>
-        <display>
-        <title></title>
-        <pubTime>2018-09-27T07:57:23.492Z</pubTime>
-        
-         
-           
+             
+              <breadCrumb title="Android技术分享" url="http://www.tangpj.com/categories/Android%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/"/>
+          
         </display>
     </data>
     </url>
