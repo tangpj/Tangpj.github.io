@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2018-09-28T16:35:49.364Z</updated>
+  <updated>2018-09-29T04:58:04.909Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -20,16 +20,14 @@
     <link href="http://www.tangpj.com/2018/09/29/calces-screen/"/>
     <id>http://www.tangpj.com/2018/09/29/calces-screen/</id>
     <published>2018-09-28T16:11:20.000Z</published>
-    <updated>2018-09-28T16:35:49.364Z</updated>
+    <updated>2018-09-29T04:58:04.909Z</updated>
     
     <content type="html"><![CDATA[<p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_screen.jpeg" alt="Material Render Phone"><br><br></p>
 
 
 <p>Calces系列相关文章：<a href="http://tangpj.com/2018/07/22/calces-componentization/" target="_blank" rel="external">Calces自动实现Android组件化模块构建</a></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>屏幕适配一直是移动端开发热议的问题，但是适配方案往往在实际开发的时候会和UI提供的设计稿冲突。本文主要是基于官方推荐的配置限定符方案（Smallest Width目前Android屏幕适配的最优方案）来实现一个接近完美的屏幕适配方案。</p>
-<blockquote>
-<p>原创声明： 该文章为原创文章，未经博主同意严禁转载。<br><a id="more"></a></p>
-</blockquote>
+<a id="more"></a>
 <p>对于完美的适配方案笔者是这样定义的：</p>
 <ol>
 <li>能完美适配UI稿。</li>
@@ -95,7 +93,7 @@
 <p>在modules的build.gradle中添加代码：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">"calces.appconfig"</span></div></pre></td></tr></table></figure>
 <h3 id="使用calces-screen适配屏幕"><a href="#使用calces-screen适配屏幕" class="headerlink" title="使用calces.screen适配屏幕"></a>使用calces.screen适配屏幕</h3><p>首先，我们需要在res/values/文件夹中创建dimens.xml文件，然后按照设计稿的标尺把需要用到的尺寸写到该文件下。例如：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--design 375px--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_48"</span>&gt;</span>48dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_75"</span>&gt;</span>75dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_100"</span>&gt;</span>100dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_125"</span>&gt;</span>125dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_150"</span>&gt;</span>150dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_200"</span>&gt;</span>200dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_250"</span>&gt;</span>250dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_300"</span>&gt;</span>300dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_375"</span>&gt;</span>375dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--text size--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_28"</span>&gt;</span>28sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_32"</span>&gt;</span>32sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_40"</span>&gt;</span>40sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--design 375px--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_48"</span>&gt;</span>48dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_75"</span>&gt;</span>75dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_100"</span>&gt;</span>100dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_125"</span>&gt;</span>125dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_150"</span>&gt;</span>150dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_200"</span>&gt;</span>200dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_250"</span>&gt;</span>250dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_300"</span>&gt;</span>300dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"px_375"</span>&gt;</span>375dp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--text size--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_28"</span>&gt;</span>28sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_32"</span>&gt;</span>32sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dimen</span> <span class="attr">name</span>=<span class="string">"text_px_40"</span>&gt;</span>40sp<span class="tag">&lt;/<span class="name">dimen</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这就是我们的基准dimens文件。</p>
 <p>现在我们只需要把基准尺寸与需要适配的尺寸通过Gradle配置就可以了，例如，上面的例子中，我们需要适配的sw有：320dp, 411dp, 900dp，那么我们需要在modules的build.gradle文件下添加如下代码：</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">screen&#123;</div><div class="line"></div><div class="line">    dimens&#123;</div><div class="line">        designPx <span class="number">375</span></div><div class="line">        smallesWidths <span class="number">320</span>,<span class="number">375</span>,<span class="number">411</span>,<span class="number">900</span></div><div class="line">        scale BigDecimal.ROUND_UP</div><div class="line">        auto <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -113,6 +111,20 @@
 <p>配置完毕后，重新build以下项目就可以看到生成的资源文件了，如下图：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/vlues_sw.png" alt=""></p>
 <p>为了不影响编译时间auto建议设置为false，需要的时候再手动启动任务生成适配资源文件。</p>
+<h3 id="如何确定我们需要适配什么sw值？"><a href="#如何确定我们需要适配什么sw值？" class="headerlink" title="如何确定我们需要适配什么sw值？"></a>如何确定我们需要适配什么sw值？</h3><p>除了自动生成sw外，我们还需要确定，我们的App需要支持那些sw值。最简单的方法就是，先确定我们要支持哪些设备。这里笔者给出一个建议就是，市面上有非常多设备的sw值都是360dp的，所以我们必须要适配360dp的设备。至于其它的设备，我们可以这样来确定，在开发者模式里面找到一项叫做最小宽度的参数，里面的值就是我们需要的sw值。具体如下图：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_sw_setting.png" alt="Nexus S sw值"></p>
+<p>例如，上面这个是Nexus S的sw值。如果我们不专门适配sw = 384dp的屏幕的话，那么系统就会默认寻找低于384dp的适配资源（所以360dp是一个相对通用的适配值）。当我们拥有测试设备的时候，使用calces.screen适配是非常简单的。那么如果我们不知道没有测试设备呢？（例如有用户反馈，某个设备下的适配有很大问题）</p>
+<p>这里给大家推荐一个很有用的网站就是：<a href="http://screensiz.es/" target="_blank" rel="external">Screen siz</a> ，这个网站可以查找一些常用设备的尺寸。但是我们只能查询对应设备的尺寸啊，并不能知道sw实际值是多少。细心的读者可能会发现，笔者用来掩饰适配效果的两张图片里面第一台设备非常特殊，它的sw值是375dp。但是Android中并没有375dp的设备啊，这是iPhone 6的尺寸。这是笔者通过Android的模拟器创建创建出来的设备。我们现在以三星S8为例子，创建一个S8尺寸的模拟器。</p>
+<p><strong>1、在Screen siz中找到S8的屏幕参数</strong></p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/screensize_example.png" alt="S8屏幕参数"></p>
+<p><strong>2、创建新的模拟器模版</strong></p>
+<p>步骤一：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_1.png" alt="创建模拟器模版步骤1"></p>
+<p>步骤2:</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_2.png" alt="创建模拟器模版步骤2"></p>
+<p>后面就使用这个模版来创建模拟器就可以了。我们启动模拟器看看S8的sw值：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_3.png" alt="S8 sw"></p>
+<p>我们可以看到，S8的sw值是480dp，所以如果要适配S8的话，我们只需要生成480dp的sw资源文件就可以了。一般情况下，sw为360dp和480dp的屏幕会比较常见，所以我们必须要生成这两套资源，如果需要支持Pad的话，则需要适配sw = 600dp 或 sw = 720dp的屏幕，然后再根据实际情况适配其它sw值的屏幕。</p>
 <p>到这里为止，我们就完成了Android基于sw方案的屏幕适配了，非常简单！</p>
 <p>但是，本文还没结束，这个插件除了提供自动实现基于sw方案的适配外，还提供了一个杀手级功能：根据配置自动把生成对应分辨率的位图资源。当我们需要适配多种不同屏幕密度的手机的时候，只需要提供一套高清位图资源就可以了，解放你和UI设计师的双手。</p>
 <h2 id="calces-screen实现位图自动缩放适配"><a href="#calces-screen实现位图自动缩放适配" class="headerlink" title="calces.screen实现位图自动缩放适配"></a>calces.screen实现位图自动缩放适配</h2><p>为不同密度的屏幕提供不同的位图资源是Google官方推荐的屏幕适配做法。这样做的好处是，能使App在不同密度的屏幕上都能达到最好的效果，不会出现在高清屏下出现老年机的显示效果，并且在不同密度的屏幕下都能保持相对稳定的显示效果。下面是位图资源密度对应的比例关系：</p>
@@ -173,7 +185,7 @@
 <p>注：目前版本不支持位图删除功能，所以当我们需要删除部分位图的时候，需要把自动生成的图片文件全部删除，重新生成，后续版本会增加该功能。</p>
 </blockquote>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>屏幕适配一直是移动端开发工程师的一大难题，面对琳琅满目的屏幕尺寸与屏幕密度，我们一直在找一个更好的适配方案。Smallest Width是目前Android中最简单最好用的适配方案，没有之一，它是由系统提供支持的，并且在适配时不会因为屏幕分辨率与设计稿的差异过大造成一些奇奇怪怪的问题（大屏幕上面变糊，小屏幕又显得像素过于密集）。笔者这个适配方案是基于Smallest Width与提供多套位图为基础，通过Gradle插件来自动处理sw比例计算与文件生成、位图自动缩放来实现一个相对更好的适配方案。</p>
-<p>calces.screen开发的初衷时简化UI设计师与Android工程师的工作量，目前已经基本达城这一目标。</p>
+<p>calces.screen开发的初衷时简化UI设计师与Android工程师的工作量，目前已经基本达成这一目标。</p>
 <p>好了，关于calces.screen插件的介绍就到此为止了，这里再一次提醒大家，如果觉得calces对你有所帮助的话，可以点下star，鼓励下作者。如果有一些更好的想法的话，可以参与这一开源项目。笔者会一直维护这个项目的，致力于减轻Android工程师的负担，把重复的机械性工作全部交给Gradle来处理。</p>
 <blockquote>
 <p>Github: <a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">如果觉得这个工具对您有帮助的话，可以点下Star，这是我坚持下去的动力💪</a></p>
@@ -187,8 +199,6 @@
 
 &lt;p&gt;Calces系列相关文章：&lt;a href=&quot;http://tangpj.com/2018/07/22/calces-componentization/&quot;&gt;Calces自动实现Android组件化模块构建&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;屏幕适配一直是移动端开发热议的问题，但是适配方案往往在实际开发的时候会和UI提供的设计稿冲突。本文主要是基于官方推荐的配置限定符方案（Smallest Width目前Android屏幕适配的最优方案）来实现一个接近完美的屏幕适配方案。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;原创声明： 该文章为原创文章，未经博主同意严禁转载。&lt;br&gt;
     
     </summary>
     
