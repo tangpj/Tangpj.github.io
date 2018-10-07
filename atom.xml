@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.tangpj.com/"/>
-  <updated>2018-09-29T04:58:04.909Z</updated>
+  <updated>2018-10-07T14:29:57.471Z</updated>
   <id>http://www.tangpj.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://www.tangpj.com/2018/09/29/calces-screen/"/>
     <id>http://www.tangpj.com/2018/09/29/calces-screen/</id>
     <published>2018-09-28T16:11:20.000Z</published>
-    <updated>2018-09-29T04:58:04.909Z</updated>
+    <updated>2018-10-07T14:29:57.471Z</updated>
     
     <content type="html"><![CDATA[<p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_screen.jpeg" alt="Material Render Phone"><br><br></p>
 
@@ -114,17 +114,9 @@
 <h3 id="如何确定我们需要适配什么sw值？"><a href="#如何确定我们需要适配什么sw值？" class="headerlink" title="如何确定我们需要适配什么sw值？"></a>如何确定我们需要适配什么sw值？</h3><p>除了自动生成sw外，我们还需要确定，我们的App需要支持那些sw值。最简单的方法就是，先确定我们要支持哪些设备。这里笔者给出一个建议就是，市面上有非常多设备的sw值都是360dp的，所以我们必须要适配360dp的设备。至于其它的设备，我们可以这样来确定，在开发者模式里面找到一项叫做最小宽度的参数，里面的值就是我们需要的sw值。具体如下图：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_sw_setting.png" alt="Nexus S sw值"></p>
 <p>例如，上面这个是Nexus S的sw值。如果我们不专门适配sw = 384dp的屏幕的话，那么系统就会默认寻找低于384dp的适配资源（所以360dp是一个相对通用的适配值）。当我们拥有测试设备的时候，使用calces.screen适配是非常简单的。那么如果我们不知道没有测试设备呢？（例如有用户反馈，某个设备下的适配有很大问题）</p>
-<p>这里给大家推荐一个很有用的网站就是：<a href="http://screensiz.es/" target="_blank" rel="external">Screen siz</a> ，这个网站可以查找一些常用设备的尺寸。但是我们只能查询对应设备的尺寸啊，并不能知道sw实际值是多少。细心的读者可能会发现，笔者用来掩饰适配效果的两张图片里面第一台设备非常特殊，它的sw值是375dp。但是Android中并没有375dp的设备啊，这是iPhone 6的尺寸。这是笔者通过Android的模拟器创建创建出来的设备。我们现在以三星S8为例子，创建一个S8尺寸的模拟器。</p>
-<p><strong>1、在Screen siz中找到S8的屏幕参数</strong></p>
-<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/screensize_example.png" alt="S8屏幕参数"></p>
-<p><strong>2、创建新的模拟器模版</strong></p>
-<p>步骤一：</p>
-<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_1.png" alt="创建模拟器模版步骤1"></p>
-<p>步骤2:</p>
-<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_2.png" alt="创建模拟器模版步骤2"></p>
-<p>后面就使用这个模版来创建模拟器就可以了。我们启动模拟器看看S8的sw值：</p>
-<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/create_screen_3.png" alt="S8 sw"></p>
-<p>我们可以看到，S8的sw值是480dp，所以如果要适配S8的话，我们只需要生成480dp的sw资源文件就可以了。一般情况下，sw为360dp和480dp的屏幕会比较常见，所以我们必须要生成这两套资源，如果需要支持Pad的话，则需要适配sw = 600dp 或 sw = 720dp的屏幕，然后再根据实际情况适配其它sw值的屏幕。</p>
+<p>这里给大家推荐一个网站：<a href="https://material.io/tools/devices/" target="_blank" rel="external">Device Metrics</a></p>
+<p>这个网站是Material Design的设备参数查找网站，用户在这里直接找到对应设备的尺寸就可以了（之前的方法翻车了，溜了溜了）。</p>
+<p>一般情况下，sw为360dp和480dp的屏幕会比较常见，所以我们必须要生成这两套资源，如果需要支持Pad的话，则需要适配sw = 600dp 或 sw = 720dp的屏幕，然后再根据实际情况适配其它sw值的屏幕。</p>
 <p>到这里为止，我们就完成了Android基于sw方案的屏幕适配了，非常简单！</p>
 <p>但是，本文还没结束，这个插件除了提供自动实现基于sw方案的适配外，还提供了一个杀手级功能：根据配置自动把生成对应分辨率的位图资源。当我们需要适配多种不同屏幕密度的手机的时候，只需要提供一套高清位图资源就可以了，解放你和UI设计师的双手。</p>
 <h2 id="calces-screen实现位图自动缩放适配"><a href="#calces-screen实现位图自动缩放适配" class="headerlink" title="calces.screen实现位图自动缩放适配"></a>calces.screen实现位图自动缩放适配</h2><p>为不同密度的屏幕提供不同的位图资源是Google官方推荐的屏幕适配做法。这样做的好处是，能使App在不同密度的屏幕上都能达到最好的效果，不会出现在高清屏下出现老年机的显示效果，并且在不同密度的屏幕下都能保持相对稳定的显示效果。下面是位图资源密度对应的比例关系：</p>
@@ -190,6 +182,9 @@
 <blockquote>
 <p>Github: <a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">如果觉得这个工具对您有帮助的话，可以点下Star，这是我坚持下去的动力💪</a></p>
 </blockquote>
+<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>如果你希望第一时间获得本人的最新文章的话，可以关注我的微信公众号：代码之外的程序员。或者关注我的博客：<a href="http://tangpj.com" target="_blank" rel="external">http://tangpj.com</a></p>
+<p>公众号二维码：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/wechat/tang_qr_code.png" alt="qr"></p>
 ]]></content>
     
     <summary type="html">
