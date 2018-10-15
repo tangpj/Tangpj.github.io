@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,50 +46,82 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="MVP开发框架," />
-
-
+  <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
+<meta name="keywords" content="MVP开发框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发">
+<meta property="og:url" content="http://www.tangpj.com/2016/11/09/mvp-structure-four/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/DobbyTang/MarkdownRes/blob/master/mBlog/mvp/2016-11-09%2023_30_34.gif?raw=true">
+<meta property="og:updated_time" content="2018-10-14T16:55:05.610Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
+<meta name="twitter:image" content="https://github.com/DobbyTang/MarkdownRes/blob/master/mBlog/mvp/2016-11-09%2023_30_34.gif?raw=true">
 
 
 
@@ -79,59 +130,21 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="canonical" href="http://www.tangpj.com/2016/11/09/mvp-structure-four/"/>
 
 
 
-
-
-
-<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发">
-<meta property="og:url" content="http://www.tangpj.com/2016/11/09/mvp-structure-four/index.html">
-<meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
-<meta property="og:image" content="https://github.com/DobbyTang/MarkdownRes/blob/master/mBlog/mvp/2016-11-09%2023_30_34.gif?raw=true">
-<meta property="og:updated_time" content="2016-11-09T15:56:52.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发">
-<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。">
-<meta name="twitter:image" content="https://github.com/DobbyTang/MarkdownRes/blob/master/mBlog/mvp/2016-11-09%2023_30_34.gif?raw=true">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
   };
 </script>
 
-
-
-
-  <link rel="canonical" href="http://www.tangpj.com/2016/11/09/mvp-structure-four/"/>
-
-  <title> Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发 | TANG BLOG </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -139,7 +152,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -148,110 +161,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -259,24 +319,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2016/11/09/mvp-structure-four/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发
+          <h1 class="post-title" itemprop="name headline">Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发
               
             
           </h1>
@@ -284,32 +356,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-09T23:44:37+08:00" content="2016-11-09">
-              2016-11-09
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-09 23:44:37" itemprop="dateCreated datePublished" datetime="2016-11-09T23:44:37+08:00">2016-11-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 00:55:05" itemprop="dateModified" datetime="2018-10-15T00:55:05+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">Android架构</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android架构/" itemprop="url" rel="index"><span itemprop="name">Android架构</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -317,34 +418,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/11/09/mvp-structure-four/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/09/mvp-structure-four/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/09/mvp-structure-four/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/11/09/mvp-structure-four/" class="leancloud_visitors" data-flag-title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -356,56 +477,95 @@
 </blockquote>
 <p><em>摘要：</em>  通过上面三篇文章所提到的关于MVP框架的封装，我们已经能够大大简化MVP模式中MP层的开发流程。但是还有一个问题，就是在开发的时候我们的 View层组件还需要处理较多的事情，例如错误处理，进度条显示等。所以我们需要对View层的组建进行封装，优化开发的流程。</p>
 <a id="more"></a>
-<h3 id="对View组建进行优化"><a href="#对View组建进行优化" class="headerlink" title="对View组建进行优化"></a>对View组建进行优化</h3><p>笔者根据封装好的MVP的特点，对View层的组建进行了不同的封装。里面包含2个Activity、两个Fragment和一个Adapter基类。它们的名称分别是：MvpActivity 、MvpListActivity、MvpFragment、MvpListFragment、BaseListAdapter。它们的目的都是为了优化项目的代码和结构，加快项目的开发速度。<br>在这里笔者只对MvpActivity 这个类进行解析，其他的可以通过查看笔者github上的源码来学习实现方式。MvpActivity中封装了前面我们提到的一些公共方法，它的作用是结合我们前面封装好的BasePresenter使用，实现对项目进行优化的目的。使用普通的presenter获取数据的activity可以通过继承这个类来减少需要自己手动实现的代码。<br>如果读者想进一步了解其他几个组件的具体实现的话，请到笔者的<a href="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="external">github</a>上下载。</p>
-<h3 id="处理Toolbar"><a href="#处理Toolbar" class="headerlink" title="处理Toolbar"></a>处理Toolbar</h3><p>笔者在开发这个框架的时候是采用Material Design风格进行开发的，采用这个风格进行开发的时候会有一个问题，就是每个Activity都需要重新实现一个toolbar。所以对Activity进行优化的第一项任务就是解决这个问题。<br>我们先来看看MvpActivity的界面实现：<br><strong>activity_mvp.xml:</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span>  </div><div class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.CoordinatorLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>  </div><div class="line">    <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">    <span class="attr">android:layoutheight</span>=<span class="string">"matchparent"</span>  </div><div class="line">    <span class="attr">android:fitsSystemWindows</span>=<span class="string">"true"</span>  </div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"com.mvp.framework.module.base.view.activity.MvpActivity"</span>&gt;  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span>  </span></div><div class="line">        <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">        <span class="attr">android:layoutheight</span>=<span class="string">"wrapcontent"</span>  </div><div class="line">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme.AppBarOverlay"</span>&gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span>  </span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span>  </div><div class="line">            <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </div><div class="line">            <span class="attr">android:layoutheight</span>=<span class="string">"?attr/actionBarSize"</span>  </div><div class="line">            <span class="attr">android:background</span>=<span class="string">"?attr/colorPrimary"</span>  </div><div class="line">            <span class="attr">app:popupTheme</span>=<span class="string">"@style/AppTheme.PopupOverlay"</span> /&gt;  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/contentmvp"</span> /&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.FloatingActionButton</span>  </span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/fab"</span>  </div><div class="line">        <span class="attr">android:layoutwidth</span>=<span class="string">"wrapcontent"</span>  </div><div class="line">        <span class="attr">android:layoutheight</span>=<span class="string">"wrapcontent"</span>  </div><div class="line">        <span class="attr">android:layoutgravity</span>=<span class="string">"bottom|end"</span>  </div><div class="line">        <span class="attr">android:layoutmargin</span>=<span class="string">"@dimen/fabmargin"</span>  </div><div class="line">        <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </div><div class="line">        <span class="attr">app:srcCompat</span>=<span class="string">"@android:drawable/icdialogemail"</span> /&gt;  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.CoordinatorLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>上面的代码和我们平时的Material Design页面布局时一样的。下面我们来看下<code>content_mvp</code>的代码:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span>  </div><div class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.SwipeRefreshLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span></div><div class="line">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>  </div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/refresh_layout"</span>  </div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>  </div><div class="line">    <span class="attr">app:layout_behavior</span>=<span class="string">"@string/appbar_scrolling_view_behavior"</span>  </div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"com.mvp.framework.module.base.view.activity.MvpActivity"</span>  </div><div class="line">    <span class="attr">tools:showIn</span>=<span class="string">"@layout/activity_mvp"</span>&gt;  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span>  </span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/content_base"</span>  </div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>  </div><div class="line">        <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span>  </div><div class="line">        <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span>  </div><div class="line">        <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span>  </div><div class="line">        <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span>  </div><div class="line">        &gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">ProgressBar</span>  </span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/base_progress_bar"</span>  </div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"64dp"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>  </div><div class="line">            <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </div><div class="line">            <span class="attr">style</span>=<span class="string">"?android:attr/progressBarStyle"</span>  </div><div class="line">            /&gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/base_error_layout"</span>  </div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">            <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>  </div><div class="line">            <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </div><div class="line">            <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>  </div><div class="line">            <span class="attr">android:gravity</span>=<span class="string">"center"</span>&gt;  </div><div class="line">  </div><div class="line">            <span class="tag">&lt;<span class="name">ImageView</span>  </span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/base_error_img"</span>  </div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">                <span class="attr">android:src</span>=<span class="string">"@mipmap/ic_launcher"</span>/&gt;  </div><div class="line">  </div><div class="line">            <span class="tag">&lt;<span class="name">TextView</span>  </span></div><div class="line">                <span class="attr">android:id</span>=<span class="string">"@+id/base_error_text"</span>  </div><div class="line">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </div><div class="line">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </div><div class="line">                <span class="attr">android:text</span>=<span class="string">"网络连接错误,点击从新连接"</span>/&gt;  </div><div class="line">  </div><div class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span>  </div><div class="line">  </div><div class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.SwipeRefreshLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>从布局可以看到，<code>content_mvp</code>中包含了SwipeRefreshLayout、ProgressBar、和显示错误的layout等。那么是如何实现让子Activity不需要处理toolbar的呢？笔者这里用了个简单暴力的办法。你看见上面布局中的FrameLayout了吗？看见了对吧？我就是用FrameLayout的addView方法把子Activity中的布局加进去的。<br>就好像下面这样:<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">contentView = onCreateView(getLayoutInflater(),contentViewGroup,savedInstanceState);  </div><div class="line"><span class="type">FrameLayout</span>.<span class="type">LayoutParams</span> lp = <span class="function"><span class="keyword">new</span> <span class="title">FrameLayout</span>.<span class="title">LayoutParams</span>(  </span></div><div class="line">        <span class="type">FrameLayout</span>.<span class="type">LayoutParams</span>.<span class="type">MATCHPARENT</span>,<span class="type">FrameLayout</span>.<span class="type">LayoutParams</span>.<span class="type">MATCHPARENT</span>);  </div><div class="line"><span class="title">contentViewGroup</span>.<span class="title">addView</span>(contentView,lp);`</div></pre></td></tr></table></figure></p>
+<h3 id="对View组建进行优化"><a href="#对View组建进行优化" class="headerlink" title="对View组建进行优化"></a>对View组建进行优化</h3><p>笔者根据封装好的MVP的特点，对View层的组建进行了不同的封装。里面包含2个Activity、两个Fragment和一个Adapter基类。它们的名称分别是：MvpActivity 、MvpListActivity、MvpFragment、MvpListFragment、BaseListAdapter。它们的目的都是为了优化项目的代码和结构，加快项目的开发速度。<br>在这里笔者只对MvpActivity 这个类进行解析，其他的可以通过查看笔者github上的源码来学习实现方式。MvpActivity中封装了前面我们提到的一些公共方法，它的作用是结合我们前面封装好的BasePresenter使用，实现对项目进行优化的目的。使用普通的presenter获取数据的activity可以通过继承这个类来减少需要自己手动实现的代码。<br>如果读者想进一步了解其他几个组件的具体实现的话，请到笔者的<a href="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="noopener">github</a>上下载。</p>
+<h3 id="处理Toolbar"><a href="#处理Toolbar" class="headerlink" title="处理Toolbar"></a>处理Toolbar</h3><p>笔者在开发这个框架的时候是采用Material Design风格进行开发的，采用这个风格进行开发的时候会有一个问题，就是每个Activity都需要重新实现一个toolbar。所以对Activity进行优化的第一项任务就是解决这个问题。<br>我们先来看看MvpActivity的界面实现：<br><strong>activity_mvp.xml:</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.design.widget.CoordinatorLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:layoutheight</span>=<span class="string">"matchparent"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:fitsSystemWindows</span>=<span class="string">"true"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.mvp.framework.module.base.view.activity.MvpActivity"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.AppBarLayout</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutheight</span>=<span class="string">"wrapcontent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme.AppBarOverlay"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layoutwidth</span>=<span class="string">"matchparent"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layoutheight</span>=<span class="string">"?attr/actionBarSize"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:background</span>=<span class="string">"?attr/colorPrimary"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">app:popupTheme</span>=<span class="string">"@style/AppTheme.PopupOverlay"</span> /&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">android.support.design.widget.AppBarLayout</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/contentmvp"</span> /&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">android.support.design.widget.FloatingActionButton</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/fab"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutwidth</span>=<span class="string">"wrapcontent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutheight</span>=<span class="string">"wrapcontent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutgravity</span>=<span class="string">"bottom|end"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layoutmargin</span>=<span class="string">"@dimen/fabmargin"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">app:srcCompat</span>=<span class="string">"@android:drawable/icdialogemail"</span> /&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.design.widget.CoordinatorLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的代码和我们平时的Material Design页面布局时一样的。下面我们来看下<code>content_mvp</code>的代码:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">android.support.v4.widget.SwipeRefreshLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/refresh_layout"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_behavior</span>=<span class="string">"@string/appbar_scrolling_view_behavior"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.mvp.framework.module.base.view.activity.MvpActivity"</span>  </span></span><br><span class="line"><span class="tag">    <span class="attr">tools:showIn</span>=<span class="string">"@layout/activity_mvp"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/content_base"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span>  </span></span><br><span class="line"><span class="tag">        <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span>  </span></span><br><span class="line"><span class="tag">        &gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">ProgressBar</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/base_progress_bar"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"64dp"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">style</span>=<span class="string">"?android:attr/progressBarStyle"</span>  </span></span><br><span class="line"><span class="tag">            /&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;<span class="name">LinearLayout</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/base_error_layout"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:visibility</span>=<span class="string">"gone"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span>  </span></span><br><span class="line"><span class="tag">            <span class="attr">android:gravity</span>=<span class="string">"center"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">            <span class="tag">&lt;<span class="name">ImageView</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/base_error_img"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:src</span>=<span class="string">"@mipmap/ic_launcher"</span>/&gt;</span>  </span><br><span class="line">  </span><br><span class="line">            <span class="tag">&lt;<span class="name">TextView</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/base_error_text"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>  </span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"网络连接错误,点击从新连接"</span>/&gt;</span>  </span><br><span class="line">  </span><br><span class="line">        <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v4.widget.SwipeRefreshLayout</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>从布局可以看到，<code>content_mvp</code>中包含了SwipeRefreshLayout、ProgressBar、和显示错误的layout等。那么是如何实现让子Activity不需要处理toolbar的呢？笔者这里用了个简单暴力的办法。你看见上面布局中的FrameLayout了吗？看见了对吧？我就是用FrameLayout的addView方法把子Activity中的布局加进去的。<br>就好像下面这样:<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">contentView = onCreateView(getLayoutInflater(),contentViewGroup,savedInstanceState);  </span><br><span class="line"><span class="type">FrameLayout</span>.<span class="type">LayoutParams</span> lp = <span class="function"><span class="keyword">new</span> <span class="title">FrameLayout</span>.<span class="title">LayoutParams</span>(  </span></span><br><span class="line"><span class="function">        <span class="type">FrameLayout</span>.<span class="type">LayoutParams</span>.<span class="type">MATCHPARENT</span>,<span class="type">FrameLayout</span>.<span class="type">LayoutParams</span>.<span class="type">MATCHPARENT</span>);  </span></span><br><span class="line"><span class="function"><span class="title">contentViewGroup</span>.<span class="title">addView</span>(contentView,lp);`</span></span><br></pre></td></tr></table></figure></p>
 <p>这个onCreateView就是在子Activity中需要实现的方法，和fragment的onCreateView使用方法是一样的。而contentViewGroup就是我们上面说的fragment。</p>
 <p>这样就可以通过MvpActivity基类简化这一步操作。</p>
-<h3 id="实现IMvpActivity接口"><a href="#实现IMvpActivity接口" class="headerlink" title="实现IMvpActivity接口"></a>实现IMvpActivity接口</h3><p><strong>IMvpActivity的代码如下：</strong><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpActivity</span> <span class="keyword">extends</span> <span class="title">IActivity</span>&#123;</span>  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: onCreateView  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">20</span> 下午<span class="number">2</span>:<span class="number">32</span>  </div><div class="line">      <span class="meta">@Description</span>: 创建子activity布局  </div><div class="line">     /  </div><div class="line">    <span class="meta">@NonNull</span>  </div><div class="line">    View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState);  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: onReconnection  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">20</span> 下午<span class="number">4</span>:<span class="number">00</span>  </div><div class="line">      <span class="meta">@Description</span>: 重新连接  </div><div class="line">      这里要注意的是，如果一个页面里面有多个获取数据的presenter，  </div><div class="line">      需要确认获取数据失败的presenter  </div><div class="line">      具体需要根据实际业务来处理  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> onReconnection();  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: setProgressType  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">25</span> 上午<span class="number">10</span>:<span class="number">54</span>  </div><div class="line">      <span class="meta">@Description</span>:  </div><div class="line">      设置加载进度的样式  </div><div class="line">      初始化为默认模式，  </div><div class="line">      在子类中调用该方法可以重设进度条的样式  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> setProgressType(<span class="keyword">int</span> progressType);  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="实现IMvpActivity接口"><a href="#实现IMvpActivity接口" class="headerlink" title="实现IMvpActivity接口"></a>实现IMvpActivity接口</h3><p><strong>IMvpActivity的代码如下：</strong><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpActivity</span> <span class="keyword">extends</span> <span class="title">IActivity</span>&#123;</span>  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: onCreateView  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">20</span> 下午<span class="number">2</span>:<span class="number">32</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 创建子activity布局  </span><br><span class="line">     /  </span><br><span class="line">    <span class="meta">@NonNull</span>  </span><br><span class="line">    View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState);  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: onReconnection  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">20</span> 下午<span class="number">4</span>:<span class="number">00</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 重新连接  </span><br><span class="line">      这里要注意的是，如果一个页面里面有多个获取数据的presenter，  </span><br><span class="line">      需要确认获取数据失败的presenter  </span><br><span class="line">      具体需要根据实际业务来处理  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> onReconnection();  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: setProgressType  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">25</span> 上午<span class="number">10</span>:<span class="number">54</span>  </span><br><span class="line">      <span class="meta">@Description</span>:  </span><br><span class="line">      设置加载进度的样式  </span><br><span class="line">      初始化为默认模式，  </span><br><span class="line">      在子类中调用该方法可以重设进度条的样式  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> setProgressType(<span class="keyword">int</span> progressType);  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>IMvpActivity继承了IActivity接口,下面我们来看看IActivity接口的代码<br><strong>IActivity:</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IActivity</span> </span>&#123;  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: setTitle  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">20</span> 上午<span class="number">11</span>:<span class="number">06</span>  </div><div class="line">      <span class="meta">@Description</span>: 设置页面标题  </div><div class="line">     /  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span></span>;  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: setDisplayHomeAsUpEnabled  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">20</span> 上午<span class="number">11</span>:<span class="number">16</span>  </div><div class="line">      <span class="meta">@Description</span>: ActionBar上是否显示返回按钮  </div><div class="line">     /  </div><div class="line">    <span class="meta">@NonNull</span>  </div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">setDisplayHomeAsUpEnabled</span><span class="params">()</span></span>;  </div><div class="line">  </div><div class="line">    <span class="function">FloatingActionButton <span class="title">getFloatingActionButton</span><span class="params">()</span></span>;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IActivity</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: setTitle  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">20</span> 上午<span class="number">11</span>:<span class="number">06</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 设置页面标题  </span><br><span class="line">     /  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(String title)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: setDisplayHomeAsUpEnabled  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">20</span> 上午<span class="number">11</span>:<span class="number">16</span>  </span><br><span class="line">      <span class="meta">@Description</span>: ActionBar上是否显示返回按钮  </span><br><span class="line">     /  </span><br><span class="line">    <span class="meta">@NonNull</span>  </span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">setDisplayHomeAsUpEnabled</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function">FloatingActionButton <span class="title">getFloatingActionButton</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面的两个接口中大部分方法都十分简单，只是对activity执行一些初始化操作而已。其中setProgressType(int type)方法是用于设置我们在使用presenter发起获取数据请求的时候显示的进度条样式的。在这里笔者定义了三种样式，分别由dialog样式，默认样式和SwipeRefreshLayout样式。这个进度条样式在收到<code>IMvpView</code>接口的showProgress(final boolean show)的时候会显示／隐藏进度条。</p>
-<h3 id="实现IMvpView接口"><a href="#实现IMvpView接口" class="headerlink" title="实现IMvpView接口"></a>实现IMvpView接口</h3><p>我们先来看看IMvpView接口的定义：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpView</span> <span class="keyword">extends</span> <span class="title">IBaseMvpView</span>&#123;</span>  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: isSucceed  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 下午<span class="number">4</span>:<span class="number">33</span>  </div><div class="line">      <span class="meta">@Description</span>: 通知View层获取数据成功  </div><div class="line">      在获取简单数据的时候用到  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> showSucceed(<span class="keyword">boolean</span> isSucceed);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBaseMvpView</span> &#123;</span>  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: showProgress  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">06</span>  </div><div class="line">      <span class="meta">@Description</span>: 是否显示加载进度  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> showProgress(<span class="keyword">final</span> <span class="keyword">boolean</span> show);  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: showNetworkError  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">08</span>  </div><div class="line">      <span class="meta">@Description</span>: 网络连接错误时Presenter层会调用该方法通知View层  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> showNetworkError(<span class="keyword">int</span> errorCode, String errorDesc, String ApiInterface);  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: showServerError  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">09</span>  </div><div class="line">      <span class="meta">@Description</span>: 服务器返回错误时Presenter层会调用该方法通知View层  </div><div class="line">     /  </div><div class="line">    <span class="keyword">void</span> showServerError(<span class="keyword">int</span> errorCode, String errorDesc);  </div><div class="line">  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="实现IMvpView接口"><a href="#实现IMvpView接口" class="headerlink" title="实现IMvpView接口"></a>实现IMvpView接口</h3><p>我们先来看看IMvpView接口的定义：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpView</span> <span class="keyword">extends</span> <span class="title">IBaseMvpView</span>&#123;</span>  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: isSucceed  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 下午<span class="number">4</span>:<span class="number">33</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 通知View层获取数据成功  </span><br><span class="line">      在获取简单数据的时候用到  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> showSucceed(<span class="keyword">boolean</span> isSucceed);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBaseMvpView</span> &#123;</span>  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: showProgress  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">06</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 是否显示加载进度  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> showProgress(<span class="keyword">final</span> <span class="keyword">boolean</span> show);  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: showNetworkError  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">08</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 网络连接错误时Presenter层会调用该方法通知View层  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> showNetworkError(<span class="keyword">int</span> errorCode, String errorDesc, String ApiInterface);  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: showServerError  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span><span class="regexp">/10/</span><span class="number">26</span> 上午<span class="number">11</span>:<span class="number">09</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 服务器返回错误时Presenter层会调用该方法通知View层  </span><br><span class="line">     /  </span><br><span class="line">    <span class="keyword">void</span> showServerError(<span class="keyword">int</span> errorCode, String errorDesc);  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到，这就是我们前面的文章中提到的IBaseView接口，这个接口的主要是用于处理错误回调与进度条的显示／隐藏。</p>
 <p>下面我们来看看几个方法的实现：<br><strong> showProgress(boolean show)</strong></p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void showProgress(boolean show) &#123;  </div><div class="line">    <span class="selector-tag">switch</span> (progressType)&#123;  </div><div class="line">        <span class="selector-tag">case</span> <span class="selector-tag">PROGRESSTYPEDEFAULT</span>:  </div><div class="line">            <span class="selector-tag">if</span> (show)&#123;  </div><div class="line">                <span class="selector-tag">if</span> (contentView != null)&#123;  </div><div class="line">                    contentView<span class="selector-class">.setVisibility</span>(View.GONE);  </div><div class="line">                &#125;  </div><div class="line">                defaultProgress.setVisibility(View.VISIBLE);  </div><div class="line">            &#125;<span class="selector-tag">else</span> &#123;  </div><div class="line">                defaultProgress<span class="selector-class">.setVisibility</span>(View.GONE);  </div><div class="line">                <span class="selector-tag">if</span>(contentView != null)&#123;  </div><div class="line">                    contentView<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">                &#125;  </div><div class="line">  </div><div class="line">            &#125;  </div><div class="line">            break;  </div><div class="line">  </div><div class="line">        <span class="selector-tag">case</span> <span class="selector-tag">PROGRESSTYPEDIALOG</span>:  </div><div class="line">            <span class="selector-tag">if</span>(show)&#123;  </div><div class="line">                dialogProgress<span class="selector-class">.show</span>();  </div><div class="line">            &#125;<span class="selector-tag">else</span> &#123;  </div><div class="line">                dialogProgress<span class="selector-class">.dismiss</span>();  </div><div class="line">            &#125;  </div><div class="line">  </div><div class="line">            break;  </div><div class="line">  </div><div class="line">        case <span class="attribute">PROGRESSTYPEDROPDOWN</span>:  </div><div class="line">            refreshLayout.setRefreshing(show);  </div><div class="line">            break;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> showProgress(<span class="keyword">boolean</span> show) &#123;  </span><br><span class="line">    <span class="keyword">switch</span> (progressType)&#123;  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDEFAULT:</span>  </span><br><span class="line">            <span class="keyword">if</span> (show)&#123;  </span><br><span class="line">                <span class="keyword">if</span> (contentView != <span class="literal">null</span>)&#123;  </span><br><span class="line">                    contentView.setVisibility(View.GONE);  </span><br><span class="line">                &#125;  </span><br><span class="line">                defaultProgress.setVisibility(View.VISIBLE);  </span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">                defaultProgress.setVisibility(View.GONE);  </span><br><span class="line">                <span class="keyword">if</span>(contentView != <span class="literal">null</span>)&#123;  </span><br><span class="line">                    contentView.setVisibility(View.VISIBLE);  </span><br><span class="line">                &#125;  </span><br><span class="line">  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDIALOG:</span>  </span><br><span class="line">            <span class="keyword">if</span>(show)&#123;  </span><br><span class="line">                dialogProgress.show();  </span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">                dialogProgress.dismiss();  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDROPDOWN:</span>  </span><br><span class="line">            refreshLayout.setRefreshing(show);  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>由于我们已经生成了不同样式的进度条实例，所以我们在这里根据设置的进度条样式来显示具体的进度条。这里需要注意的是，为了更好的人机交互体验，我们要根据不同的进度条样式来选择不同重连机制的处理方式，这里分别实现了点击错误提示重连和下拉重连，更多的实现读者可以自己进行拓展。</p>
-<p><strong> showNetworkError和showServerError</strong><br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void showNetworkError(int errorCode, String errorDesc, String ApiInterface) &#123;  </div><div class="line">    showProgress(false);  </div><div class="line">    LogUtil<span class="selector-class">.e</span>(getClass(), <span class="string">"showNetworkError: "</span> + ApiInterface);  </div><div class="line">  </div><div class="line">    onError(errorCode,errorDesc);  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void showServerError(int errorCode, String errorDesc) &#123;  </div><div class="line">  </div><div class="line">    onError(errorCode,errorDesc);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong> showNetworkError和showServerError</strong><br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showNetworkError</span><span class="params">(<span class="keyword">int</span> errorCode, String errorDesc, String ApiInterface)</span> </span>&#123;  </span><br><span class="line">    showProgress(<span class="keyword">false</span>);  </span><br><span class="line">    LogUtil.e(getClass(), <span class="string">"showNetworkError: "</span> + ApiInterface);  </span><br><span class="line">  </span><br><span class="line">    onError(errorCode,errorDesc);  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showServerError</span><span class="params">(<span class="keyword">int</span> errorCode, String errorDesc)</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    onError(errorCode,errorDesc);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看到这两个错误回调的最终实现时onError方法，下面是onError的代码：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void onError(int errorCode, String errorDesc) &#123;  </div><div class="line">    showProgress(false);  </div><div class="line">    LogUtil<span class="selector-class">.e</span>(getClass(), <span class="string">"showServerError: error code = "</span>  </div><div class="line">            + errorCode + <span class="string">" &amp; error desc = "</span> + errorDesc);  </div><div class="line">  </div><div class="line">    <span class="selector-tag">switch</span> (progressType) &#123;  </div><div class="line">  </div><div class="line">        <span class="selector-tag">case</span> <span class="selector-tag">PROGRESSTYPEDEFAULT</span>:  </div><div class="line">            <span class="selector-tag">if</span> (setErrorImageResource() != <span class="number">0</span>) &#123;  </div><div class="line">                errorImage<span class="selector-class">.setImageDrawable</span>(getResources().getDrawable(setErrorImageResource()));  </div><div class="line">            &#125;  </div><div class="line">  </div><div class="line">            if (!TextUtils.isEmpty(errorDesc)) &#123;  </div><div class="line">                errorText<span class="selector-class">.setText</span>(errorDesc);  </div><div class="line">            &#125;  </div><div class="line">            contentView.setVisibility(View.GONE);  </div><div class="line">            errorLayout<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">            break;  </div><div class="line">  </div><div class="line">        case <span class="attribute">PROGRESSTYPEDIALOG</span>:  </div><div class="line">            contentView.setVisibility(View.GONE);  </div><div class="line">            errorLayout<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">            break;  </div><div class="line">  </div><div class="line">        <span class="selector-tag">case</span> <span class="selector-tag">PROGRESSTYPEDROPDOWN</span>:  </div><div class="line">            <span class="selector-tag">if</span> (setErrorImageResource() != <span class="number">0</span>) &#123;  </div><div class="line">                errorImage<span class="selector-class">.setImageDrawable</span>(getResources().getDrawable(setErrorImageResource()));  </div><div class="line">            &#125;  </div><div class="line">  </div><div class="line">            <span class="selector-tag">if</span> (!TextUtils.isEmpty(errorDesc)) &#123;  </div><div class="line">                errorText<span class="selector-class">.setText</span>(errorDesc);  </div><div class="line">            &#125;  </div><div class="line">  </div><div class="line">            <span class="selector-tag">if</span> (!isSucceed) &#123;  </div><div class="line">                contentView<span class="selector-class">.setVisibility</span>(View.GONE);  </div><div class="line">                errorLayout<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">            &#125;<span class="selector-tag">else</span> &#123;  </div><div class="line">                Snackbar<span class="selector-class">.make</span>(fab,errorDesc,Snackbar.LENGTHSHORT)<span class="selector-class">.show</span>();  </div><div class="line">            &#125;  </div><div class="line">  </div><div class="line">            break;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> onError(<span class="keyword">int</span> errorCode, String errorDesc) &#123;  </span><br><span class="line">    showProgress(<span class="literal">false</span>);  </span><br><span class="line">    LogUtil.e(getClass(), <span class="string">"showServerError: error code = "</span>  </span><br><span class="line">            + errorCode + <span class="string">" &amp; error desc = "</span> + errorDesc);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">switch</span> (progressType) &#123;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDEFAULT:</span>  </span><br><span class="line">            <span class="keyword">if</span> (setErrorImageResource() != <span class="number">0</span>) &#123;  </span><br><span class="line">                errorImage.setImageDrawable(getResources().getDrawable(setErrorImageResource()));  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(errorDesc)) &#123;  </span><br><span class="line">                errorText.setText(errorDesc);  </span><br><span class="line">            &#125;  </span><br><span class="line">            contentView.setVisibility(View.GONE);  </span><br><span class="line">            errorLayout.setVisibility(View.VISIBLE);  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDIALOG:</span>  </span><br><span class="line">            contentView.setVisibility(View.GONE);  </span><br><span class="line">            errorLayout.setVisibility(View.VISIBLE);  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">case</span> <span class="string">PROGRESSTYPEDROPDOWN:</span>  </span><br><span class="line">            <span class="keyword">if</span> (setErrorImageResource() != <span class="number">0</span>) &#123;  </span><br><span class="line">                errorImage.setImageDrawable(getResources().getDrawable(setErrorImageResource()));  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="keyword">if</span> (!TextUtils.isEmpty(errorDesc)) &#123;  </span><br><span class="line">                errorText.setText(errorDesc);  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="keyword">if</span> (!isSucceed) &#123;  </span><br><span class="line">                contentView.setVisibility(View.GONE);  </span><br><span class="line">                errorLayout.setVisibility(View.VISIBLE);  </span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">                Snackbar.make(fab,errorDesc,Snackbar.LENGTHSHORT).show();  </span><br><span class="line">            &#125;  </span><br><span class="line">  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>错误信息的展现形式也是和进度条的样式有关的，这样做是为了优化交互体验。下面我们来看看这三种不同设置的实际效果。<br><img src="https://github.com/DobbyTang/MarkdownRes/blob/master/mBlog/mvp/2016-11-09%2023_30_34.gif?raw=true" alt="Demo展示图片" title="Demo展示图片"></p>
-<h3 id="对前面文章的补充"><a href="#对前面文章的补充" class="headerlink" title="对前面文章的补充"></a>对前面文章的补充</h3><p>前几篇文章中，关于BasePresenter的设计有一个小小的补充，这是由于笔者编写代码的时候的一个小的bug。<br>错误代码：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@<span class="function">Override  </span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessServer</span>(<span class="params">Params <span class="keyword">params</span></span>) &#123;  </div><div class="line">    <span class="keyword">this</span>.<span class="keyword">params</span> = <span class="keyword">params</span>;  </div><div class="line">    mvpView.showProgress(<span class="literal">true</span>);  </div><div class="line">    baseModel.sendRequestToServer();  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">@<span class="function">Override  </span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelRequest</span>(<span class="params"></span>) &#123;  </div><div class="line">   baseModel.cancelRequest();  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="对前面文章的补充"><a href="#对前面文章的补充" class="headerlink" title="对前面文章的补充"></a>对前面文章的补充</h3><p>前几篇文章中，关于BasePresenter的设计有一个小小的补充，这是由于笔者编写代码的时候的一个小的bug。<br>错误代码：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessServer</span>(<span class="params">Params <span class="keyword">params</span></span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">this</span>.<span class="keyword">params</span> = <span class="keyword">params</span>;  </span><br><span class="line">    mvpView.showProgress(<span class="literal">true</span>);  </span><br><span class="line">    baseModel.sendRequestToServer();  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">@Override  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelRequest</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">   baseModel.cancelRequest();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>错误的地方在于关于baseModel的调用，在这里我们应该使用getModel获取Model实例。为什么要这样做呢？因为BasePresenter默认使用的是VolleyModle,当在子Presenter需要使用其它类型的Model的时候，可以通过覆盖getModel()这个方法来重设Modle实例。<br>修改后的代码为：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@<span class="function">Override  </span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessServer</span>(<span class="params">Params <span class="keyword">params</span></span>) &#123;  </div><div class="line">    <span class="keyword">this</span>.<span class="keyword">params</span> = <span class="keyword">params</span>;  </div><div class="line">    mvpView.showProgress(<span class="literal">true</span>);  </div><div class="line">    getModel().sendRequestToServer();  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line">@<span class="function">Override  </span></div><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelRequest</span>(<span class="params"></span>) &#123;  </div><div class="line">   getModel() cancelRequest();  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>限于篇幅，笔者在这里只是对MvpActivity作了一个简单的介绍，但是核心思想是一样的，通过对一些公共方法的封装（不同activity的初始化，错误处理，进度条的现实隐藏都是类似的），实现简化我们的代码的目的。这个项目涉及的技术点较多，但是都是相对简单的，所以笔者在这里就不对其他view组件展开讨论了。大家可以通过阅读源码来加深体会。在这里再强调一遍，该项目的github地址是：<a href="https://github.com/DobbyTang/mvp-android-framework" title="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="external">https://github.com/DobbyTang/mvp-android-framework</a>。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessServer</span>(<span class="params">Params <span class="keyword">params</span></span>) </span>&#123;  </span><br><span class="line">    <span class="keyword">this</span>.<span class="keyword">params</span> = <span class="keyword">params</span>;  </span><br><span class="line">    mvpView.showProgress(<span class="literal">true</span>);  </span><br><span class="line">    getModel().sendRequestToServer();  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line">@Override  </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancelRequest</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">   getModel() cancelRequest();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>限于篇幅，笔者在这里只是对MvpActivity作了一个简单的介绍，但是核心思想是一样的，通过对一些公共方法的封装（不同activity的初始化，错误处理，进度条的现实隐藏都是类似的），实现简化我们的代码的目的。这个项目涉及的技术点较多，但是都是相对简单的，所以笔者在这里就不对其他view组件展开讨论了。大家可以通过阅读源码来加深体会。在这里再强调一遍，该项目的github地址是：<a href="https://github.com/DobbyTang/mvp-android-framework" title="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="noopener">https://github.com/DobbyTang/mvp-android-framework</a>。</p>
 <h3 id="下一篇预告"><a href="#下一篇预告" class="headerlink" title="下一篇预告"></a>下一篇预告</h3><p>到目前为止，我们已经完成了MVP开发框架的搭，如果我们单单只是处理好MVP的基类开发的话，还不能满足我们的要求。当我们的项目体积大到一定的程度的话，维护起来还是有困难的。所以在下一篇我介绍如何把我们的框架改造成一个高内聚低耦合的组件化框架。<br>相信组件化这个概念在2016年大家也听过不少了，笔者会在下一篇文章中提供一个实现的思路给大家。如果大家有更好的想法欢迎在下面的留言板留言哦，或者直接pull request也可以。<br>这一章的彩蛋是：关于这个组件化的框架，笔者已经完成了，目前github上的主分之就是一个组件化的框架。因为笔者做鸡的写作能力，所以代码更新一般会比文章快一点，欢迎大家关注项目以获取最新动态哦。</p>
 
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/MVP开发框架/" rel="tag">#MVP开发框架</a>
+            <a href="/tags/MVP开发框架/" rel="tag"># MVP开发框架</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -417,6 +577,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -431,31 +593,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -471,136 +633,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#对View组建进行优化"><span class="nav-number">1.</span> <span class="nav-text">对View组建进行优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理Toolbar"><span class="nav-number">2.</span> <span class="nav-text">处理Toolbar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现IMvpActivity接口"><span class="nav-number">3.</span> <span class="nav-text">实现IMvpActivity接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现IMvpView接口"><span class="nav-number">4.</span> <span class="nav-text">实现IMvpView接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对前面文章的补充"><span class="nav-number">5.</span> <span class="nav-text">对前面文章的补充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一篇预告"><span class="nav-number">7.</span> <span class="nav-text">下一篇预告</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -613,46 +795,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -671,77 +883,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2016/11/09/mvp-structure-four/';
-      var disqus_title = "Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发";
-      var disqus_url = 'http://www.tangpj.com/2016/11/09/mvp-structure-four/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2016/11/09/mvp-structure-four/';
+        this.page.identifier = '2016/11/09/mvp-structure-four/';
+        this.page.title = 'Android框架篇—— 从零开始搭建一个完善的MVP开发框架(四) —对View（Activity,Fragment等）层组件进行封装简化View层的开发';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -749,119 +969,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 

@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,50 +46,80 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Android小技巧," />
-
-
+  <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
+<meta name="keywords" content="Android小技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android(Java)Bean自动转换为map的方法">
+<meta property="og:url" content="http://www.tangpj.com/2016/08/28/bean_to_map/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-14T16:55:05.588Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android(Java)Bean自动转换为map的方法">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
 
 
 
@@ -79,57 +128,21 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="canonical" href="http://www.tangpj.com/2016/08/28/bean_to_map/"/>
 
 
 
-
-
-
-<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android(Java)Bean自动转换为map的方法">
-<meta property="og:url" content="http://www.tangpj.com/2016/08/28/bean_to_map/index.html">
-<meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
-<meta property="og:updated_time" content="2016-09-23T07:27:46.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android(Java)Bean自动转换为map的方法">
-<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
   };
 </script>
 
-
-
-
-  <link rel="canonical" href="http://www.tangpj.com/2016/08/28/bean_to_map/"/>
-
-  <title> Android(Java)Bean自动转换为map的方法 | TANG BLOG </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>Android(Java)Bean自动转换为map的方法 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -137,7 +150,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -146,110 +159,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -257,24 +317,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2016/08/28/bean_to_map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Android(Java)Bean自动转换为map的方法
+          <h1 class="post-title" itemprop="name headline">Android(Java)Bean自动转换为map的方法
               
             
           </h1>
@@ -282,32 +354,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-28T09:34:29+08:00" content="2016-08-28">
-              2016-08-28
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-08-28 09:34:29" itemprop="dateCreated datePublished" datetime="2016-08-28T09:34:29+08:00">2016-08-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 00:55:05" itemprop="dateModified" datetime="2018-10-15T00:55:05+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android技术分享/" itemprop="url" rel="index">
-                    <span itemprop="name">Android技术分享</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android技术分享/" itemprop="url" rel="index"><span itemprop="name">Android技术分享</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -315,34 +416,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/08/28/bean_to_map/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/28/bean_to_map/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/08/28/bean_to_map/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/08/28/bean_to_map/" class="leancloud_visitors" data-flag-title="Android(Java)Bean自动转换为map的方法">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -354,13 +475,13 @@
 </blockquote>
 <p>在开发Android的时候，用户端与服务端一般是通过传递Json数据的方式进行通信的，目前主流都是使用Gson库对Json数据进行处理但实际开发的时候，Gson库不一定能满足我们的需求。例如，我曾经做过一个项目，服务器以Json的格式发送数据到客户端，而客户端需要以Map类型的数据回传给服务器。所以在这个时候，我们就需要把Bean类以类似Gson库的方式自动转换成Map数据，以达到提高效率的目的。</p>
 <a id="more"></a>
-<h2 id="创建能自动解析数据的基类BaseBean"><a href="#创建能自动解析数据的基类BaseBean" class="headerlink" title="创建能自动解析数据的基类BaseBean"></a>创建能自动解析数据的基类BaseBean</h2><p>该类中只有一个方法，就是toMap。toMap方法的作用是通过class.getDeclaredFields()方法获取class对象的所有属性，然后将属性名转化为map对象的key，属性的值转化为map对象的value。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseBean</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; params;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * <span class="doctag">@Method</span>: toMap()</div><div class="line">     * <span class="doctag">@author</span> create by Tang</div><div class="line">     * <span class="doctag">@date</span> date 16/8/23 下午3:20</div><div class="line">     * <span class="doctag">@Description</span>: 把实体类转换成Map类</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> Map&lt;String,Object&gt; toMap() &#123;</div><div class="line">        Class&lt;? extends Object&gt; clazz = <span class="keyword">this</span>.getClass();</div><div class="line">        Class&lt;? extends Object&gt; superClass = clazz.getSuperclass();</div><div class="line"></div><div class="line">        Field[] fields = clazz.getDeclaredFields();</div><div class="line">        Field[] superFields = superClass.getDeclaredFields();</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (fields == <span class="literal">null</span> || fields.length == <span class="number">0</span> )&#123;</div><div class="line">            <span class="keyword">return</span> Collections.EMPTY_MAP;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        params = new HashMap&lt;&gt;();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (Field field : fields) &#123;</div><div class="line">                field.setAccessible(<span class="literal">true</span>);</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (field.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</div><div class="line">                    ParamsName paramsName = field.getAnnotation(ParamsName.<span class="keyword">class</span>);</div><div class="line">                    String key;</div><div class="line">                    <span class="keyword">if</span> (paramsName == <span class="literal">null</span>)&#123;</div><div class="line">                        key = field.getName();</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        key = paramsName.value();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (field.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</div><div class="line">                        params.put(key , String.valueOf(field.<span class="keyword">get</span>(<span class="keyword">this</span>)));</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        params.put(key, <span class="string">"null"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">for</span> (Field superField : superFields)&#123;</div><div class="line">                <span class="keyword">if</span> (superField.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</div><div class="line">                    superField.setAccessible(<span class="literal">true</span>);</div><div class="line">                    ParamsName superParamsName = superField.getAnnotation(ParamsName.<span class="keyword">class</span>);</div><div class="line">                    String superKey;</div><div class="line">                    <span class="keyword">if</span> (superParamsName == <span class="literal">null</span>)&#123;</div><div class="line">                        superKey = superField.getName();</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        superKey = superParamsName.value();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (superField.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</div><div class="line">                        params.put(superKey, String.valueOf(superField.<span class="keyword">get</span>(<span class="keyword">this</span>)));</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        params.put(superKey, <span class="string">"null"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> params;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">public</span> String toString()&#123;</div><div class="line">        <span class="keyword">if</span> (params == <span class="literal">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="string">"null"</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> params.toString();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="创建能自动解析数据的基类BaseBean"><a href="#创建能自动解析数据的基类BaseBean" class="headerlink" title="创建能自动解析数据的基类BaseBean"></a>创建能自动解析数据的基类BaseBean</h2><p>该类中只有一个方法，就是toMap。toMap方法的作用是通过class.getDeclaredFields()方法获取class对象的所有属性，然后将属性名转化为map对象的key，属性的值转化为map对象的value。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, Object&gt; params;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Method</span>: toMap()</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> create by Tang</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> date 16/8/23 下午3:20</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: 把实体类转换成Map类</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String,Object&gt; toMap() &#123;</span><br><span class="line">        Class&lt;? extends Object&gt; clazz = <span class="keyword">this</span>.getClass();</span><br><span class="line">        Class&lt;? extends Object&gt; superClass = clazz.getSuperclass();</span><br><span class="line"></span><br><span class="line">        Field[] fields = clazz.getDeclaredFields();</span><br><span class="line">        Field[] superFields = superClass.getDeclaredFields();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (fields == <span class="literal">null</span> || fields.length == <span class="number">0</span> )&#123;</span><br><span class="line">            <span class="keyword">return</span> Collections.EMPTY_MAP;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        params = new HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Field field : fields) &#123;</span><br><span class="line">                field.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (field.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</span><br><span class="line">                    ParamsName paramsName = field.getAnnotation(ParamsName.<span class="keyword">class</span>);</span><br><span class="line">                    String key;</span><br><span class="line">                    <span class="keyword">if</span> (paramsName == <span class="literal">null</span>)&#123;</span><br><span class="line">                        key = field.getName();</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        key = paramsName.value();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (field.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</span><br><span class="line">                        params.put(key , String.valueOf(field.<span class="keyword">get</span>(<span class="keyword">this</span>)));</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        params.put(key, <span class="string">"null"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Field superField : superFields)&#123;</span><br><span class="line">                <span class="keyword">if</span> (superField.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</span><br><span class="line">                    superField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">                    ParamsName superParamsName = superField.getAnnotation(ParamsName.<span class="keyword">class</span>);</span><br><span class="line">                    String superKey;</span><br><span class="line">                    <span class="keyword">if</span> (superParamsName == <span class="literal">null</span>)&#123;</span><br><span class="line">                        superKey = superField.getName();</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        superKey = superParamsName.value();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (superField.<span class="keyword">get</span>(<span class="keyword">this</span>) != <span class="literal">null</span>)&#123;</span><br><span class="line">                        params.put(superKey, String.valueOf(superField.<span class="keyword">get</span>(<span class="keyword">this</span>)));</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        params.put(superKey, <span class="string">"null"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String toString()&#123;</span><br><span class="line">        <span class="keyword">if</span> (params == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"null"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> params.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>上面代码中class就是我们传递进来需要转换成map的Bean基类，superClass则是该类的父类。获取class的父类是由于class.getDeclaredFields方法只能获取自身的属性，而无法获得父类的属性，所以需要获取class对象的父类。<br>从上面的代码可以看出，将java实体类转换成map对象的方法很简单。通过遍历获得的Field对象，并通过Field.getName方法获取属性的命名作为map对象的key，通过Field.get(class)方法获取属性的值即可。<br><em>注 :</em> field.setAccessible(true)的作用是允许获取私有变量。</p>
 <p>细心读者可能会发现，有时候我们实体类的命名和服务器发给我们的命名规则是不一样的。但是我们又不想修改属性名的情况下怎么办？Gson库提供给我们的方法是通过注解的方式（@SerializedName）实现对属性的重命名。那么如果我们自定义的Gmap类能不能也实现该功能呢？答案当然是可以的。</p>
 <p>通过查看Gson的源码，我们发现Gson实现通过注解对属性进行重命名的方法实际是比较简单的。下面我们来详细看下注解是如何实现属性的重命名的。</p>
 <h2 id="通过注解实现属性重命名"><a href="#通过注解实现属性重命名" class="headerlink" title="通过注解实现属性重命名"></a>通过注解实现属性重命名</h2><p>先看代码:</p>
-<p>注解的定义：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="variable">@Target</span>(&#123;ElementType.FIELD, ElementType.METHOD&#125;)</div><div class="line">public <span class="variable">@interface</span> ParamsName &#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * @Method: value()</div><div class="line">     * @author create by Tang</div><div class="line">     * @date date 16/8/23 下午3:55</div><div class="line">     * @Description:</div><div class="line">     * 返回Map的key Name,默认为参数名</div><div class="line">     */</div><div class="line">    String value();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>在Map类中通过获取属性的注解对map的key实现重命名的方法：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ParamsName paramsName = field.getAnnotation(ParamsName.class);</div><div class="line">                    <span class="keyword">String</span> <span class="built_in">key</span>;</div><div class="line">                    <span class="keyword">if</span> (paramsName == <span class="keyword">null</span>)&#123;</div><div class="line">                        <span class="built_in">key</span> = field.getName();</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        <span class="built_in">key</span> = paramsName.value();</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (field.<span class="built_in">get</span>(<span class="keyword">this</span>) != <span class="keyword">null</span>)&#123;</div><div class="line">                        params.put(<span class="built_in">key</span> , <span class="keyword">String</span>.valueOf(field.<span class="built_in">get</span>(<span class="keyword">this</span>)));</div><div class="line">                    &#125;<span class="keyword">else</span> &#123;</div><div class="line">                        params.put(<span class="built_in">key</span>, <span class="string">"null"</span>);</div><div class="line">                    &#125;</div></pre></td></tr></table></figure></p>
+<p>注解的定义：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="variable">@Target</span>(&#123;ElementType.FIELD, ElementType.METHOD&#125;)</span><br><span class="line">public <span class="variable">@interface</span> ParamsName &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * @Method: value()</span></span><br><span class="line"><span class="comment">     * @author create by Tang</span></span><br><span class="line"><span class="comment">     * @date date 16/8/23 下午3:55</span></span><br><span class="line"><span class="comment">     * @Description:</span></span><br><span class="line"><span class="comment">     * 返回Map的key Name,默认为参数名</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="selector-tag">String</span> <span class="selector-tag">value</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在Map类中通过获取属性的注解对map的key实现重命名的方法：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ParamsName paramsName = field.getAnnotation(ParamsName.class);</span><br><span class="line">                    <span class="keyword">String</span> <span class="built_in">key</span>;</span><br><span class="line">                    <span class="keyword">if</span> (paramsName == <span class="keyword">null</span>)&#123;</span><br><span class="line">                        <span class="built_in">key</span> = field.getName();</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">key</span> = paramsName.value();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (field.<span class="built_in">get</span>(<span class="keyword">this</span>) != <span class="keyword">null</span>)&#123;</span><br><span class="line">                        params.put(<span class="built_in">key</span> , <span class="keyword">String</span>.valueOf(field.<span class="built_in">get</span>(<span class="keyword">this</span>)));</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        params.put(<span class="built_in">key</span>, <span class="string">"null"</span>);</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>注解的定义很简单，就是常规的java注解的定义。代码的实现也比较简单，通过field.getAnnotation（class）方法获得属性的注解，然后对获得的注解进行判断，如果注解值为空，则返回属性的实际名称，如果注解不为空，则返回注解的值。</p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>使用方法很简单，在创建bean类（或需要转化为map数据的类）时继承BaseBean即可，然后在需要的时候调用toMap()方法即可。</p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>以上就是我实现的把java bean类自动转化为map数据的方法。这个方法有个缺点，由于使用了反射的方法每次转化的时候会对java类遍历一次，所以这个方法会影响程序运行的性能。在查看Gson库的源码的时候，我发现Gson有更好的实现方法。具体我会在下一篇文章深度剖析Gson是如何在不影响效率的情况下实现数据的转化的。</p>
@@ -368,27 +489,66 @@
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android小技巧/" rel="tag">#Android小技巧</a>
+            <a href="/tags/Android小技巧/" rel="tag"># Android小技巧</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -400,6 +560,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -414,31 +576,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -454,136 +616,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建能自动解析数据的基类BaseBean"><span class="nav-number">1.</span> <span class="nav-text">创建能自动解析数据的基类BaseBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过注解实现属性重命名"><span class="nav-number">2.</span> <span class="nav-text">通过注解实现属性重命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">3.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number"></span> <span class="nav-text">小结</span></a></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -596,46 +778,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -654,77 +866,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2016/08/28/bean_to_map/';
-      var disqus_title = "Android(Java)Bean自动转换为map的方法";
-      var disqus_url = 'http://www.tangpj.com/2016/08/28/bean_to_map/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2016/08/28/bean_to_map/';
+        this.page.identifier = '2016/08/28/bean_to_map/';
+        this.page.title = 'Android(Java)Bean自动转换为map的方法';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -732,119 +952,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 

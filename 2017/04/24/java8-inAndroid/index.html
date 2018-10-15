@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,50 +46,83 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Java 8," />
-
-
+  <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
+<meta name="keywords" content="Java 8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写给Android开发者的Java 8简单入门教程">
+<meta property="og:url" content="http://www.tangpj.com/2017/04/24/java8-inAndroid/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_operating.png">
+<meta property="og:updated_time" content="2018-10-14T16:55:05.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="写给Android开发者的Java 8简单入门教程">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png">
 
 
 
@@ -79,54 +131,21 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="canonical" href="http://www.tangpj.com/2017/04/24/java8-inAndroid/"/>
 
 
 
-
-
-
-<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
-<meta property="og:type" content="article">
-<meta property="og:title" content="写给Android开发者的Java 8简单入门教程">
-<meta property="og:url" content="http://www.tangpj.com/2017/04/24/java8-inAndroid/index.html">
-<meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_operating.png">
-<meta property="og:updated_time" content="2017-05-03T01:01:23.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="写给Android开发者的Java 8简单入门教程">
-<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。简介：Java 8是在2014年3月发布的，Android工程师为什么要关心Java 8呢？理由是Java 8所做的改变比Java历史上任何一次改变都要深远。Java 8对于程序员的主要好处在于它提供了更多的编程工具和概念，能以更快，更重要的是能以更为简洁、更易于维护的方式解决新的或现有的编程问题。我希望通过这篇文章，能让读者对Java 8产生">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
   };
 </script>
 
-
-
-
-  <link rel="canonical" href="http://www.tangpj.com/2017/04/24/java8-inAndroid/"/>
-
-  <title> 写给Android开发者的Java 8简单入门教程 | TANG BLOG </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>写给Android开发者的Java 8简单入门教程 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -134,7 +153,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -143,110 +162,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -254,24 +320,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2017/04/24/java8-inAndroid/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                写给Android开发者的Java 8简单入门教程
+          <h1 class="post-title" itemprop="name headline">写给Android开发者的Java 8简单入门教程
               
             
           </h1>
@@ -279,32 +357,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-04-24T15:48:53+08:00" content="2017-04-24">
-              2017-04-24
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-04-24 15:48:53" itemprop="dateCreated datePublished" datetime="2017-04-24T15:48:53+08:00">2017-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 00:55:05" itemprop="dateModified" datetime="2018-10-15T00:55:05+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android技术分享/" itemprop="url" rel="index">
-                    <span itemprop="name">Android技术分享</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android技术分享/" itemprop="url" rel="index"><span itemprop="name">Android技术分享</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -312,34 +419,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2017/04/24/java8-inAndroid/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/24/java8-inAndroid/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/24/java8-inAndroid/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2017/04/24/java8-inAndroid/" class="leancloud_visitors" data-flag-title="写给Android开发者的Java 8简单入门教程">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -351,11 +478,11 @@
 </blockquote>
 <a id="more"></a>
 <h2 id="如何在Android-Studio上应用Java-8？"><a href="#如何在Android-Studio上应用Java-8？" class="headerlink" title="如何在Android Studio上应用Java 8？"></a>如何在Android Studio上应用Java 8？</h2><p>这里首先需要说明下在Android Studio（下文中使用AS代指）上使用Java 8会遇到的坑和问题。<br>一般我们在AS上应用Java 8的方式是通过使用Jack来进行编译，使用方法如下：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">android</span> &#123;  </div><div class="line">  ...  </div><div class="line">  <span class="selector-tag">defaultConfig</span> &#123;  </div><div class="line">	...  </div><div class="line">	<span class="selector-tag">jackOptions</span> &#123;  </div><div class="line">	  <span class="selector-tag">enabled</span> <span class="selector-tag">true</span>  </div><div class="line">	&#125;  </div><div class="line">  &#125;  </div><div class="line">  <span class="selector-tag">compileOptions</span> &#123;  </div><div class="line">	sourceCompatibility JavaVersion<span class="selector-class">.VERSION_1_8</span>  </div><div class="line">	<span class="selector-tag">targetCompatibility</span> <span class="selector-tag">JavaVersion</span><span class="selector-class">.VERSION_1_8</span>  </div><div class="line">  &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>当我们使用Jack的时候会导致我们无法使用AS的Instant Run和DataBinding功能，而且不支持接口的默认方法。这不能成为我们放弃使用Java 8的理由。当我们正准备愉快地使用Java 8时，Google突然在17年3月的某一天宣布放弃Jack，对的，我们的Google又弃坑了。<br>不过放心，Google在AS 2.4版本中提供了对Java 8的官方支持，在AS  2.4中使用Java 8不会产生任何负面的影响。AS 2.4提供了测试版供开发者使用，如果有兴趣的话可以提前体验AS 2.4的新功能，到目前为止笔者已经愉快地使用AS 2.4开发一周多了。AS 2.4的下载地址为：<a href="https://developer.android.com/studio/preview/index.html" target="_blank" rel="external">https://developer.android.com/studio/preview/index.html</a>。<br>在AS 2.4中使用Java 8的方法：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">android &#123;  </div><div class="line">  ...  </div><div class="line">  compileOptions &#123;  </div><div class="line">	sourceCompatibility JavaVersion<span class="selector-class">.VERSION_1_8</span>  </div><div class="line">	targetCompatibility JavaVersion<span class="selector-class">.VERSION_1_8</span>  </div><div class="line">  &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="我们为什么要使用Java-8？"><a href="#我们为什么要使用Java-8？" class="headerlink" title="我们为什么要使用Java 8？"></a>我们为什么要使用Java 8？</h2><p>在回答这个问题前，我们现在看一段简单的Java代码。代码的功能是把一堆苹果按照重量进行排序。<br>我们先来看看苹果类代码：<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> Apple &#123;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> weight;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">String</span> color;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>对苹果按照重量进行排序：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">Collections</span><span class="selector-class">.sort</span>(apples, new Comparator&lt;Apple&gt;() &#123;  </div><div class="line">	<span class="variable">@Override</span>  </div><div class="line">	public int compare(Apple o1, Apple o2) &#123;  </div><div class="line">		return o1<span class="selector-class">.getWeight</span>()<span class="selector-class">.compareTo</span>(o2.getWeight());  </div><div class="line">	&#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>在Java 8里，你可以编写更为简洁的代码，这些代码读起来更接近问题的描述：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">apples</span><span class="selector-class">.sort</span>(<span class="selector-tag">Comparator</span><span class="selector-class">.comparing</span>(<span class="selector-tag">Apple</span><span class="selector-pseudo">::getWeight))</span>;</div></pre></td></tr></table></figure></p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class">android </span>&#123;  </span><br><span class="line">  ...  </span><br><span class="line">  <span class="class">defaultConfig </span>&#123;  </span><br><span class="line">	...  </span><br><span class="line">	<span class="class">jackOptions </span>&#123;  </span><br><span class="line">	  enabled true  </span><br><span class="line">	&#125;  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="class">compileOptions </span>&#123;  </span><br><span class="line">	sourceCompatibility JavaVersion.VERSION_1_8  </span><br><span class="line">	targetCompatibility JavaVersion.VERSION_1_8  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们使用Jack的时候会导致我们无法使用AS的Instant Run和DataBinding功能，而且不支持接口的默认方法。这不能成为我们放弃使用Java 8的理由。当我们正准备愉快地使用Java 8时，Google突然在17年3月的某一天宣布放弃Jack，对的，我们的Google又弃坑了。<br>不过放心，Google在AS 2.4版本中提供了对Java 8的官方支持，在AS  2.4中使用Java 8不会产生任何负面的影响。AS 2.4提供了测试版供开发者使用，如果有兴趣的话可以提前体验AS 2.4的新功能，到目前为止笔者已经愉快地使用AS 2.4开发一周多了。AS 2.4的下载地址为：<a href="https://developer.android.com/studio/preview/index.html" target="_blank" rel="noopener">https://developer.android.com/studio/preview/index.html</a>。<br>在AS 2.4中使用Java 8的方法：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">android &#123;  </span><br><span class="line">  ...  </span><br><span class="line">  compileOptions &#123;  </span><br><span class="line">	sourceCompatibility JavaVersion<span class="selector-class">.VERSION_1_8</span>  </span><br><span class="line">	targetCompatibility JavaVersion<span class="selector-class">.VERSION_1_8</span>  </span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="我们为什么要使用Java-8？"><a href="#我们为什么要使用Java-8？" class="headerlink" title="我们为什么要使用Java 8？"></a>我们为什么要使用Java 8？</h2><p>在回答这个问题前，我们现在看一段简单的Java代码。代码的功能是把一堆苹果按照重量进行排序。<br>我们先来看看苹果类代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Apple</span> &#123;</span>  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> weight;  </span><br><span class="line">	<span class="keyword">private</span> String color;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对苹果按照重量进行排序：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Collections.sort(apples, <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;  </span><br><span class="line">	<span class="meta">@Override</span>  </span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple o1, Apple o2)</span> </span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> o1.getWeight().compareTo(o2.getWeight());  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在Java 8里，你可以编写更为简洁的代码，这些代码读起来更接近问题的描述：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">apples</span><span class="selector-class">.sort</span>(<span class="selector-tag">Comparator</span><span class="selector-class">.comparing</span>(<span class="selector-tag">Apple</span><span class="selector-pseudo">::getWeight))</span>;</span><br></pre></td></tr></table></figure></p>
 <p>上面这段代码非常简单，它念起来就是“对苹果排序，排序的条件是苹果的重量”。如果你研究过Lambda表达式的话，上面这段代码你就能够快速读懂，如果暂时理解不了的话，也没关系，笔者会慢慢带你深入了解的。</p>
 <p>Java 8对硬件的影响：平常我们用的CPU都是多核的，在知乎上我看到过一句话就是：大部分Android App都没有充分利用多核的性能，具体是哪个问题的哪个回答我忘了，这句话十分有道理。因为绝大多数现有Java 程序都只使用其中一个内核，其它的都闲着，或者一小部分的处理能力来运行操作系统和一些系统相关的Service。<br>在Java 8之前，我们必须使用多线程才能使用多个内核。问题是，线程用起来很难，也很容易出错，当线程竞争同一资源时，性能会大打折扣。Java 5添加了工业级的构建模块，如线程池和并发集合。Java 7添加了分支/合并集合框架，使得并行变得更加实用，但使用起来依然很难，并且很容易产生无法预期的错误。而Java 8对并行有了一个更简单的思路，不过在使用的使用仍然需要遵守一些规则，下面笔者会谈到。</p>
 <h2 id="Java-8的新特性"><a href="#Java-8的新特性" class="headerlink" title="Java 8的新特性"></a>Java 8的新特性</h2><p>Java从函数式编程中引入的两个核心思想：将方法和Lambda作为一等值，以及在没有可变共享时，函数或方法可以有效、安全地并发执行。<br>下面我们来简单介绍下Java 8的一些重要概念：</p>
@@ -391,25 +518,25 @@
 <li>传递——Lambda表达式可以作为参数传递给方法或存储在变量中。</li>
 <li>简洁——无需像匿名类那样写很多模版代码。</li>
 </ul>
-<p><em>注：</em>函数式接口是指只带有一个抽象方法的接口（这里说成抽象方法主要是为了区分默认方法）。Java 8中提供了一系列通用的函数式接口供我们使用，通过使用这些系统提供的函数式接口可以避免重复定义类似接口。如：在Android中的OnClickListener接口可以使用Java 8中的Supplier\<t\>接口代替。</t\></p>
-<h3 id="接口中的默认方法"><a href="#接口中的默认方法" class="headerlink" title="接口中的默认方法"></a>接口中的默认方法</h3><p>在Java 8之前，接口中的方法是不能带有方法实现对的，这就意味着，一旦当我们的接口发布出去后，就不能轻易更改接口。因为更改接口会导致所有实现了该接口的类都需要更改，这会带来无法估量的问题。Java 8提供了默认方法这一特性，我们可以对方法添加默认的实现，这样一来，实现类就不必实现／覆盖这一方法。我们可以通过前面对苹果排序的代码来加深理解。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">Collections</span><span class="selector-class">.sort</span>(apples, new Comparator&lt;Apple&gt;() &#123;  </div><div class="line">	<span class="variable">@Override</span>  </div><div class="line">	public int compare(Apple o1, Apple o2) &#123;  </div><div class="line">		return o1<span class="selector-class">.getWeight</span>()<span class="selector-class">.compareTo</span>(o2.getWeight());  </div><div class="line">	&#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p><em>在Java 8里</em><br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">apples</span><span class="selector-class">.sort</span>(<span class="selector-tag">Comparator</span><span class="selector-class">.comparing</span>(<span class="selector-tag">Apple</span><span class="selector-pseudo">::getWeight))</span>;</div></pre></td></tr></table></figure></p>
-<p>我们通过对比得知，在Java 8之前，我们需要通过Collections类sort方法来对列表进行排序。这不符合我们的理解，因为按照人类的理解，对列表进行排序的话，应该是属于列表的方法，而不是通过引入第二个类来实现。但是在Java 8之前，由于在接口中增加方法会导致所有的实现类都报错，所以为了保证兼容性，引入了Collections来实现对列表的操作。<br>而在Java 8中，List接口中提供了默认方法sort，这个方法的实际效果和Collections.sort是一样的。我们可以来看看List接口中的sort方法的具体实现：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">default</span> <span class="keyword">void</span> <span class="keyword">sort</span>(Comparator&lt;? <span class="keyword">super</span> E&gt; c) &#123;  </div><div class="line">	Collections.<span class="keyword">sort</span>(<span class="keyword">this</span>, c);  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><em>注：</em>函数式接口是指只带有一个抽象方法的接口（这里说成抽象方法主要是为了区分默认方法）。Java 8中提供了一系列通用的函数式接口供我们使用，通过使用这些系统提供的函数式接口可以避免重复定义类似接口。如：在Android中的OnClickListener接口可以使用Java 8中的Supplier\&lt;T>接口代替。</p>
+<h3 id="接口中的默认方法"><a href="#接口中的默认方法" class="headerlink" title="接口中的默认方法"></a>接口中的默认方法</h3><p>在Java 8之前，接口中的方法是不能带有方法实现对的，这就意味着，一旦当我们的接口发布出去后，就不能轻易更改接口。因为更改接口会导致所有实现了该接口的类都需要更改，这会带来无法估量的问题。Java 8提供了默认方法这一特性，我们可以对方法添加默认的实现，这样一来，实现类就不必实现／覆盖这一方法。我们可以通过前面对苹果排序的代码来加深理解。<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Collections.sort(apples, <span class="keyword">new</span> Comparator&lt;Apple&gt;() &#123;  </span><br><span class="line">	<span class="meta">@Override</span>  </span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(Apple o1, Apple o2)</span> </span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> o1.getWeight().compareTo(o2.getWeight());  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><em>在Java 8里</em><br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">apples</span><span class="selector-class">.sort</span>(<span class="selector-tag">Comparator</span><span class="selector-class">.comparing</span>(<span class="selector-tag">Apple</span><span class="selector-pseudo">::getWeight))</span>;</span><br></pre></td></tr></table></figure></p>
+<p>我们通过对比得知，在Java 8之前，我们需要通过Collections类sort方法来对列表进行排序。这不符合我们的理解，因为按照人类的理解，对列表进行排序的话，应该是属于列表的方法，而不是通过引入第二个类来实现。但是在Java 8之前，由于在接口中增加方法会导致所有的实现类都报错，所以为了保证兼容性，引入了Collections来实现对列表的操作。<br>而在Java 8中，List接口中提供了默认方法sort，这个方法的实际效果和Collections.sort是一样的。我们可以来看看List接口中的sort方法的具体实现：<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span> <span class="keyword">void</span> <span class="keyword">sort</span>(Comparator&lt;? <span class="keyword">super</span> E&gt; c) &#123;  </span><br><span class="line">	Collections.<span class="keyword">sort</span>(<span class="keyword">this</span>, c);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个方法最终也是通过Collections.sort方法来实现排序的。通过这个方法，我们加深对默认方法的理解。<br>这里笔者要提醒大家的是：默认方法并不是我们的灵丹妙药，不能滥用默认方法。当我们发布一个公开的接口时，正确的做法是，做好充分的设计与验证才能进行发布。</p>
-<h2 id="Java-8的简单使用"><a href="#Java-8的简单使用" class="headerlink" title="Java 8的简单使用"></a>Java 8的简单使用</h2><p>我们通过一个简单的例子来介绍Java 8在Android上的应用。<br>定义一个菜肴列表，我们通过Stream对这个列表进行一些处理。<br>菜肴类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dish</span> </span>&#123;  </div><div class="line">  </div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MEAT = <span class="string">"MEAT"</span>;  </div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String OTHER = <span class="string">"OTHER"</span>;  </div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String FISH = <span class="string">"FISH"</span>;  </div><div class="line">  </div><div class="line">	<span class="meta">@StringDef</span>(&#123;MEAT,OTHER,FISH&#125;)  </div><div class="line">	<span class="meta">@Retention</span>(RetentionPolicy.SOURCE)  </div><div class="line">	<span class="keyword">public</span> <span class="meta">@interface</span> Type&#123;&#125;  </div><div class="line">  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String name;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> vegetarian;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> calories;  </div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="meta">@Type</span> String type;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Dish</span><span class="params">(String name,<span class="keyword">boolean</span> vegetarian,<span class="keyword">int</span> calories,@Type String type)</span></span>&#123;  </div><div class="line">		<span class="keyword">this</span>.name = name;  </div><div class="line">		<span class="keyword">this</span>.vegetarian = vegetarian;  </div><div class="line">		<span class="keyword">this</span>.calories = calories;  </div><div class="line">		<span class="keyword">this</span>.type = type;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> name;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isVegetarian</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> vegetarian;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCalories</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> calories;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="keyword">public</span> <span class="meta">@Type</span> <span class="function">String <span class="title">getType</span><span class="params">()</span></span>&#123;  </div><div class="line">		<span class="keyword">return</span> type;  </div><div class="line">	&#125;  </div><div class="line">  </div><div class="line">	<span class="meta">@Override</span>  </div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </div><div class="line">		<span class="keyword">return</span> name;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>菜肴菜单：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;Dish&gt; menu = Arrays.asList(  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"pork"</span>,<span class="keyword">false</span>,<span class="number">800</span>,Dish.MEAT),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"beef"</span>,<span class="keyword">false</span>,<span class="number">700</span>,Dish.MEAT),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"chicken"</span>,<span class="keyword">false</span>,<span class="number">400</span>,Dish.MEAT),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"french fries"</span>,<span class="keyword">true</span>,<span class="number">530</span>,Dish.OTHER),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"rice"</span>,<span class="keyword">true</span>,<span class="number">350</span>,Dish.OTHER),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"season fruit"</span>,<span class="keyword">true</span>,<span class="number">120</span>,Dish.OTHER),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"pizza"</span>,<span class="keyword">true</span>,<span class="number">550</span>,Dish.OTHER),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"prawns"</span>,<span class="keyword">false</span>,<span class="number">300</span>,Dish.FISH),  </div><div class="line">		<span class="keyword">new</span> Dish(<span class="string">"salmon"</span>,<span class="keyword">false</span>,<span class="number">450</span>,Dish.FISH));</div></pre></td></tr></table></figure></p>
-<p>现在我们需要实现一个功能：把卡路里大于300的菜肴筛选出来，并打印出菜肴名字。我们来看看普通实现和用Java 8实现的区别：<br>普通实现：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">private</span> <span class="selector-tag">void</span> <span class="selector-tag">greaterThan300</span>()&#123;  </div><div class="line">	<span class="selector-tag">for</span> (Dish <span class="attribute">dish </span>: menu)&#123;  </div><div class="line">		<span class="selector-tag">if</span> (dish.getCalories() &gt; <span class="number">300</span>)&#123;  </div><div class="line">			Log<span class="selector-class">.d</span>(TAG, <span class="string">"greaterThan300: "</span> + dish.getName());  </div><div class="line">		&#125;  </div><div class="line">	&#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>Java 8实现：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">private</span> <span class="selector-tag">void</span> <span class="selector-tag">greaterThan300Java8</span>()&#123;  </div><div class="line">	menu<span class="selector-class">.stream</span>()  </div><div class="line">			<span class="selector-class">.filter</span>(dish -&gt; dish.getCalories() &gt; <span class="number">300</span>)  </div><div class="line">			<span class="selector-class">.forEach</span>(name -&gt;Log.d(TAG, <span class="string">"greaterThan300: "</span> + name));  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Java-8的简单使用"><a href="#Java-8的简单使用" class="headerlink" title="Java 8的简单使用"></a>Java 8的简单使用</h2><p>我们通过一个简单的例子来介绍Java 8在Android上的应用。<br>定义一个菜肴列表，我们通过Stream对这个列表进行一些处理。<br>菜肴类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dish</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String MEAT = <span class="string">"MEAT"</span>;  </span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String OTHER = <span class="string">"OTHER"</span>;  </span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String FISH = <span class="string">"FISH"</span>;  </span><br><span class="line">  </span><br><span class="line">	<span class="meta">@StringDef</span>(&#123;MEAT,OTHER,FISH&#125;)  </span><br><span class="line">	<span class="meta">@Retention</span>(RetentionPolicy.SOURCE)  </span><br><span class="line">	<span class="keyword">public</span> <span class="meta">@interface</span> Type&#123;&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String name;  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> vegetarian;  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> calories;  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="meta">@Type</span> String type;  </span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Dish</span><span class="params">(String name,<span class="keyword">boolean</span> vegetarian,<span class="keyword">int</span> calories,@Type String type)</span></span>&#123;  </span><br><span class="line">		<span class="keyword">this</span>.name = name;  </span><br><span class="line">		<span class="keyword">this</span>.vegetarian = vegetarian;  </span><br><span class="line">		<span class="keyword">this</span>.calories = calories;  </span><br><span class="line">		<span class="keyword">this</span>.type = type;  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> name;  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isVegetarian</span><span class="params">()</span></span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> vegetarian;  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCalories</span><span class="params">()</span></span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> calories;  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="keyword">public</span> <span class="meta">@Type</span> <span class="function">String <span class="title">getType</span><span class="params">()</span></span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> type;  </span><br><span class="line">	&#125;  </span><br><span class="line">  </span><br><span class="line">	<span class="meta">@Override</span>  </span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">		<span class="keyword">return</span> name;  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>菜肴菜单：<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Dish&gt; menu = Arrays.asList(  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"pork"</span>,<span class="literal">false</span>,<span class="number">800</span>,Dish.MEAT),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"beef"</span>,<span class="literal">false</span>,<span class="number">700</span>,Dish.MEAT),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"chicken"</span>,<span class="literal">false</span>,<span class="number">400</span>,Dish.MEAT),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"french fries"</span>,<span class="literal">true</span>,<span class="number">530</span>,Dish.OTHER),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"rice"</span>,<span class="literal">true</span>,<span class="number">350</span>,Dish.OTHER),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"season fruit"</span>,<span class="literal">true</span>,<span class="number">120</span>,Dish.OTHER),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"pizza"</span>,<span class="literal">true</span>,<span class="number">550</span>,Dish.OTHER),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"prawns"</span>,<span class="literal">false</span>,<span class="number">300</span>,Dish.FISH),  </span><br><span class="line">		<span class="keyword">new</span> <span class="type">Dish</span>(<span class="string">"salmon"</span>,<span class="literal">false</span>,<span class="number">450</span>,Dish.FISH));</span><br></pre></td></tr></table></figure></p>
+<p>现在我们需要实现一个功能：把卡路里大于300的菜肴筛选出来，并打印出菜肴名字。我们来看看普通实现和用Java 8实现的区别：<br>普通实现：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">greaterThan300</span><span class="params">()</span></span>&#123;  </span><br><span class="line">	<span class="keyword">for</span> (Dish dish : menu)&#123;  </span><br><span class="line">		<span class="keyword">if</span> (dish.getCalories() &gt; <span class="number">300</span>)&#123;  </span><br><span class="line">			Log.d(TAG, <span class="string">"greaterThan300: "</span> + dish.getName());  </span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Java 8实现：<br><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private void greaterThan300Java8()&#123;  </span><br><span class="line">	menu.stream()  </span><br><span class="line">			.<span class="function"><span class="title">filter</span>(dish -&gt;</span> dish.getCalories() &gt; <span class="number">300</span>)  </span><br><span class="line">			.<span class="function"><span class="title">forEach</span>(<span class="keyword">name</span> -&gt;</span>Log.d(TAG, <span class="string">"greaterThan300: "</span> + <span class="keyword">name</span>));  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>从上面的对比可以看到，使用Java 8编写的代码更直观，更符合逻辑思维，并且把循环和if去掉了。一旦习惯了Java 8的写法后，下面的代码我们一眼就能看出它的具体功能是什么，而上面的还需要花一点时间来理解。可能读者会觉得区别也不大，代码并没有少多少。那么我们再增加一个条件呢？例如把卡路里大于300的鱼类筛选出来，并打印出名字。</p>
-<p>我们看看Java 8实现这个功能的代码<br><figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private void greaterThan300Java8()&#123;  </div><div class="line">	menu.stream()  </div><div class="line">			.<span class="function"><span class="title">filter</span>(dish -&gt;</span> dish.getCalories() &gt; <span class="number">300</span>)  </div><div class="line">			.<span class="function"><span class="title">filter</span>(dish -&gt;</span> dish.getType() == Dish.FISH)  </div><div class="line">			.<span class="function"><span class="title">forEach</span>(<span class="keyword">name</span> -&gt;</span>Log.d(TAG, <span class="string">"greaterThan300Java8: "</span> + <span class="keyword">name</span>));  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们看看Java 8实现这个功能的代码<br><figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private void greaterThan300Java8()&#123;  </span><br><span class="line">	menu.stream()  </span><br><span class="line">			.<span class="function"><span class="title">filter</span>(dish -&gt;</span> dish.getCalories() &gt; <span class="number">300</span>)  </span><br><span class="line">			.<span class="function"><span class="title">filter</span>(dish -&gt;</span> dish.getType() == Dish.FISH)  </span><br><span class="line">			.<span class="function"><span class="title">forEach</span>(<span class="keyword">name</span> -&gt;</span>Log.d(TAG, <span class="string">"greaterThan300Java8: "</span> + <span class="keyword">name</span>));  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>我们运行这段代码会打印出：greaterThan300Java8: salmon</p>
-<p>如果我们需要获得卡路里小于300的菜肴的名字列表，利用Java 8我们要如何做呢？<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; menuNames = menu.stream()  </div><div class="line">		.filter(dish -&gt; dish.getCalories() &gt; <span class="number">300</span>)  </div><div class="line">		.<span class="built_in">map</span>(Dish<span class="type">::getName</span>)  </div><div class="line">		.collect(Collectors.toList());</div></pre></td></tr></table></figure></p>
+<p>如果我们需要获得卡路里小于300的菜肴的名字列表，利用Java 8我们要如何做呢？<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; menuNames = menu.stream()  </span><br><span class="line">		.filter(dish -&gt; dish.getCalories() &gt; <span class="number">300</span>)  </span><br><span class="line">		.<span class="built_in">map</span>(Dish<span class="type">::getName</span>)  </span><br><span class="line">		.collect(Collectors.toList());</span><br></pre></td></tr></table></figure></p>
 <p>是不是非常简单？如果我们不用Java 8实现的话，就只能够使用嵌套if else的形式来实现了,这种实现方式会大大降低我们的代码可读性，并且比较容易出错。而使用Java 8由于我们没有保存任何中间变量，所以出错的可能性会更低。</p>
 <p>在上面的代码中，filter和map操作符属于中间操作符，中间操作符是指对流进行操作后返回的对象是一个流；而forEach和collect是终端操作符，终端操作符是指返回对象不是流的操作。它们的共同点是接受的对象都是一个Lambda表达式（行为参数化）。Java 8提供了多个流操作符来供我们使用。</p>
 <h2 id="Java-8常用的函数式接口"><a href="#Java-8常用的函数式接口" class="headerlink" title="Java 8常用的函数式接口"></a>Java 8常用的函数式接口</h2><p>函数式接口就是指只含有一个抽象方法的接口，而抽象方法的签名我们一般称为函数描述符。一般被设计为函数式接口的接口会用@FunctionalInterface标注标记，当然这不是强制实现的，但是通常使用这一标注是比较好的做法。<br><em>较为常用的函数式接口：</em></p>
 <p><em>Predicate</em><br>Predicate<t>接口定义了一个名叫test的抽象方法，它接受泛型T对象，并返回一个boolean，在需要表示一个设计类型T的布尔表达式时，就可以使用这个接口。 </t></p>
 <p><em>Consumer</em><br>Consumer<t>定义了一个名叫accept的抽象方法，它接受泛型T对象，没有返回（void）。你如果需要访问类型T的对象，并对其执行某些操作，就可以使用这个接口。 </t></p>
-<p><em>Function</em><br>Function<t,r>接口定义了一个叫作apply的方法，它接受一个泛型T对象，并返回一个泛型R对象。如果你需要定义一个Lambda，将输入对象的信息映射到输出，就可以使用这个接口。 </t,r></p>
+<p><em>Function</em><br>Function&lt;T,R&gt;接口定义了一个叫作apply的方法，它接受一个泛型T对象，并返回一个泛型R对象。如果你需要定义一个Lambda，将输入对象的信息映射到输出，就可以使用这个接口。 </p>
 <p>题外话：熟悉RxJava 2.0的同学应该不难看出，这些函数式接口的定义和RxJava 2.0中的十分类似，笔者推断RxJava 2.0中的一些标准应该是遵循Java 8标准的。</p>
 <p>笔者整理了一个Java 8中的函数式接口表格供大家参考：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_functionalInterface.png" alt=""><br>这里需要注意的一点是，原始类型特化。我们知道，普通类型如：int，double等是无法使用泛型的。所以我们需要用它们的装箱类来使用泛型，如Integer，Double。装箱使用泛型会带来一个问题就是运行效率的问题，装箱类的自动装箱和拆箱会大大影响程序的运行效率。所以在Java 8中提供了一系列特化类型的类和接口等，以消除自动装箱盒拆箱带来的的影响。</p>
 <h2 id="Java-8中常用的流操作符"><a href="#Java-8中常用的流操作符" class="headerlink" title="Java 8中常用的流操作符"></a>Java 8中常用的流操作符</h2><p>上面的例子中，我们简单的介绍过流的操作符。在这里笔者整理了一个关于流的操作符的表格，方便读者使用的时候用来参考。<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/Java%208/stream_operating.png" alt=""></p>
@@ -421,27 +548,66 @@
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Java-8/" rel="tag">#Java 8</a>
+            <a href="/tags/Java-8/" rel="tag"># Java 8</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -453,6 +619,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -467,31 +635,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -507,136 +675,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何在Android-Studio上应用Java-8？"><span class="nav-number">1.</span> <span class="nav-text">如何在Android Studio上应用Java 8？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们为什么要使用Java-8？"><span class="nav-number">2.</span> <span class="nav-text">我们为什么要使用Java 8？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-8的新特性"><span class="nav-number">3.</span> <span class="nav-text">Java 8的新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流（Stream）："><span class="nav-number">3.1.</span> <span class="nav-text">流（Stream）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行为参数化："><span class="nav-number">3.2.</span> <span class="nav-text">行为参数化：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口中的默认方法"><span class="nav-number">3.3.</span> <span class="nav-text">接口中的默认方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-8的简单使用"><span class="nav-number">4.</span> <span class="nav-text">Java 8的简单使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-8常用的函数式接口"><span class="nav-number">5.</span> <span class="nav-text">Java 8常用的函数式接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-8中常用的流操作符"><span class="nav-number">6.</span> <span class="nav-text">Java 8中常用的流操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -649,46 +837,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -707,77 +925,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2017/04/24/java8-inAndroid/';
-      var disqus_title = "写给Android开发者的Java 8简单入门教程";
-      var disqus_url = 'http://www.tangpj.com/2017/04/24/java8-inAndroid/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2017/04/24/java8-inAndroid/';
+        this.page.identifier = '2017/04/24/java8-inAndroid/';
+        this.page.title = '写给Android开发者的Java 8简单入门教程';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -785,119 +1011,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 

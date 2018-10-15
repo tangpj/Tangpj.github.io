@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,50 +46,83 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="MVP开发框架," />
-
-
+  <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
+<meta name="keywords" content="MVP开发框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
+<meta property="og:url" content="http://www.tangpj.com/2016/11/04/mvp-structure-three/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_nuomi_category.png">
+<meta property="og:updated_time" content="2018-10-14T16:55:05.611Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
 
 
 
@@ -79,60 +131,21 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="canonical" href="http://www.tangpj.com/2016/11/04/mvp-structure-three/"/>
 
 
 
-
-
-
-<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
-<meta property="og:url" content="http://www.tangpj.com/2016/11/04/mvp-structure-three/index.html">
-<meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_nuomi_category.png">
-<meta property="og:updated_time" content="2016-11-04T15:14:23.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
-<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
   };
 </script>
 
-
-
-
-  <link rel="canonical" href="http://www.tangpj.com/2016/11/04/mvp-structure-three/"/>
-
-  <title> Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理 | TANG BLOG </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -140,7 +153,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -149,110 +162,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -260,24 +320,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2016/11/04/mvp-structure-three/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理
+          <h1 class="post-title" itemprop="name headline">Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理
               
             
           </h1>
@@ -285,32 +357,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-11-04T00:00:53+08:00" content="2016-11-04">
-              2016-11-04
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-11-04 00:00:53" itemprop="dateCreated datePublished" datetime="2016-11-04T00:00:53+08:00">2016-11-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 00:55:05" itemprop="dateModified" datetime="2018-10-15T00:55:05+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">Android架构</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android架构/" itemprop="url" rel="index"><span itemprop="name">Android架构</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -318,34 +419,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/11/04/mvp-structure-three/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/04/mvp-structure-three/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/11/04/mvp-structure-three/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/11/04/mvp-structure-three/" class="leancloud_visitors" data-flag-title="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -355,13 +476,13 @@
         <blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
-<p><em>摘要：</em>  在<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="external">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
+<p><em>摘要：</em>  在<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="noopener">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
 <a id="more"></a>
-<h2 id="封装列表型的Presenter基类"><a href="#封装列表型的Presenter基类" class="headerlink" title="封装列表型的Presenter基类"></a>封装列表型的Presenter基类</h2><p>有了<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="external">上一篇文章</a>的铺垫我们知道，在MVP模式中Model的主要作用就是向服务器发起请求然后把服务器返回的数据交给Presenter处理就可以了。所以在封装列表型Presenter的时候，直接沿用了上一章提到的BaseModel来获取数据与回调数据。在这里要注意的一点就是，笔者在开发这个框架的时候，对部分类名有部分改动，一切以系列文章结束时提供的完善的框架为准。</p>
+<h2 id="封装列表型的Presenter基类"><a href="#封装列表型的Presenter基类" class="headerlink" title="封装列表型的Presenter基类"></a>封装列表型的Presenter基类</h2><p>有了<a href="http://tangpj.com/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="noopener">上一篇文章</a>的铺垫我们知道，在MVP模式中Model的主要作用就是向服务器发起请求然后把服务器返回的数据交给Presenter处理就可以了。所以在封装列表型Presenter的时候，直接沿用了上一章提到的BaseModel来获取数据与回调数据。在这里要注意的一点就是，笔者在开发这个框架的时候，对部分类名有部分改动，一切以系列文章结束时提供的完善的框架为准。</p>
 <p>下面我们来看看列表型Presenter的接口与实际实现</p>
-<h3 id="IBasePaginationPresenter"><a href="#IBasePaginationPresenter" class="headerlink" title="IBasePaginationPresenter"></a>IBasePaginationPresenter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBasePaginationPresenter</span>&lt;<span class="title">Params</span>,<span class="title">Bean</span>&gt; <span class="keyword">extends</span> <span class="title">IBasePresenter</span>&lt;<span class="title">Params</span>&gt; </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="comment">//刷新全部数据  </span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refresh</span><span class="params">(Params params)</span></span>;  </div><div class="line">  </div><div class="line">    <span class="comment">//加载下一页数据  </span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span></span>;  </div><div class="line">  </div><div class="line">    /  </div><div class="line">      <span class="meta">@Method</span>: refreshAssignPage  </div><div class="line">      <span class="meta">@author</span> create by Tang  </div><div class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">19</span> 上午<span class="number">11</span>:<span class="number">07</span>  </div><div class="line">      <span class="meta">@Description</span>: 刷新index所在页页面  </div><div class="line">      <span class="meta">@param</span> index 待刷新数据的位置  </div><div class="line">     /  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refreshIndexPage</span><span class="params">(<span class="keyword">int</span> index)</span></span>;  </div><div class="line">  </div><div class="line">    <span class="comment">//设置一次取数据数量  </span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span></span>;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">()</span></span>;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从上面的代码可以看出，IBasePaginationPresenter\<params,bean\>接口是在IBasePresenter的基础上进行拓展的，拓展的方法是关于处理列表型数据的一些方法。</params,bean\></p>
-<h3 id="BasePaginationPresenter"><a href="#BasePaginationPresenter" class="headerlink" title="BasePaginationPresenter"></a>BasePaginationPresenter</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**  </span></div><div class="line"> * <span class="doctag">@ClassName</span>: BasePaginationPresenter  </div><div class="line"> * <span class="doctag">@author</span> create by Tang  </div><div class="line"> * <span class="doctag">@date</span> date 16/9/29 下午2:14  </div><div class="line"> * <span class="doctag">@Description</span>:  </div><div class="line"> * <span class="doctag">@Params</span>: 请求参数类（http中的params）  </div><div class="line"> * <span class="doctag">@Bean</span>: 返回队列的数据项实体类（bean中的实体类）  </div><div class="line"> */  </div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BasePaginationPresenter</span>&lt;<span class="title">Params</span> <span class="keyword">extends</span> <span class="title">BasePaginationParams</span>,<span class="title">Bean</span>&gt;  </span></div><div class="line">        <span class="keyword">implements</span> <span class="title">IBasePaginationPresenter</span>&lt;<span class="title">Params</span>,<span class="title">Bean</span>&gt; &#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">void</span> <span class="title">serverResponse</span><span class="params">(List&lt;Bean&gt; list)</span></span>;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> IMvpListView baseView;  </div><div class="line">    <span class="keyword">private</span> IBaseModel baseModel;  </div><div class="line">    <span class="keyword">private</span> Params mParams;  </div><div class="line">  </div><div class="line">    <span class="comment">//默认一次去数据为ServerManager.COUNT  </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mCount = ServerManager.COUNT;  </div><div class="line">  </div><div class="line">    <span class="comment">//需要刷新的数据项位置  </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mIndex = <span class="number">-1</span>;  </div><div class="line">  </div><div class="line">    <span class="comment">//需要刷新的页码（根据mIndex计算）  </span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mPage;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> List&lt;Bean&gt; dataList = <span class="keyword">new</span> ArrayList&lt;&gt;();  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> Class&lt;Bean&gt; clazz;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     * <span class="doctag">@Method</span>: BasePaginationPresenter  </div><div class="line">     * <span class="doctag">@author</span> create by Tang  </div><div class="line">     * <span class="doctag">@date</span> date 16/10/20 上午10:18  </div><div class="line">     * <span class="doctag">@Description</span>: 构造方法  </div><div class="line">     * <span class="doctag">@param</span> clazz 队列参数项的类型，不能为空  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">BasePaginationPresenter</span><span class="params">(@NonNull IMvpListView baseView, @NonNull Class&lt;Bean&gt; clazz)</span></span>&#123;  </div><div class="line">        <span class="keyword">this</span>.baseView = baseView;  </div><div class="line">        <span class="keyword">this</span>.baseModel = <span class="keyword">new</span> BaseModel(<span class="keyword">this</span>);  </div><div class="line">        <span class="keyword">this</span>.clazz = clazz;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">refresh</span><span class="params">(Params params)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.mParams = params;  </div><div class="line">        dataList.clear();  </div><div class="line">        loading();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (mParams == <span class="keyword">null</span>)&#123;  </div><div class="line">            mParams = (Params) <span class="keyword">new</span> BasePaginationParams();  </div><div class="line">            mParams.count = mCount;  </div><div class="line">            mParams.page = (<span class="keyword">int</span>) Math.ceil((<span class="keyword">double</span>)  </div><div class="line">                    dataList.size()  <span class="number">1.0</span> / mCount) + <span class="number">1</span>;  </div><div class="line">        &#125;<span class="keyword">else</span> &#123;  </div><div class="line">            mParams.count = mCount;  </div><div class="line">            mParams.page = (<span class="keyword">int</span>) Math.ceil((<span class="keyword">double</span>)  </div><div class="line">                    dataList.size()  <span class="number">1.0</span> / mCount) + <span class="number">1</span>;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        accessServer();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">refreshIndexPage</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </div><div class="line">        <span class="keyword">if</span> (index &gt; dataList.size())&#123;  </div><div class="line">            <span class="comment">//如果index超出数组长度则加载下一页  </span></div><div class="line">            loading();  </div><div class="line">        &#125;<span class="keyword">else</span> &#123;  </div><div class="line">            /  </div><div class="line">              注需要根据服务器实际情况来计算  </div><div class="line">              这里假设服务器第一页数据的下标为<span class="number">1</span>  </div><div class="line">              如果下表为<span class="number">0</span>，mPage = index / mCount;  </div><div class="line">             /  </div><div class="line">            mIndex = index;  </div><div class="line">            mPage = index / mCount + <span class="number">1</span>;  </div><div class="line">            <span class="keyword">if</span> (mParams == <span class="keyword">null</span>)&#123;  </div><div class="line">                mParams = (Params) <span class="keyword">new</span> BasePaginationParams();  </div><div class="line">                mParams.count = mCount;  </div><div class="line">                mParams.page = mPage;  </div><div class="line">            &#125;<span class="keyword">else</span> &#123;  </div><div class="line">                mParams.count = mCount;  </div><div class="line">                mParams.page = mPage;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        accessServer();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.mCount = count;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function">Map <span class="title">getParams</span><span class="params">()</span> </span>&#123;  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (mParams != <span class="keyword">null</span>)&#123;  </div><div class="line">            LogUtil.d(getClass(), <span class="string">"getParams: "</span> + mParams.toString());  </div><div class="line">            <span class="function"><span class="keyword">return</span> mParams.<span class="title">toMap</span><span class="params">()</span></span>;  </div><div class="line">        &#125;<span class="keyword">else</span> &#123;  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function">IBaseModel <span class="title">getModel</span><span class="params">()</span></span>&#123;  </div><div class="line">        <span class="keyword">return</span> baseModel;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">()</span> </span>&#123;  </div><div class="line">        baseView.showProgress(<span class="keyword">true</span>);  </div><div class="line">        <span class="comment">/**  </span></div><div class="line">         * 如果上一次请求没有完成，需要取消上次一次请求  </div><div class="line">         *  这样处理是为了防止获取的列表数据出错  </div><div class="line">         */  </div><div class="line">        cancelRequest();  </div><div class="line">        baseModel.sendRequestToServer();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     * <span class="doctag">@Method</span>: accessServer  </div><div class="line">     * <span class="doctag">@author</span> create by Tang  </div><div class="line">     * <span class="doctag">@date</span> date 16/10/19 下午3:56  </div><div class="line">     * <span class="doctag">@Description</span>:  </div><div class="line">     * 在获取队列型中数据中弃用该方法，  </div><div class="line">     * 参数通过Refresh(Params params)方法传入  </div><div class="line">     */  </div><div class="line">    <span class="meta">@Deprecated</span>  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">(Params params)</span> </span>&#123;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessSucceed</span><span class="params">(JSONObject response)</span> </span>&#123;  </div><div class="line">        String responseStr = String.valueOf(response);  </div><div class="line">        baseView.showProgress(<span class="keyword">false</span>);  </div><div class="line">        ParameterizedType parameterized = ClassTypeUtil.type(BasePaginationResponse.class  </div><div class="line">                , ClassTypeUtil.type(List.class,clazz));  </div><div class="line">        Type type = $Gson$Types.canonicalize(parameterized);  </div><div class="line">        BasePaginationResponse&lt;List&lt;Bean&gt;&gt; mResponse = <span class="keyword">new</span> Gson().fromJson(responseStr, type);  </div><div class="line">  </div><div class="line">        <span class="keyword">if</span> (mResponse.errNum == <span class="number">0</span>)&#123;  </div><div class="line">            <span class="keyword">if</span> (mIndex &lt; <span class="number">0</span>)&#123;  </div><div class="line">                dataList.addAll(mResponse.data);  </div><div class="line">                baseView.isNextPage(mResponse.nextPage);  </div><div class="line">            &#125;<span class="keyword">else</span> &#123;  </div><div class="line">                <span class="comment">//计算出需要替换的第一个数据在dataList中的位置  </span></div><div class="line">                <span class="keyword">int</span> start = (mPage - <span class="number">1</span>)  mCount;  </div><div class="line">                ListUtils.replaceAssign(start,dataList,mResponse.data);  </div><div class="line">                mIndex = <span class="number">-1</span>;  </div><div class="line">            &#125;  </div><div class="line">            serverResponse(dataList);  </div><div class="line">        &#125;<span class="keyword">else</span> &#123;  </div><div class="line">            baseView.showServerError(mResponse.errNum,mResponse.errMsg);  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">volleyError</span><span class="params">(<span class="keyword">int</span> errorCode, String errorDesc, String ApiInterface)</span> </span>&#123;  </div><div class="line">        baseView.showNetworkError(errorCode,errorDesc,ApiInterface);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">cancelRequest</span><span class="params">()</span> </span>&#123;  </div><div class="line">        baseModel.cancelRequest();  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="IBasePaginationPresenter"><a href="#IBasePaginationPresenter" class="headerlink" title="IBasePaginationPresenter"></a>IBasePaginationPresenter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBasePaginationPresenter</span>&lt;<span class="title">Params</span>,<span class="title">Bean</span>&gt; <span class="keyword">extends</span> <span class="title">IBasePresenter</span>&lt;<span class="title">Params</span>&gt; </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//刷新全部数据  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refresh</span><span class="params">(Params params)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//加载下一页数据  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: refreshAssignPage  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">19</span> 上午<span class="number">11</span>:<span class="number">07</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 刷新index所在页页面  </span><br><span class="line">      <span class="meta">@param</span> index 待刷新数据的位置  </span><br><span class="line">     /  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refreshIndexPage</span><span class="params">(<span class="keyword">int</span> index)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//设置一次取数据数量  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码可以看出，IBasePaginationPresenter\&lt;Params,Bean>接口是在IBasePresenter的基础上进行拓展的，拓展的方法是关于处理列表型数据的一些方法。</p>
+<h3 id="BasePaginationPresenter"><a href="#BasePaginationPresenter" class="headerlink" title="BasePaginationPresenter"></a>BasePaginationPresenter</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@ClassName</span>: BasePaginationPresenter  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> create by Tang  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> date 16/9/29 下午2:14  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span>:  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Params</span>: 请求参数类（http中的params）  </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Bean</span>: 返回队列的数据项实体类（bean中的实体类）  </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BasePaginationPresenter</span>&lt;<span class="title">Params</span> <span class="keyword">extends</span> <span class="title">BasePaginationParams</span>,<span class="title">Bean</span>&gt;  </span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">IBasePaginationPresenter</span>&lt;<span class="title">Params</span>,<span class="title">Bean</span>&gt; </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">void</span> <span class="title">serverResponse</span><span class="params">(List&lt;Bean&gt; list)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> IMvpListView baseView;  </span><br><span class="line">    <span class="keyword">private</span> IBaseModel baseModel;  </span><br><span class="line">    <span class="keyword">private</span> Params mParams;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//默认一次去数据为ServerManager.COUNT  </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mCount = ServerManager.COUNT;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//需要刷新的数据项位置  </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mIndex = <span class="number">-1</span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//需要刷新的页码（根据mIndex计算）  </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mPage;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> List&lt;Bean&gt; dataList = <span class="keyword">new</span> ArrayList&lt;&gt;();  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> Class&lt;Bean&gt; clazz;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Method</span>: BasePaginationPresenter  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> create by Tang  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> date 16/10/20 上午10:18  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: 构造方法  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clazz 队列参数项的类型，不能为空  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">BasePaginationPresenter</span><span class="params">(@NonNull IMvpListView baseView, @NonNull Class&lt;Bean&gt; clazz)</span></span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.baseView = baseView;  </span><br><span class="line">        <span class="keyword">this</span>.baseModel = <span class="keyword">new</span> BaseModel(<span class="keyword">this</span>);  </span><br><span class="line">        <span class="keyword">this</span>.clazz = clazz;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">refresh</span><span class="params">(Params params)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.mParams = params;  </span><br><span class="line">        dataList.clear();  </span><br><span class="line">        loading();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (mParams == <span class="keyword">null</span>)&#123;  </span><br><span class="line">            mParams = (Params) <span class="keyword">new</span> BasePaginationParams();  </span><br><span class="line">            mParams.count = mCount;  </span><br><span class="line">            mParams.page = (<span class="keyword">int</span>) Math.ceil((<span class="keyword">double</span>)  </span><br><span class="line">                    dataList.size()  <span class="number">1.0</span> / mCount) + <span class="number">1</span>;  </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">            mParams.count = mCount;  </span><br><span class="line">            mParams.page = (<span class="keyword">int</span>) Math.ceil((<span class="keyword">double</span>)  </span><br><span class="line">                    dataList.size()  <span class="number">1.0</span> / mCount) + <span class="number">1</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        accessServer();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">refreshIndexPage</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">if</span> (index &gt; dataList.size())&#123;  </span><br><span class="line">            <span class="comment">//如果index超出数组长度则加载下一页  </span></span><br><span class="line">            loading();  </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">            /  </span><br><span class="line">              注需要根据服务器实际情况来计算  </span><br><span class="line">              这里假设服务器第一页数据的下标为<span class="number">1</span>  </span><br><span class="line">              如果下表为<span class="number">0</span>，mPage = index / mCount;  </span><br><span class="line">             /  </span><br><span class="line">            mIndex = index;  </span><br><span class="line">            mPage = index / mCount + <span class="number">1</span>;  </span><br><span class="line">            <span class="keyword">if</span> (mParams == <span class="keyword">null</span>)&#123;  </span><br><span class="line">                mParams = (Params) <span class="keyword">new</span> BasePaginationParams();  </span><br><span class="line">                mParams.count = mCount;  </span><br><span class="line">                mParams.page = mPage;  </span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">                mParams.count = mCount;  </span><br><span class="line">                mParams.page = mPage;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        accessServer();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.mCount = count;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function">Map <span class="title">getParams</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (mParams != <span class="keyword">null</span>)&#123;  </span><br><span class="line">            LogUtil.d(getClass(), <span class="string">"getParams: "</span> + mParams.toString());  </span><br><span class="line">            <span class="function"><span class="keyword">return</span> mParams.<span class="title">toMap</span><span class="params">()</span></span>;  </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function">IBaseModel <span class="title">getModel</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> baseModel;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        baseView.showProgress(<span class="keyword">true</span>);  </span><br><span class="line">        <span class="comment">/**  </span></span><br><span class="line"><span class="comment">         * 如果上一次请求没有完成，需要取消上次一次请求  </span></span><br><span class="line"><span class="comment">         *  这样处理是为了防止获取的列表数据出错  </span></span><br><span class="line"><span class="comment">         */</span>  </span><br><span class="line">        cancelRequest();  </span><br><span class="line">        baseModel.sendRequestToServer();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Method</span>: accessServer  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> create by Tang  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> date 16/10/19 下午3:56  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>:  </span></span><br><span class="line"><span class="comment">     * 在获取队列型中数据中弃用该方法，  </span></span><br><span class="line"><span class="comment">     * 参数通过Refresh(Params params)方法传入  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="meta">@Deprecated</span>  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">(Params params)</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">accessSucceed</span><span class="params">(JSONObject response)</span> </span>&#123;  </span><br><span class="line">        String responseStr = String.valueOf(response);  </span><br><span class="line">        baseView.showProgress(<span class="keyword">false</span>);  </span><br><span class="line">        ParameterizedType parameterized = ClassTypeUtil.type(BasePaginationResponse.class  </span><br><span class="line">                , ClassTypeUtil.type(List.class,clazz));  </span><br><span class="line">        Type type = $Gson$Types.canonicalize(parameterized);  </span><br><span class="line">        BasePaginationResponse&lt;List&lt;Bean&gt;&gt; mResponse = <span class="keyword">new</span> Gson().fromJson(responseStr, type);  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (mResponse.errNum == <span class="number">0</span>)&#123;  </span><br><span class="line">            <span class="keyword">if</span> (mIndex &lt; <span class="number">0</span>)&#123;  </span><br><span class="line">                dataList.addAll(mResponse.data);  </span><br><span class="line">                baseView.isNextPage(mResponse.nextPage);  </span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">                <span class="comment">//计算出需要替换的第一个数据在dataList中的位置  </span></span><br><span class="line">                <span class="keyword">int</span> start = (mPage - <span class="number">1</span>)  mCount;  </span><br><span class="line">                ListUtils.replaceAssign(start,dataList,mResponse.data);  </span><br><span class="line">                mIndex = <span class="number">-1</span>;  </span><br><span class="line">            &#125;  </span><br><span class="line">            serverResponse(dataList);  </span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">            baseView.showServerError(mResponse.errNum,mResponse.errMsg);  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">volleyError</span><span class="params">(<span class="keyword">int</span> errorCode, String errorDesc, String ApiInterface)</span> </span>&#123;  </span><br><span class="line">        baseView.showNetworkError(errorCode,errorDesc,ApiInterface);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">cancelRequest</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        baseModel.cancelRequest();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码很简单，在BasePaginationPresenter中IBasePresenter接口实现和BasePresenter中的差不多的，笔者下面对其中的几个方法着重讲解下。</p>
 <ol>
 <li>accessServer() :这个方法负责通知Model层向服务器发起请求的，因为在获取列表型数据的时候，请求参数由<code>refresh(Params params)</code>传入，所以可以看到accessServer(Params params) 已经被弃用了。</li>
@@ -370,64 +491,103 @@
 <li>refreshIndexPage(): 局部刷新方法，通过传入待刷新的数据项的位置计算出待刷新页面后，调用<code>accessServer ()</code>方法刷新具体页面。</li>
 <li>setCount(int count): 设置一次获取数据量，count有个默认值。如果需要重设该值的话，可以调用该方法设置。该方法在presenter中只能调用一次（调用多次会出现获取数据错误）。</li>
 </ol>
-<h3 id="IMvpListView"><a href="#IMvpListView" class="headerlink" title="IMvpListView"></a>IMvpListView</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpListView</span> <span class="keyword">extends</span> <span class="title">IBaseMvpView</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     * <span class="doctag">@Method</span>: isNextPage  </div><div class="line">     * <span class="doctag">@author</span> create by Tang  </div><div class="line">     * <span class="doctag">@date</span> date 16/10/20 下午5:56  </div><div class="line">     * <span class="doctag">@Description</span>: 设置列表数据  </div><div class="line">     * <span class="doctag">@param</span> nextPage 是否有下一页，大于0为有  </div><div class="line">     */  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">isNextPage</span><span class="params">(<span class="keyword">int</span> nextPage)</span></span>;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="IMvpListView"><a href="#IMvpListView" class="headerlink" title="IMvpListView"></a>IMvpListView</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IMvpListView</span> <span class="keyword">extends</span> <span class="title">IBaseMvpView</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Method</span>: isNextPage  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> create by Tang  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> date 16/10/20 下午5:56  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span>: 设置列表数据  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nextPage 是否有下一页，大于0为有  </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">isNextPage</span><span class="params">(<span class="keyword">int</span> nextPage)</span></span>;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个接口是针对于列表型数据设计的一个View接口，增加了一个isNextPage(int nextPage)方法。主要功能是用于判断是否还有下一页的，具体需要根据业务来设计该方法。该方法的主要作用时用于在使用上拉加载前的一个判断。如果服务器还有未加载完的数据，则在view层开启上拉加载功能，否则则关闭上拉加载功能。</p>
 <h3 id="本节小结"><a href="#本节小结" class="headerlink" title="本节小结"></a>本节小结</h3><p>由于有上一篇的 铺垫，所以对BasePaginationPresenter的介绍就到这里了。下面我们来看一下具体的实现例子。</p>
-<h2 id="实际使用例子"><a href="#实际使用例子" class="headerlink" title="实际使用例子"></a>实际使用例子</h2><p>在这里，笔者使用的是百度api store上的接口来进行测试的。由于百度api store上的接口的设计都有一定的区别，所以读者在使用框架的时候要根据实际情况来使用。如果有问题的话，可以在blog下方留言，笔者我尽量解答提出的问题的。在实际使用中主要需要注意的是：BaseResponse 和 BasePaginationResponse这两个数据解析类。<br>笔者在测试百度接口的时候发现，百度的接口实际上是不支持POST请求的。所以我们只能按照百度的方法在接口路径上带上传递的参数用GET方法发起请求。<br>准备工作：<br>申请一个百度api的key，然后在volley的getHeaders() 方法中设置请求头。如下所示<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Override  </div><div class="line"><span class="keyword">public</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; getHeaders() throws AuthFailureError &#123;  </div><div class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="built_in">String</span>&gt; <span class="keyword">header</span> = <span class="literal">new</span> HashMap&lt;&gt;();  </div><div class="line">    <span class="comment">//设置百度api store请求头  </span></div><div class="line">    <span class="keyword">header</span>.put(<span class="string">"apikey"</span>,<span class="string">""</span>);  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">header</span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="实际使用例子"><a href="#实际使用例子" class="headerlink" title="实际使用例子"></a>实际使用例子</h2><p>在这里，笔者使用的是百度api store上的接口来进行测试的。由于百度api store上的接口的设计都有一定的区别，所以读者在使用框架的时候要根据实际情况来使用。如果有问题的话，可以在blog下方留言，笔者我尽量解答提出的问题的。在实际使用中主要需要注意的是：BaseResponse 和 BasePaginationResponse这两个数据解析类。<br>笔者在测试百度接口的时候发现，百度的接口实际上是不支持POST请求的。所以我们只能按照百度的方法在接口路径上带上传递的参数用GET方法发起请求。<br>准备工作：<br>申请一个百度api的key，然后在volley的getHeaders() 方法中设置请求头。如下所示<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Override  </span><br><span class="line"><span class="keyword">public</span> <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; getHeaders() throws AuthFailureError &#123;  </span><br><span class="line">    <span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="built_in">String</span>&gt; <span class="keyword">header</span> = <span class="literal">new</span> HashMap&lt;&gt;();  </span><br><span class="line">    <span class="comment">//设置百度api store请求头  </span></span><br><span class="line">    <span class="keyword">header</span>.put(<span class="string">"apikey"</span>,<span class="string">""</span>);  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">header</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>嗯，没错，笔者发现apikey为空的话，并不影响接口的使用。所以让它空着好了。</p>
 <p>百度api的服务器地址是<code>&quot;http://apis.baidu.com</code></p>
 <h3 id="百度天气接口"><a href="#百度天气接口" class="headerlink" title="百度天气接口"></a>百度天气接口</h3><p>这个接口是一个根据城市名称来查询该城市天气的接口。<br>接口的定义为：<br><code>public static final String WEATER = &quot;/apistore/weatherservice/cityname?cityname=北京&quot;;</code></p>
-<h4 id="IWeatherView"><a href="#IWeatherView" class="headerlink" title="IWeatherView"></a>IWeatherView</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IWeatherView</span> <span class="keyword">extends</span> <span class="title">IMvpView</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">showWeatherView</span><span class="params">(WeatherBean data)</span></span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="IWeatherView"><a href="#IWeatherView" class="headerlink" title="IWeatherView"></a>IWeatherView</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>IWeatherView extends IMvpView &#123;  </span><br><span class="line">  </span><br><span class="line">    void showWeatherView(WeatherBean data);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>IWeatherView只有一个showWeatherView()方法，它的作用是把Presenter处理好的数据传递到View层。</p>
 <h4 id="WeatherBean"><a href="#WeatherBean" class="headerlink" title="WeatherBean"></a>WeatherBean</h4><p>天气实体类</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> WeatherBean &#123;  </div><div class="line">  </div><div class="line">    <span class="comment">//城市  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> city;  </div><div class="line">    <span class="comment">//城市拼音  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> pinyin;  </div><div class="line">    <span class="comment">//城市编码  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> citycode;  </div><div class="line">    <span class="comment">//日期  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> date;  </div><div class="line">    <span class="comment">//发布时间  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> time;  </div><div class="line">    <span class="comment">//邮编  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> postCode;  </div><div class="line">    <span class="comment">//经度  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> longitude;  </div><div class="line">    <span class="comment">//维度  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> latitude;  </div><div class="line">    <span class="comment">//海拔  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> altitude;  </div><div class="line">    <span class="comment">//天气情况  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> weather;  </div><div class="line">    <span class="comment">//气温  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> temp;  </div><div class="line">    <span class="comment">//最低气温  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> l_tmp;  </div><div class="line">    <span class="comment">//最高气温  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> h_tmp;  </div><div class="line">    <span class="comment">//风向  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> WD;  </div><div class="line">    <span class="comment">//风力  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> WS;  </div><div class="line">    <span class="comment">//日出时间  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sunrise;  </div><div class="line">    <span class="comment">//日落时间  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sunset;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="WeatherPresenter"><a href="#WeatherPresenter" class="headerlink" title="WeatherPresenter"></a>WeatherPresenter</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WeatherPresenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter&lt;WeatherParams</span>,<span class="title">WeatherBean&gt;</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> <span class="type">IWeatherView</span> weatherView;  </div><div class="line">  </div><div class="line">    public <span class="type">WeatherPresenter</span>(<span class="type">IWeatherView</span> weatherView) &#123;  </div><div class="line">        <span class="keyword">super</span>(weatherView,<span class="type">WeatherBean</span>.<span class="keyword">class</span>);  </div><div class="line">        <span class="keyword">this</span>.weatherView = weatherView;  </div><div class="line">        getModel().setApiInterface(<span class="type">ApiInterface</span>.<span class="type">WEATER</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    public void serverResponse(<span class="type">WeatherBean</span> data) &#123;  </div><div class="line">        weatherView.showWeatherView(data);  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherBean</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//城市  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> city;  </span><br><span class="line">    <span class="comment">//城市拼音  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> pinyin;  </span><br><span class="line">    <span class="comment">//城市编码  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> citycode;  </span><br><span class="line">    <span class="comment">//日期  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> date;  </span><br><span class="line">    <span class="comment">//发布时间  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> time;  </span><br><span class="line">    <span class="comment">//邮编  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> postCode;  </span><br><span class="line">    <span class="comment">//经度  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> longitude;  </span><br><span class="line">    <span class="comment">//维度  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> latitude;  </span><br><span class="line">    <span class="comment">//海拔  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> altitude;  </span><br><span class="line">    <span class="comment">//天气情况  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> weather;  </span><br><span class="line">    <span class="comment">//气温  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> temp;  </span><br><span class="line">    <span class="comment">//最低气温  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> l_tmp;  </span><br><span class="line">    <span class="comment">//最高气温  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> h_tmp;  </span><br><span class="line">    <span class="comment">//风向  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> WD;  </span><br><span class="line">    <span class="comment">//风力  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> WS;  </span><br><span class="line">    <span class="comment">//日出时间  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sunrise;  </span><br><span class="line">    <span class="comment">//日落时间  </span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> sunset;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="WeatherPresenter"><a href="#WeatherPresenter" class="headerlink" title="WeatherPresenter"></a>WeatherPresenter</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">WeatherPresenter</span> <span class="keyword">extends</span> <span class="title">BasePresenter&lt;WeatherParams</span>,<span class="title">WeatherBean&gt;</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">IWeatherView</span> weatherView;  </span><br><span class="line">  </span><br><span class="line">    public <span class="type">WeatherPresenter</span>(<span class="type">IWeatherView</span> weatherView) &#123;  </span><br><span class="line">        <span class="keyword">super</span>(weatherView,<span class="type">WeatherBean</span>.<span class="keyword">class</span>);  </span><br><span class="line">        <span class="keyword">this</span>.weatherView = weatherView;  </span><br><span class="line">        getModel().setApiInterface(<span class="type">ApiInterface</span>.<span class="type">WEATER</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    public void serverResponse(<span class="type">WeatherBean</span> data) &#123;  </span><br><span class="line">        weatherView.showWeatherView(data);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们可以看到WeatherPresenter的实现十分简单，按照前面我们的理论，只需要写完WeatherPresenter就可以实现获取北京的天气数据了。下面我们来测试一下。</p>
-<h4 id="在Activity中使用WeatherPresenter"><a href="#在Activity中使用WeatherPresenter" class="headerlink" title="在Activity中使用WeatherPresenter"></a>在Activity中使用WeatherPresenter</h4><p>首先在需要的Activity （View层）中实现IWeatherView接口：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="title">implements</span> <span class="title">IWeatherView</span></span>&#123;  </div><div class="line">   <span class="meta">@Override</span>  </div><div class="line">   public void showWeatherView(<span class="type">WeatherBean</span> data) &#123;  </div><div class="line">       <span class="type">Toast</span>.makeText(<span class="keyword">this</span>,data.weather,<span class="type">Toast</span>.<span class="type">LENGTHSHORT</span>).show();  </div><div class="line">        &#125;  </div><div class="line">&#125;`</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<h4 id="在Activity中使用WeatherPresenter"><a href="#在Activity中使用WeatherPresenter" class="headerlink" title="在Activity中使用WeatherPresenter"></a>在Activity中使用WeatherPresenter</h4><p>首先在需要的Activity （View层）中实现IWeatherView接口：<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="title">implements</span> <span class="title">IWeatherView</span></span>&#123;  </span><br><span class="line">   <span class="meta">@Override</span>  </span><br><span class="line">   public void showWeatherView(<span class="type">WeatherBean</span> data) &#123;  </span><br><span class="line">       <span class="type">Toast</span>.makeText(<span class="keyword">this</span>,data.weather,<span class="type">Toast</span>.<span class="type">LENGTHSHORT</span>).show();  </span><br><span class="line">        &#125;  </span><br><span class="line">&#125;`</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
 <p>接口的实现很简单，只是通过Toast简单地把天气情况显示出来。</p>
 <p>下面我们来看看WeatherPresenter的使用：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">WeatherPresenter weatherPresenter = <span class="keyword">new</span> WeatherPresenter(<span class="keyword">this</span>);  </div><div class="line">weatherBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </div><div class="line">    @<span class="function">Override  </span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">View v</span>) &#123;  </div><div class="line">        WeatherParams <span class="keyword">params</span> = <span class="keyword">new</span> WeatherParams();  </div><div class="line">        <span class="keyword">params</span>.cityname = <span class="string">"北京"</span>;  </div><div class="line">        weatherPresenter.accessServer(<span class="keyword">params</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WeatherPresenter weatherPresenter = <span class="keyword">new</span> WeatherPresenter(<span class="keyword">this</span>);  </span><br><span class="line">weatherBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </span><br><span class="line">    @Override  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(<span class="params">View v</span>) </span>&#123;  </span><br><span class="line">        WeatherParams <span class="keyword">params</span> = <span class="keyword">new</span> WeatherParams();  </span><br><span class="line">        <span class="keyword">params</span>.cityname = <span class="string">"北京"</span>;  </span><br><span class="line">        weatherPresenter.accessServer(<span class="keyword">params</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>我们来看看测试的结果：</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_weather.png" alt="" title="图解"></p>
 <p>这里需要注意的一点是，由于百度的API是不支持POST请求的，所以当我们在使用百度的API时需要按照百度提供的方法用GET请求调用接口，所以上面例子中的WeatherParams参数是无效的。这里这样写只是为了让读者知道如果接口支持POST请求的话，可以用这种方法向服务器发起请求，这种方法更加灵活易用。</p>
 <h3 id="百度糯米分类接口"><a href="#百度糯米分类接口" class="headerlink" title="百度糯米分类接口"></a>百度糯米分类接口</h3><p>这是百度api store提供的一个用来获6取百度糯米分类的一个接口（在api store上面找不到了，但是还能用）。</p>
 <p>接口地址：<code>public static final String NUO_MI_CATEGOR = &quot;/baidunuomi/openapi/categories&quot;;</code></p>
-<h4 id="INuoMiCategoryListView"><a href="#INuoMiCategoryListView" class="headerlink" title="INuoMiCategoryListView"></a>INuoMiCategoryListView</h4><figure class="highlight plain"><figcaption><span>interface INuoMiCategoryListView extends IMvpListView &#123;  </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">    void showNuoMiCategoryView(List&lt;NuoMiCategoryBean&gt; nuoMiCategoryList);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="INuoMiCategoryListView"><a href="#INuoMiCategoryListView" class="headerlink" title="INuoMiCategoryListView"></a>INuoMiCategoryListView</h4><figure class="highlight plain"><figcaption><span>interface INuoMiCategoryListView extends IMvpListView &#123;  </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">    void showNuoMiCategoryView(List&lt;NuoMiCategoryBean&gt; nuoMiCategoryList);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>INuoMiCategoryListView接口也比较简单，只是负责把回调的列表传递到View层中。（这里的业务逻辑比较简单，所以没有经过任何处理就传递到view层。具体需要根据实际情况来处理，可以定义多个方法）。</p>
-<h4 id="NuoMiCategoryPresenter"><a href="#NuoMiCategoryPresenter" class="headerlink" title="NuoMiCategoryPresenter"></a>NuoMiCategoryPresenter</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">NuoMiCategoryPresenter</span> <span class="keyword">extends</span> <span class="title">BasePaginationPresenter&lt;BasePaginationParams</span>,<span class="title">NuoMiCategoryBean&gt;</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> <span class="type">INuoMiCategoryListView</span> nuoMiCategoryView;  </div><div class="line">  </div><div class="line">    public <span class="type">NuoMiCategoryPresenter</span>(<span class="type">INuoMiCategoryListView</span> nuoMiCategoryView) &#123;  </div><div class="line">        <span class="keyword">super</span>(nuoMiCategoryView,<span class="type">NuoMiCategoryBean</span>.<span class="keyword">class</span>);  </div><div class="line">        <span class="keyword">this</span>.nuoMiCategoryView = nuoMiCategoryView;  </div><div class="line">        getModel().setApiInterface(<span class="type">NUOMICATEGOR</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    public void serverResponse(<span class="type">List</span>&lt;<span class="type">NuoMiCategoryBean</span>&gt; list) &#123;  </div><div class="line">        nuoMiCategoryView.showNuoMiCategoryView(list);  </div><div class="line">    &#125;  </div><div class="line">&#125;`</div><div class="line">`</div></pre></td></tr></table></figure>
+<h4 id="NuoMiCategoryPresenter"><a href="#NuoMiCategoryPresenter" class="headerlink" title="NuoMiCategoryPresenter"></a>NuoMiCategoryPresenter</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">NuoMiCategoryPresenter</span> <span class="keyword">extends</span> <span class="title">BasePaginationPresenter&lt;BasePaginationParams</span>,<span class="title">NuoMiCategoryBean&gt;</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="type">INuoMiCategoryListView</span> nuoMiCategoryView;  </span><br><span class="line">  </span><br><span class="line">    public <span class="type">NuoMiCategoryPresenter</span>(<span class="type">INuoMiCategoryListView</span> nuoMiCategoryView) &#123;  </span><br><span class="line">        <span class="keyword">super</span>(nuoMiCategoryView,<span class="type">NuoMiCategoryBean</span>.<span class="keyword">class</span>);  </span><br><span class="line">        <span class="keyword">this</span>.nuoMiCategoryView = nuoMiCategoryView;  </span><br><span class="line">        getModel().setApiInterface(<span class="type">NUOMICATEGOR</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    public void serverResponse(<span class="type">List</span>&lt;<span class="type">NuoMiCategoryBean</span>&gt; list) &#123;  </span><br><span class="line">        nuoMiCategoryView.showNuoMiCategoryView(list);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;`</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
 <p>可以看到NuoMiCategoryPresenter的实现也很简单，按照前面的理论，我们通过NuoMiCategoryPresenter就可以处理列表数据的刷新，加载下一页等功能了。由于百度糯米的分类接口只有一页的，所以我们这里不对加载下一页数据进行任何的讨论了。下面我们来看看NuoMiCategoryPresenter的具体使用。</p>
-<h4 id="在Activity中使用NuoMiCategoryPresenter"><a href="#在Activity中使用NuoMiCategoryPresenter" class="headerlink" title="在Activity中使用NuoMiCategoryPresenter"></a>在Activity中使用NuoMiCategoryPresenter</h4><p>首先需要在Activity（View层）中实现INuoMiCategoryView接口<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">Override</span>  </div><div class="line">public void showNuoMiCategoryView(List&lt;NuoMiCategoryBean&gt; nuoMiCategoryList) &#123;  </div><div class="line">    <span class="selector-tag">Toast</span><span class="selector-class">.makeText</span>(<span class="selector-tag">this</span>,"第一个分类名称 : "  </div><div class="line">            + <span class="selector-tag">nuoMiCategoryList</span><span class="selector-class">.get</span>(0)<span class="selector-class">.catname</span>,<span class="selector-tag">Toast</span><span class="selector-class">.LENGTHSHORT</span>)<span class="selector-class">.show</span>();  </div><div class="line">&#125;`</div><div class="line">`</div></pre></td></tr></table></figure></p>
-<p>在这里为了简便，showNuoMiCategoryView(List\<nuomicategorybean\> nuoMiCategoryList)方法中用Toast显示第一个分类的名称。</nuomicategorybean\></p>
+<h4 id="在Activity中使用NuoMiCategoryPresenter"><a href="#在Activity中使用NuoMiCategoryPresenter" class="headerlink" title="在Activity中使用NuoMiCategoryPresenter"></a>在Activity中使用NuoMiCategoryPresenter</h4><p>首先需要在Activity（View层）中实现INuoMiCategoryView接口<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">Override</span>  </span><br><span class="line">public void showNuoMiCategoryView(List&lt;NuoMiCategoryBean&gt; nuoMiCategoryList) &#123;  </span><br><span class="line">    <span class="selector-tag">Toast</span><span class="selector-class">.makeText</span>(<span class="selector-tag">this</span>,"第一个分类名称 : "  </span><br><span class="line">            + <span class="selector-tag">nuoMiCategoryList</span><span class="selector-class">.get</span>(0)<span class="selector-class">.catname</span>,<span class="selector-tag">Toast</span><span class="selector-class">.LENGTHSHORT</span>)<span class="selector-class">.show</span>();  </span><br><span class="line">&#125;`</span><br><span class="line">`</span><br></pre></td></tr></table></figure></p>
+<p>在这里为了简便，showNuoMiCategoryView(List\&lt;NuoMiCategoryBean> nuoMiCategoryList)方法中用Toast显示第一个分类的名称。</p>
 <p>实现了INuoMiCategoryView接口后，我们来尝试下在Activity中使用NuoMiCategoryPresenter来获取分类数据。</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">nuoMiCategoryPresenter = <span class="keyword">new</span> NuoMiCategoryPresenter(<span class="keyword">this</span>);  </div><div class="line">nuoMiCategoryBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </div><div class="line">        nuoMiCategoryPresenter.accessServer();  </div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nuoMiCategoryPresenter = <span class="keyword">new</span> NuoMiCategoryPresenter(<span class="keyword">this</span>);  </span><br><span class="line">nuoMiCategoryBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </span><br><span class="line">        nuoMiCategoryPresenter.accessServer();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>我们来看看使用的结果:</p>
 <p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_nuomi_category.png" alt="" title="图解"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章就介绍道这里了，相信细心的同学可以发现用于回调数据的View层接口都是继承了IBaseMvpView接口，而View层里面还有三个方法（进度条和错误处理）。如果我们不对这几个方法的的处理进行封装的话，那么每个实现了回调数据的IView接口的View都需要手动再对这三个方法实现一遍。所以后面的文章我会讲解如何通过设计BaseActivity、BaseListActivity（fragment）实现一些基本事件的封装。从而优化工程，进一步减少我们要写的代码。<br>项目代码的地址是：<a href="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="external">https://github.com/DobbyTang/mvp-android-framework</a>。上一章和这一章的测试demo都是在MainActivity中实现的，下一章会对项目的目录作一个详细的解析。有兴趣的同学欢迎光关注该项目，因为笔者的文笔比较差，所以文章进度会大大落后于项目进度。项目中关于Activity、 Fragmen基类已经完成了，大家可以先自行查看。如果有不懂的地方，请关注blog，笔者会尽快更新下一章的。<br>彩蛋：在这个系列结束的时候，笔者会用这个框架实现一个小小的APP，功能不会太复杂，但是会尽量囊括笔者在这系列文章中介绍的东西。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章就介绍道这里了，相信细心的同学可以发现用于回调数据的View层接口都是继承了IBaseMvpView接口，而View层里面还有三个方法（进度条和错误处理）。如果我们不对这几个方法的的处理进行封装的话，那么每个实现了回调数据的IView接口的View都需要手动再对这三个方法实现一遍。所以后面的文章我会讲解如何通过设计BaseActivity、BaseListActivity（fragment）实现一些基本事件的封装。从而优化工程，进一步减少我们要写的代码。<br>项目代码的地址是：<a href="https://github.com/DobbyTang/mvp-android-framework" target="_blank" rel="noopener">https://github.com/DobbyTang/mvp-android-framework</a>。上一章和这一章的测试demo都是在MainActivity中实现的，下一章会对项目的目录作一个详细的解析。有兴趣的同学欢迎光关注该项目，因为笔者的文笔比较差，所以文章进度会大大落后于项目进度。项目中关于Activity、 Fragmen基类已经完成了，大家可以先自行查看。如果有不懂的地方，请关注blog，笔者会尽快更新下一章的。<br>彩蛋：在这个系列结束的时候，笔者会用这个框架实现一个小小的APP，功能不会太复杂，但是会尽量囊括笔者在这系列文章中介绍的东西。</p>
 
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/MVP开发框架/" rel="tag">#MVP开发框架</a>
+            <a href="/tags/MVP开发框架/" rel="tag"># MVP开发框架</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -439,6 +599,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -453,31 +615,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -493,136 +655,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装列表型的Presenter基类"><span class="nav-number">1.</span> <span class="nav-text">封装列表型的Presenter基类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IBasePaginationPresenter"><span class="nav-number">1.1.</span> <span class="nav-text">IBasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BasePaginationPresenter"><span class="nav-number">1.2.</span> <span class="nav-text">BasePaginationPresenter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMvpListView"><span class="nav-number">1.3.</span> <span class="nav-text">IMvpListView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本节小结"><span class="nav-number">1.4.</span> <span class="nav-text">本节小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际使用例子"><span class="nav-number">2.</span> <span class="nav-text">实际使用例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#百度天气接口"><span class="nav-number">2.1.</span> <span class="nav-text">百度天气接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IWeatherView"><span class="nav-number">2.1.1.</span> <span class="nav-text">IWeatherView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherBean"><span class="nav-number">2.1.2.</span> <span class="nav-text">WeatherBean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WeatherPresenter"><span class="nav-number">2.1.3.</span> <span class="nav-text">WeatherPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用WeatherPresenter"><span class="nav-number">2.1.4.</span> <span class="nav-text">在Activity中使用WeatherPresenter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#百度糯米分类接口"><span class="nav-number">2.2.</span> <span class="nav-text">百度糯米分类接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#INuoMiCategoryListView"><span class="nav-number">2.2.1.</span> <span class="nav-text">INuoMiCategoryListView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NuoMiCategoryPresenter"><span class="nav-number">2.2.2.</span> <span class="nav-text">NuoMiCategoryPresenter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Activity中使用NuoMiCategoryPresenter"><span class="nav-number">2.2.3.</span> <span class="nav-text">在Activity中使用NuoMiCategoryPresenter</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -635,46 +817,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -693,77 +905,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2016/11/04/mvp-structure-three/';
-      var disqus_title = "Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理";
-      var disqus_url = 'http://www.tangpj.com/2016/11/04/mvp-structure-three/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2016/11/04/mvp-structure-three/';
+        this.page.identifier = '2016/11/04/mvp-structure-three/';
+        this.page.title = 'Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -771,119 +991,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 

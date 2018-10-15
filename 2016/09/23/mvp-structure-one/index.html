@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,50 +46,84 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="MVP开发框架," />
-
-
+  <meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
+<meta name="keywords" content="MVP开发框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇">
+<meta property="og:url" content="http://www.tangpj.com/2016/09/23/mvp-structure-one/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_activity.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_structure.png">
+<meta property="og:updated_time" content="2018-10-14T16:55:05.597Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇">
+<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp.jpg">
 
 
 
@@ -79,61 +132,21 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+  <link rel="canonical" href="http://www.tangpj.com/2016/09/23/mvp-structure-one/"/>
 
 
 
-
-
-
-<meta name="description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
-<meta property="og:type" content="article">
-<meta property="og:title" content="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇">
-<meta property="og:url" content="http://www.tangpj.com/2016/09/23/mvp-structure-one/index.html">
-<meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_activity.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_structure.png">
-<meta property="og:updated_time" content="2016-09-23T07:41:16.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇">
-<meta name="twitter:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。
-
-摘要： 在MVVM成熟之前MVP模式在Android上有被神化的趋势，笔者曾经在商业项目中从零开始大规模采用过MVP模式对项目进行开发。在使用MVP模式进行开发的时候发现项目的结构模式对开发是有一定的影响的，在这里笔者会对这一问题进行探讨。希望通过这篇blog能让读者了解如何使用MVP模式搭建一个功能完善的MVP模式开发框架，避免一些笔者">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp.jpg">
-
-
-
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
   };
 </script>
 
-
-
-
-  <link rel="canonical" href="http://www.tangpj.com/2016/09/23/mvp-structure-one/"/>
-
-  <title> ￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇 | TANG BLOG </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
+  <title>￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -141,7 +154,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -150,110 +163,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -261,24 +321,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2016/09/23/mvp-structure-one/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                ￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇
+          <h1 class="post-title" itemprop="name headline">￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇
               
             
           </h1>
@@ -286,32 +358,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-23T15:19:33+08:00" content="2016-09-23">
-              2016-09-23
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-09-23 15:19:33" itemprop="dateCreated datePublished" datetime="2016-09-23T15:19:33+08:00">2016-09-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 00:55:05" itemprop="dateModified" datetime="2018-10-15T00:55:05+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android架构/" itemprop="url" rel="index">
-                    <span itemprop="name">Android架构</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android架构/" itemprop="url" rel="index"><span itemprop="name">Android架构</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -319,34 +420,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/09/23/mvp-structure-one/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/23/mvp-structure-one/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/09/23/mvp-structure-one/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2016/09/23/mvp-structure-one/" class="leancloud_visitors" data-flag-title="￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -390,20 +511,20 @@
 <h1 id="Android上MVP模式的简单应用"><a href="#Android上MVP模式的简单应用" class="headerlink" title="Android上MVP模式的简单应用"></a>Android上MVP模式的简单应用</h1><p>先来看看一个简单用mvp模式模拟登陆的demo，下面的示例代码和其它简单介绍MVP模式的代码没有太大区别。如果有了解过的同学可以直接跳过看下一章关于如何优化MVP模式的结构的文章。</p>
 <p>下面我们来看看在Android上用MVP模式实现简单的登录逻辑的方式：</p>
 <h2 id="登陆界面"><a href="#登陆界面" class="headerlink" title=". 登陆界面"></a>. 登陆界面</h2><p><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_activity.png" alt="" title="登陆界面"></p>
-<ol>
+<ol start="2">
 <li>项目的结构：<br><img src="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/mBlog/mvp/mvp_login_structure.png" alt="" title="项目结构"></li>
 </ol>
 <p>从上面的代码结构图可看出，用MVP模式实现登陆模块需要创建6个文件，分别是M、V、P接口文件和接口的对应实现。其中LoginActivity就是View层的具体实现。这样的好处时Activity组件只需要负责处理UI相关逻辑就可以了，而相关的业务逻辑全部抽象到Presenter层中处理。通过这种方式能够很好的避免传统Android开发中的Activity/Fragment等UI组件既负责处理UI逻辑又处理业务逻辑的结果。</p>
 <h2 id="代码实现"><a href="#代码实现" class="headerlink" title=". 代码实现"></a>. 代码实现</h2><p>说了这么多，最后我们来看看代码的实现吧。</p>
 <ol>
 <li><p>ILoginModel</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">interface</span> ILoginModel &#123;  </div><div class="line">    <span class="built_in">void</span> login(<span class="built_in">String</span> name ,<span class="built_in">String</span> password);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>ILoginModel &#123;  </span><br><span class="line">    void login(String name ,String password);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>ILoginPresenter</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ILoginPresenter</span> &#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loginToServer</span>(<span class="params">String userName,String password</span>)</span>;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loginSucceed</span>(<span class="params"></span>)</span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>ILoginPresenter &#123;  </span><br><span class="line">  </span><br><span class="line">    void loginToServer(String userName,String password);  </span><br><span class="line">  </span><br><span class="line">    void loginSucceed();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>ILoginView</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ILoginView</span> </span>&#123;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">showProgress</span><span class="params">(<span class="keyword">boolean</span> enable)</span></span>;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">showLoginView</span><span class="params">()</span></span>;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>ILoginView &#123;  </span><br><span class="line">  </span><br><span class="line">    void showProgress(boolean enable);  </span><br><span class="line">  </span><br><span class="line">    void showLoginView();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>上面是登陆模块对应的MVP接口的具体设计，下面我来简单介绍一下接口中的几个方法：</p>
@@ -415,48 +536,87 @@
 <li><code>ILoginView. showLoginView()</code>登陆成功时，Presenter层会通过该方法通知View层登陆已成功。</li>
 </ul>
 <p>下面我们来看看这几个接口的具体实现。</p>
-<ol>
-<li>LoginModel<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginModel</span> <span class="keyword">implements</span> <span class="title">ILoginModel</span></span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> ILoginPresenter presenter;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler();  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginModel</span><span class="params">(ILoginPresenter presenter)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.presenter = presenter;  </div><div class="line">  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(String name ,String password)</span> </span>&#123;  </div><div class="line">        mHandler.postDelayed(<span class="keyword">new</span> Runnable() &#123;  </div><div class="line">            <span class="meta">@Override</span>  </div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </div><div class="line">                Log.d(<span class="string">"LoginModel"</span>, <span class="string">"run: "</span>);  </div><div class="line">                presenter.loginSucceed();  </div><div class="line">            &#125;  </div><div class="line">        &#125;,<span class="number">2000</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol start="4">
+<li>LoginModel<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginModel</span> <span class="keyword">implements</span> <span class="title">ILoginModel</span></span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> ILoginPresenter presenter;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler();  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginModel</span><span class="params">(ILoginPresenter presenter)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.presenter = presenter;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">login</span><span class="params">(String name ,String password)</span> </span>&#123;  </span><br><span class="line">        mHandler.postDelayed(<span class="keyword">new</span> Runnable() &#123;  </span><br><span class="line">            <span class="meta">@Override</span>  </span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">                Log.d(<span class="string">"LoginModel"</span>, <span class="string">"run: "</span>);  </span><br><span class="line">                presenter.loginSucceed();  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;,<span class="number">2000</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>上面的Model层实现了<code>login(String name,Stringpassword)</code>登陆方法，该方法的具体实现逻辑是通过线程休眠2秒来模拟网络登陆的过程,登陆成功后会通过LoginPresenter的<code>loginSucceed()</code>方法来通知Presenter层登陆结果。实际开发中我们需要根据具体的业务逻辑来实现该过程。</p>
-<ol>
-<li>LoginPresenter<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> <span class="keyword">implements</span> <span class="title">ILoginPresenter</span></span>&#123;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> ILoginModel loginModel;  </div><div class="line">  </div><div class="line">    <span class="keyword">private</span> ILoginView loginView;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(ILoginView loginView)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.loginView = loginView;  </div><div class="line">        <span class="keyword">this</span>.loginModel = <span class="keyword">new</span> LoginModel(<span class="keyword">this</span>);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginToServer</span><span class="params">(String userName, String password)</span> </span>&#123;  </div><div class="line">        loginView.showProgress(<span class="keyword">true</span>);  </div><div class="line">        loginModel.login(userName,password);  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="meta">@Override</span>  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginSucceed</span><span class="params">()</span> </span>&#123;  </div><div class="line">        loginView.showProgress(<span class="keyword">false</span>);  </div><div class="line">        loginView.showLoginView();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ol start="5">
+<li>LoginPresenter<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginPresenter</span> <span class="keyword">implements</span> <span class="title">ILoginPresenter</span></span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> ILoginModel loginModel;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> ILoginView loginView;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoginPresenter</span><span class="params">(ILoginView loginView)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.loginView = loginView;  </span><br><span class="line">        <span class="keyword">this</span>.loginModel = <span class="keyword">new</span> LoginModel(<span class="keyword">this</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginToServer</span><span class="params">(String userName, String password)</span> </span>&#123;  </span><br><span class="line">        loginView.showProgress(<span class="keyword">true</span>);  </span><br><span class="line">        loginModel.login(userName,password);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginSucceed</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        loginView.showProgress(<span class="keyword">false</span>);  </span><br><span class="line">        loginView.showLoginView();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>从上面代码可以看出LoginPresenter的实现逻辑很简单，首先在构造方法中获取ILoginView对象并撞见ILoginModel对象。然后当View层调用<code>loginToServer(String userName, String password)</code>方法成功时，通知View层显示加载动画并调用ILoginModel层的<code>login(String userName, String password)</code>方法向服务器发送登陆请求。当登陆成功后（即Model层通知loginSucceed方法时）通过<code>loginView.showProgress(false)</code>方法通知View层隐藏加载动画，并通知View登陆成功。</p>
-<ol>
-<li>LoginActivity<br>对于LoginActivity我们只需要关注其中的几个方法即可<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">loginBtn</span><span class="selector-class">.setOnClickListener</span>(new View.OnClickListener() &#123;  </div><div class="line">    <span class="variable">@Override</span>  </div><div class="line">    public void onClick(View v) &#123;  </div><div class="line">        <span class="comment">//模拟登陆，不需要账号密码  </span></div><div class="line">        loginPresenter<span class="selector-class">.loginToServer</span>(<span class="string">""</span>,<span class="string">""</span>);  </div><div class="line">    &#125;  </div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ol start="6">
+<li>LoginActivity<br>对于LoginActivity我们只需要关注其中的几个方法即可<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">loginBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;  </span><br><span class="line">        <span class="comment">//模拟登陆，不需要账号密码  </span></span><br><span class="line">        loginPresenter.loginToServer(<span class="string">""</span>,<span class="string">""</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void showProgress(boolean enable) &#123;  </div><div class="line">    <span class="selector-tag">if</span> (enable)&#123;  </div><div class="line">        progressBar<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">        loginLayout<span class="selector-class">.setVisibility</span>(View.GONE);  </div><div class="line">    &#125;else &#123;  </div><div class="line">        progressBar<span class="selector-class">.setVisibility</span>(View.GONE);  </div><div class="line">        loginLayout<span class="selector-class">.setVisibility</span>(View.VISIBLE);  </div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="variable">@Override</span>  </div><div class="line">public void showLoginView() &#123;  </div><div class="line">    Toast<span class="selector-class">.makeText</span>(LoginActivity.this,<span class="string">"登陆功"</span>,Toast.LENGTHSHORT)<span class="selector-class">.show</span>();  </div><div class="line">    finish();  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showProgress</span><span class="params">(<span class="keyword">boolean</span> enable)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">if</span> (enable)&#123;  </span><br><span class="line">        progressBar.setVisibility(View.VISIBLE);  </span><br><span class="line">        loginLayout.setVisibility(View.GONE);  </span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;  </span><br><span class="line">        progressBar.setVisibility(View.GONE);  </span><br><span class="line">        loginLayout.setVisibility(View.VISIBLE);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">@Override</span>  </span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">showLoginView</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    Toast.makeText(LoginActivity.<span class="keyword">this</span>,<span class="string">"登陆功"</span>,Toast.LENGTHSHORT).show();  </span><br><span class="line">    finish();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面时实现了ILoginView接口的两个方法。<br>结合上面的代码可以看出，当点击登陆按钮的监听事件时，我们不需要关注业务逻辑，只需要调用<code>loginPresenter.loginToServer(&quot;&quot;,&quot;&quot;);</code>方法即可，然后根据实际情况实现View层中ILoginView接口的方法即可，这样达到了UI业务与逻辑完全分离的目的。</p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>关于在Android上应用MVP模式开发的第一篇到这里就结束了。这只是通过简单的例子介绍MVP模式在Android上的应用罢了，读者应该也看出来了，不进行任何处理的情况下使用MVP模式进行开发时相对于传统的MV模式来说代码量与文件数量增加了很多，相信不少同学会纠结在传统MV模式的代码量与MVP模式的逻辑清晰之间。<br>随着项目的体量变大，逻辑是否清晰会大大影响到我们的开发。笔者在使用MV进行开发时，常常不得不面对几百行甚至上千行代码的Acitvity，所以笔者在这里推荐大家使用MVP模式进行开发。<br>但是作为一个优秀的码农（其实是因为我很懒）肯定不会满足于这种结果，所以笔者通过不懈的努力研究出一套可以大大减少在使用MVP模式时代码量和文件量的方法，相信在国庆之后会给出第二篇关于优化使用MVP进行开发的文章。这个系列的最终目标是给出一个从零开始搭建一个功能完善的MVP快速开发框架。<br>最后给出本文DEMO的地址：<a href="https://github.com/DobbyTang/MVP-test-demo" target="_blank" rel="external">https://github.com/DobbyTang/MVP-test-demo</a></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>关于在Android上应用MVP模式开发的第一篇到这里就结束了。这只是通过简单的例子介绍MVP模式在Android上的应用罢了，读者应该也看出来了，不进行任何处理的情况下使用MVP模式进行开发时相对于传统的MV模式来说代码量与文件数量增加了很多，相信不少同学会纠结在传统MV模式的代码量与MVP模式的逻辑清晰之间。<br>随着项目的体量变大，逻辑是否清晰会大大影响到我们的开发。笔者在使用MV进行开发时，常常不得不面对几百行甚至上千行代码的Acitvity，所以笔者在这里推荐大家使用MVP模式进行开发。<br>但是作为一个优秀的码农（其实是因为我很懒）肯定不会满足于这种结果，所以笔者通过不懈的努力研究出一套可以大大减少在使用MVP模式时代码量和文件量的方法，相信在国庆之后会给出第二篇关于优化使用MVP进行开发的文章。这个系列的最终目标是给出一个从零开始搭建一个功能完善的MVP快速开发框架。<br>最后给出本文DEMO的地址：<a href="https://github.com/DobbyTang/MVP-test-demo" target="_blank" rel="noopener">https://github.com/DobbyTang/MVP-test-demo</a></p>
 
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/MVP开发框架/" rel="tag">#MVP开发框架</a>
+            <a href="/tags/MVP开发框架/" rel="tag"># MVP开发框架</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -468,6 +628,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -482,31 +644,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -522,136 +684,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
               <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要使用MVP模式"><span class="nav-number">1.</span> <span class="nav-text">为什么要使用MVP模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android上MVP模式的简单应用"><span class="nav-number">2.</span> <span class="nav-text">Android上MVP模式的简单应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#登陆界面"><span class="nav-number">2.1.</span> <span class="nav-text">. 登陆界面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">2.2.</span> <span class="nav-text">. 代码实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -664,46 +846,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -722,77 +934,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2016/09/23/mvp-structure-one/';
-      var disqus_title = "￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇";
-      var disqus_url = 'http://www.tangpj.com/2016/09/23/mvp-structure-one/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2016/09/23/mvp-structure-one/';
+        this.page.identifier = '2016/09/23/mvp-structure-one/';
+        this.page.title = '￼Android架构篇－－从零开始搭建 一个完善的 MVP模式开发框架（一），MVP模式的简单介绍篇';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -800,119 +1020,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 

@@ -1,15 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
   
 
 
-<html class="theme-next mist use-motion">
+<html class="theme-next muse use-motion" lang="zh-CN">
 <head>
   <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
 
 
 
@@ -27,79 +46,76 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
   
-  
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Java,Android,Groovy," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
-
-
-
-
-
-
-<meta name="description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。
-—— 村上春树
-
-
-背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
+  <meta name="description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。  —— 村上春树  背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
+<meta name="keywords" content="Java,Android,Groovy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gradle自动实现Android组件化模块构建">
 <meta property="og:url" content="http://www.tangpj.com/2018/07/22/calces-componentization/index.html">
 <meta property="og:site_name" content="TANG BLOG">
-<meta property="og:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。
-—— 村上春树
-
-
-背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
+<meta property="og:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。  —— 村上春树  背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/github/calces_logo.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/simple_calces_dir.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_architecture.png">
@@ -108,44 +124,34 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_calces.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_nostatistics%402x.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_test.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/wechat/tang_qr_code.png">
-<meta property="og:updated_time" content="2018-07-22T13:02:54.711Z">
+<meta property="og:updated_time" content="2018-10-15T03:23:30.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradle自动实现Android组件化模块构建">
-<meta name="twitter:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。
-—— 村上春树
-
-
-背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
+<meta name="twitter:description" content="不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。  —— 村上春树  背景随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/DobbyTang/MarkdownRes/master/github/calces_logo.jpg">
 
 
 
-<script type="text/javascript" id="hexo.configuration">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 0,
-      author: '博主'
-    }
-  };
-</script>
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
 
 
 
 
   <link rel="canonical" href="http://www.tangpj.com/2018/07/22/calces-componentization/"/>
 
-  <title> Gradle自动实现Android组件化模块构建 | TANG BLOG </title>
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Gradle自动实现Android组件化模块构建 | TANG BLOG</title>
   
+
+
+
 
 
 
@@ -153,7 +159,7 @@
     var _hmt = _hmt || [];
     (function() {
       var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
@@ -162,110 +168,157 @@
 
 
 
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
 
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
 
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">TANG BLOG</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
   </div>
-  <p class="site-subtitle">Tang的技术笔记</p>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
-</div>
+
 
 <nav class="site-nav">
-  
-
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
 
+      
       
     </ul>
   
 
   
+    
+
+  
+
+  
 </nav>
 
- </div>
+
+
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -273,24 +326,36 @@
     
 
   
-  
 
   
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2018/07/22/calces-componentization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
 
     
       <header class="post-header">
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Gradle自动实现Android组件化模块构建
+          <h1 class="post-title" itemprop="name headline">Gradle自动实现Android组件化模块构建
               
             
           </h1>
@@ -298,32 +363,61 @@
 
         <div class="post-meta">
           <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2018-07-22T18:09:35+08:00" content="2018-07-22">
-              2018-07-22
-            </time>
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-22 18:09:35" itemprop="dateCreated datePublished" datetime="2018-07-22T18:09:35+08:00">2018-07-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-15 11:23:30" itemprop="dateModified" datetime="2018-10-15T11:23:30+08:00">2018-10-15</time>
+              
+            
           </span>
 
           
             <span class="post-category" >
-              &nbsp; | &nbsp;
+            
+              <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android技术分享/" itemprop="url" rel="index">
-                    <span itemprop="name">Android技术分享</span>
-                  </a>
-                </span>
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android技术分享/" itemprop="url" rel="index"><span itemprop="name">Android技术分享</span></a></span>
 
                 
                 
-
               
             </span>
           
@@ -331,34 +425,54 @@
           
             
               <span class="post-comments-count">
-                &nbsp; | &nbsp;
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2018/07/22/calces-componentization/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/07/22/calces-componentization/" itemprop="commentsCount"></span>
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/07/22/calces-componentization/" itemprop="commentCount"></span>
                 </a>
               </span>
             
           
 
           
-
-          
           
              <span id="/2018/07/22/calces-componentization/" class="leancloud_visitors" data-flag-title="Gradle自动实现Android组件化模块构建">
-               &nbsp; | &nbsp;
+               <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
         </div>
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -369,9 +483,9 @@
 
 <blockquote>
 <p>不管全世界所有人怎么说，我都认为自己的感受才是正确的。无论别人怎么看，我绝不打乱自己的节奏。喜欢的事自然可以坚持，不喜欢的怎么也长久不了。</p>
+</blockquote>
 <p align="right">—— 村上春树</p>
 
-</blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>随着App的不断迭代，业务会变得越来越复杂，业务模块会越来越多，且每个模块的代码也会变得越来越多。为了应对这一场景，我们需要把不同的业务模块划分成一个个组件，在修改业务代码的时候只需要在对应模块修改就可以了。通过高内聚，低耦合的业务模块来保证工程的健壮性和稳定性。现在问题来了，当组件的数量变得越来多的时候，我们如何管理业务组件呢？</p>
 <blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。<br><a id="more"></a></p>
@@ -388,39 +502,39 @@
 <p>对于第三点：当我们开发好业务模块后，可能我们需要频繁的新增或删除某些业务模块。如果是这样的话，我们也是需要频繁手动修改App的build.gradle。</p>
 <p>对于第四点：有时候，我们可能会在不同的App中引用相同的组件（例如：滴滴的普通版和企业版，普通版包含企业版的功能），这个时候，我们也不希望要频繁手动管理组件依赖，特别是在组件还可以独立运行的时候。</p>
 <p>所以，在我们实践组件化的时候，最大的问题就是，我们需要频繁的手动build.gradle文件来管理组件应用的插件和App的依赖。</p>
-<h2 id="使用Gradle来管理组件"><a href="#使用Gradle来管理组件" class="headerlink" title="使用Gradle来管理组件"></a>使用Gradle来管理组件</h2><p>先安利下笔者写的Gradle插件：<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>。如果觉得这个插件有用的话，可以star下，如果你有更好的想法的话，可以向我提交pull request。</p>
-<p>废话少说，一下是通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>快速实现Android组件化构建的流程。</p>
-<p>Demo地址：<a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="external">SimpleCalces</a></p>
+<h2 id="使用Gradle来管理组件"><a href="#使用Gradle来管理组件" class="headerlink" title="使用Gradle来管理组件"></a>使用Gradle来管理组件</h2><p>先安利下笔者写的Gradle插件：<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>。如果觉得这个插件有用的话，可以star下，如果你有更好的想法的话，可以向我提交pull request。</p>
+<p>废话少说，一下是通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>快速实现Android组件化构建的流程。</p>
+<p>Demo地址：<a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">SimpleCalces</a></p>
 <p>项目结构：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/simple_calces_dir.png" alt="simple_calces_dir"></p>
 <ol>
 <li><p>引入依赖库<br>在Gradle 2.1及更高版本的插件构建脚本代码：<br>在项目的build.gradle中</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line">plugins &#123;</div><div class="line">  <span class="built_in">id</span> <span class="string">"calces.modules"</span> <span class="built_in">version</span> <span class="string">"1.0.11"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">plugins &#123;</span><br><span class="line">  <span class="built_in">id</span> <span class="string">"calces.modules"</span> <span class="built_in">version</span> <span class="string">"1.0.11"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在较旧版本的Gradle中或需要动态配置的情况下的插件构建脚本代码：</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="section">buildscript</span> &#123;</div><div class="line">  <span class="section">repositories</span> &#123;</div><div class="line">    <span class="section">maven</span> &#123;</div><div class="line">      <span class="attribute">url</span> <span class="string">"https://plugins.gradle.org/m2/"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  dependencies &#123;</div><div class="line">    <span class="attribute">classpath</span> <span class="string">"gradle.plugin.com.tangpj.tools:calces:1.0.11"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">apply plugin: <span class="string">"calces.appConfig"</span></div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">buildscript</span> &#123;</span><br><span class="line">  <span class="section">repositories</span> &#123;</span><br><span class="line">    <span class="section">maven</span> &#123;</span><br><span class="line">      <span class="attribute">url</span> <span class="string">"https://plugins.gradle.org/m2/"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  dependencies &#123;</span><br><span class="line">    <span class="attribute">classpath</span> <span class="string">"gradle.plugin.com.tangpj.tools:calces:1.0.11"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">apply plugin: <span class="string">"calces.appConfig"</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ol>
+<ol start="2">
 <li><p>在项目build.gradle配置AppConfig</p>
-<figure class="highlight xquery"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">appConfig &#123;</div><div class="line">    debugEnable false</div><div class="line"></div><div class="line">    apps &#123;</div><div class="line">        app&#123;</div><div class="line">            modules <span class="string">':library1'</span>, <span class="string">':library2'</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    modules&#123;</div><div class="line">        library1&#123;</div><div class="line">            mainActivity <span class="string">".Library1Activity"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.library1"</span></div><div class="line">            isRunAlone true</div><div class="line">        &#125;</div><div class="line">        library2&#123;</div><div class="line">            mainActivity <span class="string">".Library2Activity"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.library2"</span></div><div class="line">            isRunAlone true</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">appConfig &#123;</span><br><span class="line">    debugEnable false</span><br><span class="line"></span><br><span class="line">    apps &#123;</span><br><span class="line">        app&#123;</span><br><span class="line">            modules <span class="string">':library1'</span>, <span class="string">':library2'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    modules&#123;</span><br><span class="line">        library1&#123;</span><br><span class="line">            mainActivity <span class="string">".Library1Activity"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.library1"</span></span><br><span class="line">            isRunAlone true</span><br><span class="line">        &#125;</span><br><span class="line">        library2&#123;</span><br><span class="line">            mainActivity <span class="string">".Library2Activity"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.library2"</span></span><br><span class="line">            isRunAlone true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<ol>
+<ol start="3">
 <li><p>在modules（子模块）引入模块自动化构建插件 (注意：不需要手动配置com.android.library或com.android.application)</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apply <span class="string">plugin:</span> <span class="string">'calces.modules'</span></div></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'calces.modules'</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>这样我们就完成了组件化的构建了，是的，我们不再需要再手动管理单个组件了与App的构建了，通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>，我们能实现快速的组件化构建与多App同时构建。</p>
-<p>那么问题来了，我们如何实现组件间的通信呢？在简单的项目中，推荐该Demo一样，通过使用Android<a href="https://developer.android.com/reference/android/content/Intent" target="_blank" rel="external">隐式Intent</a>来实现组件间通信。在中大型项目中，笔者推荐使用阿里的路由解决方案：<a href="https://github.com/alibaba/ARouter" target="_blank" rel="external"><strong>ARouter</strong></a>。具体使用方法参考官方文档就可以了，使用方法十分简单。</p>
+<p>这样我们就完成了组件化的构建了，是的，我们不再需要再手动管理单个组件了与App的构建了，通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>，我们能实现快速的组件化构建与多App同时构建。</p>
+<p>那么问题来了，我们如何实现组件间的通信呢？在简单的项目中，推荐该Demo一样，通过使用Android<a href="https://developer.android.com/reference/android/content/Intent" target="_blank" rel="noopener">隐式Intent</a>来实现组件间通信。在中大型项目中，笔者推荐使用阿里的路由解决方案：<a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener"><strong>ARouter</strong></a>。具体使用方法参考官方文档就可以了，使用方法十分简单。</p>
 <blockquote>
 <p><strong>注意：</strong>在使用隐式Intent实现组件件通信的时候需要注意找不到相应组件异常：java.lang.IllegalStateException: Could not execute method of the activity。导致这个异常的原因是找不到目标组件导致的，所以在实际开发的时候，需要捕获这一异常，并且根据项目实际情况来进行实际的处理。使用ARouter框架则能通过设置降级策略来实现异常处理（查看ARouter文档了解更多）。</p>
 </blockquote>
 <p>如果只是实现项目的简单组件化，那么看到这里就可以了，如果希望实现更加灵活的组件化架构的读者可以继续看下去，下面笔者将全面分析组件化的优势与笔者总结的组件化构建思想。</p>
 <h2 id="组件化构建简述"><a href="#组件化构建简述" class="headerlink" title="组件化构建简述"></a>组件化构建简述</h2><p>组件化构建与其说是一种技术，不如说是一种思想。组件化构建是通过对项目重新划分成一个个高内聚、低耦合的模块来解决项目过于臃肿，代码过于复杂的一种架构思想。</p>
 <p>我们通过对Google官方的架构演示Demo todo-mvp进行拆分来对Android组件化进行深入的分析。</p>
-<p><strong>Demo地址：</strong><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="external">TodoCalces</a></p>
+<p><strong>Demo地址：</strong><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">TodoCalces</a></p>
 <blockquote>
-<p>todo系列app是Google <a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="external"><strong>android-architecture</strong></a>项目中为了演示Android架构的最佳实现而编写的一系列演示Demo。todo app的特点是，它足够简单，代码量少，易于理解。但是又不会过于简单，因为它是一个包含完成功能的App。它实现了任务列表、任务详情、新建任务、编辑任务、统计任务的功能。</p>
+<p>todo系列app是Google <a href="https://github.com/googlesamples/android-architecture" target="_blank" rel="noopener"><strong>android-architecture</strong></a>项目中为了演示Android架构的最佳实现而编写的一系列演示Demo。todo app的特点是，它足够简单，代码量少，易于理解。但是又不会过于简单，因为它是一个包含完成功能的App。它实现了任务列表、任务详情、新建任务、编辑任务、统计任务的功能。</p>
 </blockquote>
 <p>todo-mvp实现的功能：</p>
 <ul>
@@ -441,22 +555,22 @@
 <h2 id="使用Calces实现todo-mvp的组件化"><a href="#使用Calces实现todo-mvp的组件化" class="headerlink" title="使用Calces实现todo-mvp的组件化"></a>使用Calces实现todo-mvp的组件化</h2><p>通过上面的分析，我们来试下对todo-mvp项目按照业务功能来划分组件。我们先来看看划分后的目录：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/calces_todo_mvp.jpg" alt="todo_calces_dir"></p>
 <p>好了，我们已经对todo-mvp项目进行初步的划分了。根据上面分析的理论得知，我们的业务模块是可以单独运行的，并且我们能够快速构建一个不包含statistics模块的APP。</p>
-<p>我们只需要使用<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>就能快速实现我们需要的功能。</p>
-<p>按照<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>的教程，我们得知，实现<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>只需要三个步骤：</p>
+<p>我们只需要使用<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>就能快速实现我们需要的功能。</p>
+<p>按照<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>的教程，我们得知，实现<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>只需要三个步骤：</p>
 <ol>
 <li>引入依赖库</li>
 <li>在项目的build.gradle中配置AppConfig</li>
 <li>在业务模块中引入模块自动化构c持续 </li>
 </ol>
 <p>第一点和第三点在其它所有项目中的配置都是一样的，在这里不作论述，下面我们看看对于TodoCalces项目，我们要如何配置AppConfig 。</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="section">appConfig</span> &#123;</div><div class="line"></div><div class="line">    <span class="attribute">debugEnable</span> <span class="literal">false</span></div><div class="line"></div><div class="line">    apps &#123;</div><div class="line">        <span class="section">app</span> &#123;</div><div class="line">            <span class="attribute">mainActivity</span> <span class="string">"com.tangpj.tasks.TasksActivity"</span></div><div class="line">            modules <span class="string">':modules:addtask'</span>,</div><div class="line">                    <span class="string">':modules:taskdetail'</span>,</div><div class="line">                    <span class="string">':modules:tasks'</span>,</div><div class="line">                    <span class="string">':modules:statistics'</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        app2 &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">'nostatistic'</span></div><div class="line">            applicationId <span class="string">'com.tangpj.nostatistic'</span></div><div class="line">            modules <span class="string">':modules:addtask'</span>,</div><div class="line">                    <span class="string">':modules:taskdetail'</span>,</div><div class="line">                    <span class="string">':modules:tasks'</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    modules &#123;</div><div class="line">        <span class="section">addtask</span> &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:addtask"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.addtask"</span></div><div class="line">            mainActivity <span class="string">".AddEditTaskActivity"</span></div><div class="line">            isRunAlone <span class="literal">false</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        taskdetail &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:taskdetail"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.taskdetail"</span></div><div class="line">            mainActivity <span class="string">".TaskDetailActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">        task &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:tasks"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.tasks"</span></div><div class="line">            mainActivity <span class="string">".TasksActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        statistics &#123;</div><div class="line">            <span class="attribute">name</span> <span class="string">":modules:statistics"</span></div><div class="line">            applicationId <span class="string">"com.tangpj.statistics"</span></div><div class="line">            mainActivity <span class="string">".StatisticsActivity"</span></div><div class="line">            isRunAlone <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">appConfig</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">debugEnable</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    apps &#123;</span><br><span class="line">        <span class="section">app</span> &#123;</span><br><span class="line">            <span class="attribute">mainActivity</span> <span class="string">"com.tangpj.tasks.TasksActivity"</span></span><br><span class="line">            modules <span class="string">':modules:addtask'</span>,</span><br><span class="line">                    <span class="string">':modules:taskdetail'</span>,</span><br><span class="line">                    <span class="string">':modules:tasks'</span>,</span><br><span class="line">                    <span class="string">':modules:statistics'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        app2 &#123;</span><br><span class="line">            <span class="attribute">name</span> <span class="string">'nostatistic'</span></span><br><span class="line">            applicationId <span class="string">'com.tangpj.nostatistic'</span></span><br><span class="line">            modules <span class="string">':modules:addtask'</span>,</span><br><span class="line">                    <span class="string">':modules:taskdetail'</span>,</span><br><span class="line">                    <span class="string">':modules:tasks'</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    modules &#123;</span><br><span class="line">        <span class="section">addtask</span> &#123;</span><br><span class="line">            <span class="attribute">name</span> <span class="string">":modules:addtask"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.addtask"</span></span><br><span class="line">            mainActivity <span class="string">".AddEditTaskActivity"</span></span><br><span class="line">            isRunAlone <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        taskdetail &#123;</span><br><span class="line">            <span class="attribute">name</span> <span class="string">":modules:taskdetail"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.taskdetail"</span></span><br><span class="line">            mainActivity <span class="string">".TaskDetailActivity"</span></span><br><span class="line">            isRunAlone <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        task &#123;</span><br><span class="line">            <span class="attribute">name</span> <span class="string">":modules:tasks"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.tasks"</span></span><br><span class="line">            mainActivity <span class="string">".TasksActivity"</span></span><br><span class="line">            isRunAlone <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        statistics &#123;</span><br><span class="line">            <span class="attribute">name</span> <span class="string">":modules:statistics"</span></span><br><span class="line">            applicationId <span class="string">"com.tangpj.statistics"</span></span><br><span class="line">            mainActivity <span class="string">".StatisticsActivity"</span></span><br><span class="line">            isRunAlone <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>根据AppConfig可以得出，我们分别配置了2个APP，分别是app1和app2。并且app2中是没有依赖statistics的。现在我们两个APP运行的对比图。</p>
 <p>app1(带statistics模块)：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_calces.jpg" alt="todo_calces"></p>
 <p>app2(不带statistics模块)：</p>
 <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/calces/todo_nostatistics%402x.png" alt="nostatistic"></p>
-<p>从运行图可以看出，app1和app2的配色方案是不一样的，并且app2中不带statistics模块，通过对项目实行合理的划分和引入<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>就能够快速实现组件化构建了。</p>
-<p><strong>结论：</strong>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>能轻松实现业务组件的管理，多APP的快速构建。当我们的业务组件只有4个的时候，可能无法体现Calces的优势，但是如果我们的业务组件有40个的时候，<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>给我们带来的优势就非常明显了。我们可以通过灵活依赖不同的组件，实现快速构建多个APP的目的。就像<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>的介绍图案一样，把组件当成积木来使用。</p>
+<p>从运行图可以看出，app1和app2的配色方案是不一样的，并且app2中不带statistics模块，通过对项目实行合理的划分和引入<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>就能够快速实现组件化构建了。</p>
+<p><strong>结论：</strong>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>能轻松实现业务组件的管理，多APP的快速构建。当我们的业务组件只有4个的时候，可能无法体现Calces的优势，但是如果我们的业务组件有40个的时候，<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>给我们带来的优势就非常明显了。我们可以通过灵活依赖不同的组件，实现快速构建多个APP的目的。就像<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>的介绍图案一样，把组件当成积木来使用。</p>
 <h2 id="如何测试"><a href="#如何测试" class="headerlink" title="如何测试"></a>如何测试</h2><p>Android自动化测试展开来说是一个非常大并且不算简单的工程，在这里笔者不打算展开来说。只是简单的介绍组件化构建如何让我们更方便地去测试。</p>
 <p>并不是所有的自动化测试都一样，它们通常在使用范围、实现难度和执行时间上存在不同。我们一般把自动化测试划分为三种分别是：</p>
 <ol>
@@ -470,41 +584,77 @@
 <p>从上文知道，在我们的组件化分的时候，会划分一个基础依赖库（superLib）。基础依赖库为我们的项目提供了基本的支持，并且该库在项目中是比较稳定、并且不包含业务逻辑的，所以在基础依赖库中，我们应该大量应用单元测试。而集成测试则适用于我们的数据依赖库（dataLib）中，我们可以通过集成测试来验证产品代码与数据模块的交互。而我们的业务模块中包含了大量的业务逻辑，这部分是经常变动的部分，我们可以为我们的业务模块编写一些UI自动化测试代码，但是因为业务（界面）经常变动的原因，所以这部分测试代码是难以维护，并且复用性十分低的。。</p>
 <p><strong>最后，我们得出的结论是：应该把主要精力放在单元测试上，所以如果当你的精力不足以编写所有测试代码的时候，你应该把主要的精力放在单元测试上，而不是放在收益最小的功能测试上。</strong></p>
 <p>关于自动化测试，笔者给的建议就到这里了，如果需要深入理解测试的话，可以自行查找资料，或者关注笔者的博客。后续的博客中，有可能会写关于自动化测试相关的知识。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>插件，我们在实现Android组件化时只需要关注如何合理划分组件的架构与如何实现组件间的通信就可以了。对于Android组件化来说，最主要问题有两个:</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>插件，我们在实现Android组件化时只需要关注如何合理划分组件的架构与如何实现组件间的通信就可以了。对于Android组件化来说，最主要问题有两个:</p>
 <ol>
 <li>大型项目如何合理划分组件模块</li>
 <li>当项目的组件数量非常多的时候如何管理</li>
 </ol>
-<p>第二个问题，可以通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>快速解决，至于第一个问题，笔者给出的指导就是，业务模块在合理的情况下要尽可能的小，因为越小的模块，越容易达到高内聚低耦合的目的。读者不需要担心项目模块划分得过于细不便于管理的问题，因为<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="external">Calces</a>能够轻松帮你管理好各个模块。</p>
-<h2 id="历史精选"><a href="#历史精选" class="headerlink" title="历史精选"></a>历史精选</h2><p><a href="http://tangpj.com/2018/05/12/data_binding_compiler_v2_1/" target="_blank" rel="external"><strong>Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础</strong></a></p>
-<h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>如果这片文章对你有所启发的话，可以关注下笔者的公众号或<a href="https://github.com/Tangpj" target="_blank" rel="external">GitHub</a>。</p>
-<p>扫一扫关注我：</p>
-<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/wechat/tang_qr_code.png" alt="qr"></p>
+<p>第二个问题，可以通过<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>快速解决，至于第一个问题，笔者给出的指导就是，业务模块在合理的情况下要尽可能的小，因为越小的模块，越容易达到高内聚低耦合的目的。读者不需要担心项目模块划分得过于细不便于管理的问题，因为<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Calces</a>能够轻松帮你管理好各个模块。</p>
+<h2 id="历史精选"><a href="#历史精选" class="headerlink" title="历史精选"></a>历史精选</h2><p><a href="http://tangpj.com/2018/05/12/data_binding_compiler_v2_1/" target="_blank" rel="noopener"><strong>Android开发利器之Data Binding Compiler V2 —— 搭建Android MVVM完全体的基础</strong></a></p>
 
       
     </div>
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
 
-      
-    </div>
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Java-Android-Groovy/" rel="tag">#Java,Android,Groovy</a>
+            <a href="/tags/Java-Android-Groovy/" rel="tag"># Java,Android,Groovy</a>
           
         </div>
+      
+
+      
+      
       
 
       
@@ -516,6 +666,8 @@
               </a>
             
           </div>
+
+          <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
@@ -530,31 +682,31 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
           </div>
           
 
-
-          
-  <div class="comments" id="comments">
-    
+  
+    <div class="comments" id="comments">
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
-    
-  </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -570,136 +722,156 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/uploads/avatar.jpeg"
-               alt="Tang" />
-          <p class="site-author-name" itemprop="name">Tang</p>
-          <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
-        </div>
-        <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">16</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
           </div>
 
           
-            <div class="site-state-item site-state-categories">
-              <a href="/categories">
-                <span class="site-state-item-count">3</span>
-                <span class="site-state-item-name">分类</span>
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
               </a>
             </div>
           
 
           
-            <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
             </div>
           
 
-        </nav>
+          
+          
 
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
-          </div>
-        
+          
+          
 
-        <div class="links-of-author motion-element">
           
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/DobbyTang" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="" target="_blank" title="Email：dobbytang123@gmail.com">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  Email：dobbytang123@gmail.com
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.linkedin.com/in/%E6%A3%9A%E5%81%A5-%E6%B1%A4-b13583124?trk=nav_responsive_tab_profile" target="_blank" title="Linked">
-                  
-                    <i class="fa fa-fw fa-linkedin-square"></i>
-                  
-                  Linked
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://www.weibo.com/u/2304697622/home?wvr=5" target="_blank" title="微博">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  微博
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="https://www.zhihu.com/people/dobby-tang" target="_blank" title="知乎">
-                  
-                    <i class="fa fa-fw fa-gift"></i>
-                  
-                  知乎
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
       </section>
 
       
+      <!--noindex-->
         <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
+
             
               
             
+
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么我们要用Gradle管理组件呢？"><span class="nav-number">2.</span> <span class="nav-text">为什么我们要用Gradle管理组件呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Gradle来管理组件"><span class="nav-number">3.</span> <span class="nav-text">使用Gradle来管理组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化构建简述"><span class="nav-number">4.</span> <span class="nav-text">组件化构建简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Calces实现todo-mvp的组件化"><span class="nav-number">5.</span> <span class="nav-text">使用Calces实现todo-mvp的组件化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何测试"><span class="nav-number">6.</span> <span class="nav-text">如何测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史精选"><span class="nav-number">8.</span> <span class="nav-text">历史精选</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于我"><span class="nav-number">9.</span> <span class="nav-text">关于我</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么我们要用Gradle管理组件呢？"><span class="nav-number">2.</span> <span class="nav-text">为什么我们要用Gradle管理组件呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Gradle来管理组件"><span class="nav-number">3.</span> <span class="nav-text">使用Gradle来管理组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化构建简述"><span class="nav-number">4.</span> <span class="nav-text">组件化构建简述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Calces实现todo-mvp的组件化"><span class="nav-number">5.</span> <span class="nav-text">使用Calces实现todo-mvp的组件化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何测试"><span class="nav-number">6.</span> <span class="nav-text">如何测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史精选"><span class="nav-number">8.</span> <span class="nav-text">历史精选</span></a></li></ol></div>
             
+
           </div>
         </section>
+      <!--/noindex-->
+      
+
       
 
     </div>
@@ -712,46 +884,76 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
-<div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
 </div>
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
-<span id="busuanzi_container_site_pv">
-        本站总访问量<span id="busuanzi_value_site_pv"></span>次
-</span>
 
-<span id="busuanzi_container_site_uv">
-  本站访客数<span id="busuanzi_value_site_uv"></span>人次
-</span>
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
 
         
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
   </div>
 
   
@@ -770,77 +972,85 @@
 
 
 
-  
 
 
 
-  
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+
+
+
 
 
 
   
   
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
-
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
-
-
-
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
     <script type="text/javascript">
-      var disqus_shortname = 'tangpj-com';
-      var disqus_identifier = '2018/07/22/calces-componentization/';
-      var disqus_title = "Gradle自动实现Android组件化模块构建";
-      var disqus_url = 'http://www.tangpj.com/2018/07/22/calces-componentization/';
-
-      function run_disqus_script(disqus_script){
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2018/07/22/calces-componentization/';
+        this.page.identifier = '2018/07/22/calces-componentization/';
+        this.page.title = 'Gradle自动实现Android组件化模块构建';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
       }
-
-      run_disqus_script('count.js');
       
-        run_disqus_script('embed.js');
+        loadComments();
       
     </script>
   
@@ -848,119 +1058,97 @@
 
 
 
+
+
+
+
+
+
+
+
   
-  
+
+
+
+
 
   
 
   
-
-  
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
-  <script>AV.initialize("hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz", "47Dgfa5Dws7kdOV3eEKDJQ17");</script>
   <script>
-    function showTime(Counter) {
-      var query = new AV.Query(Counter);
-      var entries = [];
-      var $visitors = $(".leancloud_visitors");
-
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      query.containedIn('url', entries);
-      query.find()
-        .done(function (results) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.get('url');
-            var time = item.get('time');
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function (object, error) {
-          console.log("Error: " + error.code + " " + error.message);
-        });
-    }
-
+    
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
       var title = $visitors.attr('data-flag-title').trim();
-      var query = new AV.Query(Counter);
 
-      query.equalTo("url", url);
-      query.find({
-        success: function(results) {
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.fetchWhenSave(true);
-            counter.increment("time");
-            counter.save(null, {
-              success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
-              },
-              error: function(counter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
-        },
-        error: function(error) {
-          console.log('Error:' + error.code + " " + error.message);
-        }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
       });
     }
+    
 
     $(function() {
-      var Counter = AV.Object.extend("Counter");
-      if ($('.leancloud_visitors').length == 1) {
-        addCount(Counter);
-      } else if ($('.post-title-link').length > 1) {
-        showTime(Counter);
-      }
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
     });
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
 
   
 
