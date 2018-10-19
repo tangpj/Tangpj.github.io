@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="前言Dagger2是现在非常火的一个依赖注入框架，目前由Google维护，在Github上面已经有12K star了。Dagger2的入门门槛其实是比较高的，据了解，目前有很多Android工程师对Dagger2还不甚了解，没有用上Dagger2或者是用法有问题，本文的主旨就是让Android工程师快速掌握Dagger2并且优雅简洁地使用Dagger2。这里为大家奉上一份Dagger2 在A">
+<meta name="keywords" content="Java,Android,Dagger2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="听说你还不会用Dagger2？Dagger2 For Android最佳实践教程">
+<meta property="og:url" content="http://www.tangpj.com/2018/10/19/dagger2_for_android/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="前言Dagger2是现在非常火的一个依赖注入框架，目前由Google维护，在Github上面已经有12K star了。Dagger2的入门门槛其实是比较高的，据了解，目前有很多Android工程师对Dagger2还不甚了解，没有用上Dagger2或者是用法有问题，本文的主旨就是让Android工程师快速掌握Dagger2并且优雅简洁地使用Dagger2。这里为大家奉上一份Dagger2 在A">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/dagger_for_android_cover.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/order_demo.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/demo_dir.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/normal_activity.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/normal_fragment.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/scope_activity.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/scope_fragment.png">
+<meta property="og:updated_time" content="2018-10-19T08:30:20.010Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="听说你还不会用Dagger2？Dagger2 For Android最佳实践教程">
+<meta name="twitter:description" content="前言Dagger2是现在非常火的一个依赖注入框架，目前由Google维护，在Github上面已经有12K star了。Dagger2的入门门槛其实是比较高的，据了解，目前有很多Android工程师对Dagger2还不甚了解，没有用上Dagger2或者是用法有问题，本文的主旨就是让Android工程师快速掌握Dagger2并且优雅简洁地使用Dagger2。这里为大家奉上一份Dagger2 在A">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/dagger_for_android_cover.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.com/2018/10/19/dagger2_for_android/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>听说你还不会用Dagger2？Dagger2 For Android最佳实践教程 | TANG BLOG</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.com/2018/10/19/dagger2_for_android/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">听说你还不会用Dagger2？Dagger2 For Android最佳实践教程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-19 15:59:52 / 修改时间：16:30:20" itemprop="dateCreated datePublished" datetime="2018-10-19T15:59:52+08:00">2018-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android技术分享/" itemprop="url" rel="index"><span itemprop="name">Android技术分享</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/19/dagger2_for_android/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/10/19/dagger2_for_android/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/10/19/dagger2_for_android/" class="leancloud_visitors" data-flag-title="听说你还不会用Dagger2？Dagger2 For Android最佳实践教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/dagger_for_android_cover.jpg" alt="Material Render Phone"><br><br></p>
+
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Dagger2是现在非常火的一个依赖注入框架，目前由Google维护，在Github上面已经有12K star了。Dagger2的入门门槛其实是比较高的，据了解，目前有很多Android工程师对Dagger2还不甚了解，没有用上Dagger2或者是用法有问题，本文的主旨就是让Android工程师快速掌握Dagger2并且优雅简洁地使用Dagger2。这里为大家奉上一份Dagger2 在Android上的最佳实践教程。</p>
+<blockquote>
+<p><strong>注意：</strong> Dagger2框架的上手难度是比一般的框架更难一些的，所以在练习的时候应该尽量减少干扰因素，尽量少引入其它复杂的第三方库，最佳做法是只依赖Android基础库和Dagger2 For Android需要的库。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="其它文章和开源项目"><a href="#其它文章和开源项目" class="headerlink" title="其它文章和开源项目"></a>其它文章和开源项目</h2><p><a href="https://tangpj.com/2018/09/29/calces-screen/" target="_blank" rel="noopener">给你一个全自动的屏幕适配方案（基于SW方案）！—— 解放你和UI的双手</a></p>
+<p><a href="https://tangpj.com/2018/07/22/calces-componentization/" target="_blank" rel="noopener">Gradle自动实现Android组件化模块构建</a></p>
+<blockquote>
+<p>你的支持，是我前进的动力，如果我的项目对您有帮助的话，可以点下star</p>
+<p><a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Android开发辅助构建神器👍</a></p>
+<p><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">技术教程Demo地址（本文的Demo也在里面哟）👍</a></p>
+</blockquote>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><h3 id="什么是依赖注入？"><a href="#什么是依赖注入？" class="headerlink" title="什么是依赖注入？"></a>什么是依赖注入？</h3><p>维基百科上面的介绍是：在软件工程中，依赖注入是种实现控制反转用于解决依赖性设计模式。一个依赖关系指的是可被利用的一种对象（即服务提供端） 。依赖注入是将所依赖的传递给将使用的从属对象（即客户端）。该服务是将会变成客户端的状态的一部分。 传递服务给客户端，而非允许客户端来建立或寻找服务，是本设计模式的基本要求。</p>
+<p>简单来说依赖注入就是将实例对象传入到另一个对象中去。</p>
+<h3 id="依赖注入的实现"><a href="#依赖注入的实现" class="headerlink" title="依赖注入的实现"></a>依赖注入的实现</h3><p>维基百科的说法非常抽象，其实在平常编码中，我们一直都在使用以来注入。依赖注入主要有以下几种方式。</p>
+<ul>
+<li>构造函数注入</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chef</span></span>&#123;</span><br><span class="line">    Menu menu;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Man</span><span class="params">(Menu menu)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.menu = menu;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>setter方法注入</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chef</span></span>&#123;</span><br><span class="line">    Menu menu;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">setMenu</span><span class="params">(Menu menu)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.menu = menu;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接口注入</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MenuInject</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">injectMenu</span><span class="params">(Menu menu)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chef</span> <span class="keyword">implements</span> <span class="title">MenuInject</span></span>&#123;</span><br><span class="line">    Menu menu;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">injectMenu</span><span class="params">(Menu menu)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.menu = menu;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>依赖注入框架</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@Inject</span> <span class="class"><span class="keyword">class</span> <span class="title">Menu</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chef</span></span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Menu menu;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子可以看出，依赖注入其实就是我们天天都在用的东西。</p>
+<h2 id="Dagger2实现依赖注入"><a href="#Dagger2实现依赖注入" class="headerlink" title="Dagger2实现依赖注入"></a>Dagger2实现依赖注入</h2><h3 id="为什么要使用Dagger2？"><a href="#为什么要使用Dagger2？" class="headerlink" title="为什么要使用Dagger2？"></a>为什么要使用Dagger2？</h3><p>从上面这个简单的例子来看，为了实现依赖注入，好像没必要引入第三方的框架。在只有一个人开发，并且业务像上面这么简单的时候，确实是没必要引入Dagger2。但是如果多人同时开发，并且业务非常复杂呢？例如，我们这里的Menu需要初始化，而菜单也要依赖具体的菜式的呢？如果只是一个地方用到的话，还是能接受的。如果项目中有很多地方同时用到呢？如果这个菜单要修改呢？有经验的开发者可能会想到使用单例模式。但是如果项目中有很多类型的结构的话，那么我们就需要管理非常多的单例，并且单例可能也需要依赖其它对象。在这种情况下如果有变更需求或者是更换维护人员，都会使简单的改动变得非常繁琐，并且容易导致各种各样的奇怪BUG。所以这里我们就需要引入第三方的依赖注入工具，让这个工具来帮助我们实现依赖注入。</p>
+<p>Dagger2就是我们需要的第三方依赖注入工具。Dagger2较其它依赖注入工具有一个优势，就是它是采用静态编译的方式编译代码的，会在编译期生成好辅助代码，不会影响运行时性能，这一点非常适合用于移动端。</p>
+<h3 id="Dagger2的使用方式"><a href="#Dagger2的使用方式" class="headerlink" title="Dagger2的使用方式"></a>Dagger2的使用方式</h3><p>Dagger是通过Component来确认需求与依赖对象的，可以说Component是他们之间的纽带。如果各位用过Dagger2或者了解过Dagger2的教程的话，那么一定知道，Dagger2的使用方式是十分繁琐的，每个需要用到依赖注入的地方都需要通过编写DaggerxxxComponent的模版代码来实现依赖注入。要写非常多的模版代码，大大增加了系统的复杂度。笔者在使用Dagger 2.17的时候，发现Google对Dagger 2进行了优化，现在使用Dagger实现依赖注入要写的代码其实非常少，并且复杂度已经有了很大程度的降低了。在这里，笔者就不介绍旧的使用方式了，使用过Dagger2的同学可以对比这两种方式的差异，没有使用过的直接学习新的使用方式就可以了。</p>
+<p>Dagger2最简单的使用方式就是下面这种：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span> A a;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方法是最简单的，没什么难度。但是在实际的项目中我们会遇到各种各样的复杂情况，例如，A还需要依赖其它的类，并且这个类是第三方类库中提供的。又或者A实现了C接口，我们在编码的时候需要使用依赖导致原则来加强我们的代码的可维护性等等。这个时候，用上面这种方法是没办法实现这些需求的，我们使用Dagger2的主要难点也是因为上面这些原因导致的。</p>
+<p>还是用上面的例子来解释，假设需要做一个餐饮系统，需要把点好的菜单发给厨师，让厨师负责做菜。现在我们来尝试下用Dagger2来实现这个需求。</p>
+<p>首先，我们需要引入Dagger For Android的一些列依赖库：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.google.dagger:dagger-android:2.17'</span></span><br><span class="line">   implementation <span class="string">'com.google.dagger:dagger-android-support:2.17'</span> <span class="comment">// if you use the support libraries</span></span><br><span class="line">   implementation <span class="string">'com.google.dagger:dagger:2.17'</span></span><br><span class="line">   annotationProcessor <span class="string">'com.google.dagger:dagger-compiler:2.17'</span></span><br><span class="line">   annotationProcessor <span class="string">'com.google.dagger:dagger-android-processor:2.17'</span></span><br></pre></td></tr></table></figure>
+<p>然后我们实现Chef类和Menu类</p>
+<p><strong>Cooking接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Cooking</span></span>&#123;</span><br><span class="line">    <span class="function">String <span class="title">cook</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Chef</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chef</span> <span class="keyword">implements</span> <span class="title">Cooking</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    Menu menu;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Chef</span><span class="params">(Menu menu)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.menu = menu;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">cook</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//key菜名， value是否烹饪</span></span><br><span class="line">        Map&lt;String,Boolean&gt; menuList = menu.getMenus();</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String,Boolean&gt; entry : menuList.entrySet())&#123;</span><br><span class="line">            <span class="keyword">if</span> (entry.getValue())&#123;</span><br><span class="line">                sb.append(entry.getKey()).append(<span class="string">","</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Menu</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String,Boolean&gt; menus;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Menu</span><span class="params">( Map&lt;String,Boolean&gt; menus)</span></span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.menus = menus;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">Map&lt;String,Boolean&gt; <span class="title">getMenus</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> menus;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们写一个Activity，作用是在onCreate方法中使用Chef对象实现cooking操作。我们先来看看不使用Dagger2和使用Dagger2的代码区别。</p>
+<p><strong>MainActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Map&lt;String, Boolean&gt; menus = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">        menus.put(<span class="string">"酸菜鱼"</span>, <span class="keyword">true</span>);</span><br><span class="line">        menus.put(<span class="string">"土豆丝"</span>, <span class="keyword">true</span>);</span><br><span class="line">        menus.put(<span class="string">"铁板牛肉"</span>, <span class="keyword">true</span>);</span><br><span class="line">        Menu menu = <span class="keyword">new</span> Menu(menus);</span><br><span class="line">        Chef chef = <span class="keyword">new</span> Chef(menu);</span><br><span class="line">        System.out.println(chef.cook());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DaggerMainActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DaggerMainActivity</span> <span class="keyword">extends</span> <span class="title">DaggerActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Chef chef;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Log.d(TAG,chef.cook());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，在使用Dagger2的时候，使用者的代码会变得非常简洁。但是，Dagger 2还需要一些列的辅助代码来实现依赖注入的。如果用过Dagger2就知道要实现依赖注入的话，需要写十分多模版代码。那么我们可不可以用更简单的方式使用Dagger2呢？今天笔者就来介绍一下在Android上使用Dagger2的更简洁的方案。</p>
+<p>我们先来看看在DaggerMainActivity上实现依赖注入还需要哪些代码。</p>
+<p><strong>CookModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CookModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Boolean&gt; <span class="title">providerMenus</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Map&lt;String, Boolean&gt; menus = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();</span><br><span class="line">        menus.put(<span class="string">"酸菜鱼"</span>, <span class="keyword">true</span>);</span><br><span class="line">        menus.put(<span class="string">"土豆丝"</span>, <span class="keyword">true</span>);</span><br><span class="line">        menus.put(<span class="string">"铁板牛肉"</span>, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> menus;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ActivityModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> MainActivity <span class="title">contributeMainActivity</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>CookAppComponent</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span>(modules = &#123;</span><br><span class="line">        AndroidSupportInjectionModule.class,</span><br><span class="line">        ActivityModules.class,</span><br><span class="line">        CookModules.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">CookAppComponent</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>&lt;<span class="title">MyApplication</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Component</span>.Builder</span><br><span class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>.<span class="title">Builder</span>&lt;<span class="title">MyApplication</span>&gt;</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>MyApplication</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">DaggerApplication</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> AndroidInjector&lt;? extends DaggerApplication&gt; applicationInjector() &#123;</span><br><span class="line">        <span class="keyword">return</span> DaggerCookAppComponent.builder().create(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Dagger2-For-Android-使用要点分析"><a href="#Dagger2-For-Android-使用要点分析" class="headerlink" title="Dagger2 For Android 使用要点分析"></a>Dagger2 For Android 使用要点分析</h3><ol>
+<li><strong>CookModules</strong><br>CookModule很简单，它的目的就是通过@Providers注解提供Menu对象需要的数据。因为Menu是需要依赖一个Map对象的，所以我们通过CookModules给它构造一个Map对象，并自动把它注入到Menu实例里面。</li>
+<li><strong>ActivityModules</strong><br>ActivityModules的主要作用就是通过@ContributesAndroidInjector来标记哪个类需要使用依赖注入功能，这里标记的是ManActivity，所以MainActivity能通过@Inject注解来注入Chef对象。</li>
+<li><strong>CookAppComponent</strong><br>CookAppComponent相当于一个注射器，我们前面定义的Modules就是被注射的类，使用@Inject注入对象的地方就是接收者类。</li>
+<li><strong>MyApplication</strong><br>MyAppliction的特点是继承了DaggerAppliction类，并且在applicationInjector方法中构建了一个DaggerCookAppComponent注射器。</li>
+</ol>
+<p>这就是Dagger 2在Android中的使用方案了，在这里我们可以看到，接收这类（MainActivity）中的代码非常简单，实现依赖注入只使用了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">Chef chef;</span><br></pre></td></tr></table></figure>
+<p>在接收类里面完全没有多余的代码，如果我们要拓展可以SecondsActivity的话，在SecondsActivity我们要用到Menu类。</p>
+<p>那么我们只需要在ActivityModules中增加：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ContributesAndroidInjector</span></span><br><span class="line"><span class="function"><span class="keyword">abstract</span> SecondsActivity <span class="title">contributeSecondsActivity</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>然后在SecondsActivity注入Menu：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">Inject</span></span><br><span class="line"><span class="keyword">Menu</span> menu;</span><br></pre></td></tr></table></figure>
+<p>可以看到，对于整个工程来说，实现使用Dagger2 For Android实现依赖注入要写的模版代码其实非常少，非常简洁。只需要进行一次配置就可以，不需要频繁写一堆模版代码。总的来说，Dagger2造成模版代码增加这个问题已经解决了。</p>
+<blockquote>
+<p><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">Demo地址：目录下的Dagger2Simple就是Demo地址，上面的例子为Dagger2Simple中的simple Modules</a></p>
+</blockquote>
+<h3 id="Dagger2的优势"><a href="#Dagger2的优势" class="headerlink" title="Dagger2的优势"></a>Dagger2的优势</h3><p>在这里我们总结下使用Dagger2带来的优点。</p>
+<ol>
+<li>减少代码量，提高工作效率<br>例如上面的例子中，我们构建一个Chef对象的话，不使用Dagger2的情况下，需要在初始化Chef对象之前进行一堆前置对象（Menu、Map）的初始化，并且需要手工注入到对应的实例中。你想像下，如果我们再加一个Restaurant( 餐馆 )对象，并且需要把Chef注入到Restaurant中的话，那么初始化Restaurant对象时，需要的前置步骤就更繁琐了。<br>可能有人会觉得，这也没什么啊，我不介意手工初始化。但是如果你的系统中有N处需要初始化Restaurant对象的地方呢？使用Dagger2 的话，只需要用注解注入就可以了。</li>
+<li>自动处理依赖关系<br>使用Dagger2的时候，我们不需要指定对象的依赖关系，Dagger2会自动帮我们处理依赖关系（例如Chef需要依赖Menu，Menu需要依赖Map，Dagger自动处理了这个依赖关系）。</li>
+<li>采用静态编译，不影响运行效率<br>因为Dagger2是在编译期处理依赖注入的，所以不会影响运行效率在一定的程度上还能提高系统的运行效率（例如采用Dagger2实现单例，不用加锁效率更高）。</li>
+<li>提高多人编程效率<br>在多人协作的时候，一个人用Dagger2边写完代码后，其它所有组员都能通过@Inject注解直接注入常用的对象。加快编程效率，并且能大大增加代码的复用性。</li>
+</ol>
+<p>上面我们介绍完了Dagger2 For Android的基本用法了。可能有些读者意犹未尽，觉得这个例子太简单了。那么我们来尝试下构建一个更加复杂的系统，深度体验下Dagger2 For Android的优势。现在我们在上面这个例子的基础上拓展下，尝试开发一个简单的点餐Demo来深度体验下。</p>
+<h2 id="Dagger2应用实战"><a href="#Dagger2应用实战" class="headerlink" title="Dagger2应用实战"></a>Dagger2应用实战</h2><p>现在我们来看下如何使用Dagger2来开发一个简单的Demo，这里笔者开发的Demo是一个简单的点餐Demo。这个Demo的功能非常简单，提供了菜单展示、菜单添加/编辑/删除和下单功能。而下单功能只是简单地把菜品名用Snackbar显示到屏幕上。</p>
+<h3 id="Demo展"><a href="#Demo展" class="headerlink" title="Demo展"></a>Demo展</h3><p><strong>操作展示</strong></p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/order_demo.gif" alt=""></p>
+<blockquote>
+<p><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">Demo地址：目录下的Dagger2Simple就是Demo地址，上面的例子为Dagger2Simple中的order Modules</a></p>
+</blockquote>
+<p><strong>代码目录</strong></p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/demo_dir.png" alt=""></p>
+<p>这个Demo采用经典的MVP架构，我们先来简单分析下Demo的细节实现。</p>
+<ol>
+<li>使用SharedPreferences提供简单的缓存功能（存储菜单）。</li>
+<li>使用Gson把列表序列化成Json格式数据，然后以String的形式保存在SharedPreferences中。</li>
+<li>使用Dagger2实现依赖注入功能。</li>
+</ol>
+<p>这样基本就实现了一个简单的点菜Demo了。</p>
+<h3 id="Dagger在Demo中的应用解释"><a href="#Dagger在Demo中的应用解释" class="headerlink" title="Dagger在Demo中的应用解释"></a>Dagger在Demo中的应用解释</h3><p>当我们使用SharedPreferences和Gson实现缓存功能的时候我们会发现，项目中很多地方都会需要这个SharedPreferences和Gson对象。所以我们可以得出两个结论：</p>
+<ol>
+<li>项目中多个模块会用到一些公共实例。</li>
+<li>这些公共实例应该是单例对象。</li>
+</ol>
+<p>我们看看是如何通过使用Dagger2提供全局的Modules来实现这类型对象的依赖注入。</p>
+<p><strong>CookAppModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CookAppModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String KEY_MENU = <span class="string">"menu"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SP_COOK = <span class="string">"cook"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Set&lt;Dish&gt; <span class="title">providerMenus</span><span class="params">(SharedPreferences sp, Gson gson)</span></span>&#123;</span><br><span class="line">        Set&lt;Dish&gt; menus;</span><br><span class="line">        String menuJson = sp.getString(KEY_MENU, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (menuJson == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> LinkedHashSet&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line">        menus = gson.fromJson(menuJson, <span class="keyword">new</span> TypeToken&lt;Set&lt;Dish&gt;&gt;()&#123;&#125;.getType());</span><br><span class="line">        <span class="keyword">return</span> menus;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SharedPreferences <span class="title">providerSharedPreferences</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> context.getSharedPreferences(SP_COOK, Context.MODE_PRIVATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Gson <span class="title">providerGson</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Gson();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Singleton</span></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Context <span class="title">context</span><span class="params">(OrderApp application)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里以dishes模块为例子，dishes中DishesPresenter是负责数据的处理的，所以我们会在DishesPresenter注入这些实例。</p>
+<p><strong>DishesPresenter</strong></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesPresenter</span> <span class="keyword">implements</span> <span class="title">DishesContract</span>.<span class="title">Presenter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> DishesContract.View mView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Set&lt;Dish&gt; dishes;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    Gson gson;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    SharedPreferences sp;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DishesPresenter</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadDishes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mView.showDishes(<span class="keyword">new</span> ArrayList&lt;&gt;(dishes));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">order</span><span class="params">(Map&lt;Dish, Boolean&gt; selectMap)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (selectMap == <span class="keyword">null</span> || selectMap.size() == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (Dish dish : dishes)&#123;</span><br><span class="line">            <span class="keyword">if</span> (selectMap.get(dish))&#123;</span><br><span class="line">                sb.append(dish.getName()).append(<span class="string">"、"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (TextUtils.isEmpty(sb.toString())) <span class="keyword">return</span> <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"烹饪: "</span> + sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">deleteDish</span><span class="params">(String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Dish dish : dishes)&#123;</span><br><span class="line">            <span class="keyword">if</span> (dish.getId().equals(id))&#123;</span><br><span class="line">                dishes.remove(dish);</span><br><span class="line">                sp.edit().putString(CookAppModules.KEY_MENU, gson.toJson(dishes)).apply();</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeView</span><span class="params">(DishesContract.View view)</span> </span>&#123;</span><br><span class="line">        mView = view;</span><br><span class="line">        loadDishes();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dropView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mView = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码能很好地体验Dagger2的好处，假如我们项目中有比较复杂的对象在很多地方都会用到的话，我们可以通过这种方式来简化我们的代码。</p>
+<p>Dishes模块的UI是由Activity加Fragment实现的，Fragment实现了主要的功能，而Activity只是简单作为Fragment的外层。它们分别是：DishesActivity和DishesFragment</p>
+<p>DishesActivity依赖了DishesFragment对象，而在DishesFragment则依赖了DishesAdapter、RecyclerView.LayoutManager、DishesContract.Presenter对象。</p>
+<p>我们先来分别看看DishesActivity与DishesFragment的关键代码。</p>
+<p><strong>DishesActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesActivity</span> <span class="keyword">extends</span> <span class="title">DaggerAppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    DishesFragment mDishesFragment;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DishesFragment</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesFragment</span> <span class="keyword">extends</span> <span class="title">DaggerFragment</span> <span class="keyword">implements</span> <span class="title">DishesContract</span>.<span class="title">View</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    RecyclerView rvDishes;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    DishesAdapter dishesAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    RecyclerView.LayoutManager layoutManager;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    DishesContract.Presenter mPresenter;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DishesFragment</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>DishesFragment通过Dagger2注入了DishesAdapter、RecyclerView.LayoutManager、DishesContract.Presenter，而这些实例是由DishesModules提供的。</p>
+<p><strong>DishesModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> DishesFragment <span class="title">dishesFragment</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> DishesAdapter <span class="title">providerDishesAdapter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DishesAdapter();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> DishesContract.<span class="function">View <span class="title">dishesView</span><span class="params">(DishesFragment dishesFragment)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> RecyclerView.<span class="function">LayoutManager <span class="title">layoutManager</span><span class="params">(LinearLayoutManager linearLayoutManager)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们先说明下这几个注解的作用。</p>
+<ul>
+<li><p><strong>@ContributesAndroidInjector</strong><br>你可以把它看成Dagger2是否要自动把需要的用到的Modules注入到DishesFragment中。这个注解是Dagger2 For Android简化代码的关键，下面的小节会通过一个具体例子来说明。</p>
+</li>
+<li><p><strong>@Module</strong><br>被这个注解标记的类可以看作为依赖对象的提供者，可以通过这个被标记的类结合其它注解来实现依赖关系的关联。</p>
+</li>
+<li><p><strong>@Provides</strong><br>主要作用就是用来提供一些第三方类库的对象或提供一些构建非常复杂的对象在Dagger2中类似工厂类的一个角色。</p>
+</li>
+<li><p><strong>@Binds</strong><br>主要作用就是确定接口与具体的具体实现类，这样说得比较抽象，我们还是看看例子吧。<br>在DishesFragment中有这么一句代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">DishesContract.Presenter mPresenter;</span><br></pre></td></tr></table></figure>
+<p>我们知道DishesContract.Presenter是一个接口而这个接口可能有很多不同的实现类，而@Binds的作用就是用来确定这个具体实现类的。以看看PresenterModules的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">PresenterModules</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> DishesContract.<span class="function">Presenter <span class="title">dishesPresenter</span><span class="params">(DishesPresenter presenter)</span></span>;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从这句代码可以看出，使用@Inject注入的DishesContract.Presenter对象的具体实现类是DishesPresenter。</p>
+</li>
+</ul>
+<h3 id="Dagger2-For-Android是如何注入依赖的？"><a href="#Dagger2-For-Android是如何注入依赖的？" class="headerlink" title="Dagger2 For Android是如何注入依赖的？"></a>Dagger2 For Android是如何注入依赖的？</h3><p>我们在用Dagger2的时候是通过一些模版代码来实现依赖注入的（ DaggerXXXComponent.builder().inject(xxx) 这种模版代码），但是在Demo中的DishesFragment根本没看到类似的代码啊，那么这些对象是什么时候注入到DishesFragment重的呢？</p>
+<p>答案就是<strong>@ContributesAndroidInjector</strong>注解</p>
+<p>我们先来看看Dagger2是通过什么方式来实现自动把依赖注入到DishesActivity中的。</p>
+<p><strong>ActivityModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span>(modules = DishesModules.class)</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> DishesActivity <span class="title">contributesDishActivity</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span>(modules = AddEditModules.class)</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> AddEditDishActivity <span class="title">contributesAddEditDishActivity</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没错，就是@ContributesAndroidInjector这个注解，modules就代表这个DishesActivity需要依赖哪个Modules。这篇教程我们不解释它的具体实现原理，你只需要知道@ContributesAndroidInjector的作用就可以了。</p>
+<p>我们以前使用Dagger2的时候，需要些很多Component来辅助我们实现依赖注入，而现在我们整个App中只需要写一个Component就可以了。@ContributesAndroidInjector注解会帮助我们生成其它需要的Component，并且自动处理Component之间的关系，自动帮我们使用生成的Component来注入依赖。</p>
+<p>我们先看看我们现在整个模块中唯一存在的Component是怎么使用的。</p>
+<p><strong>OrderAppComponent</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Component</span>(modules = &#123;</span><br><span class="line">        AndroidSupportInjectionModule.class,</span><br><span class="line">        LayoutManagerModules.class,</span><br><span class="line">        CookAppModules.class,</span><br><span class="line">        PresenterModules.class,</span><br><span class="line">        ActivityModules.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OrderAppComponent</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>&lt;<span class="title">OrderApp</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Component</span>.Builder</span><br><span class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>.<span class="title">Builder</span>&lt;<span class="title">OrderApp</span>&gt;</span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>OrderApp</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderApp</span> <span class="keyword">extends</span> <span class="title">DaggerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> AndroidInjector&lt;? extends DaggerApplication&gt; applicationInjector() &#123;</span><br><span class="line">        <span class="keyword">return</span> DaggerOrderAppComponent.builder().create(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了加深大家对@ContributesAndroidInjecto注解r的理解，我们稍微修改下DishesModules</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//@ContributesAndroidInjector</span></span><br><span class="line">    <span class="comment">//abstract public DishesFragment dishesFragment();</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> DishesAdapter <span class="title">providerDishesAdapter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DishesAdapter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> DishesContract.<span class="function">View <span class="title">dishesView</span><span class="params">(DishesFragment dishesFragment)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> RecyclerView.<span class="function">LayoutManager <span class="title">layoutManager</span><span class="params">(LinearLayoutManager linearLayoutManager)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DishesActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesActivity</span> <span class="keyword">extends</span> <span class="title">DaggerAppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//@Inject</span></span><br><span class="line">    DishesFragment mDishesFragment;</span><br><span class="line"></span><br><span class="line">    Toolbar toolbar;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_dishes);</span><br><span class="line"></span><br><span class="line">        DishesFragment dishesFragment</span><br><span class="line">                = (DishesFragment) getSupportFragmentManager().findFragmentById(R.id.content_fragment);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (dishesFragment == <span class="keyword">null</span>)&#123;</span><br><span class="line">            mDishesFragment = <span class="keyword">new</span> DishesFragment();<span class="comment">//新增代码</span></span><br><span class="line">            dishesFragment = mDishesFragment;</span><br><span class="line">            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), dishesFragment, R.id.content_fragment);</span><br><span class="line">        &#125;</span><br><span class="line">        initView();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DaggerFragment改为Fragment</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">DishesContract</span>.<span class="title">View</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个时候，我们运行的时候会发现，DishesFragment中的依赖注入失败了，运行时会抛出空指针异常，没注入需要的数据。导致这个原因是因为我们在这里使用new来创建DishesFragment实例的，为什么使用new的时候会Dagger2没有帮我们注入实例呢？</p>
+<p>当我们使用@Inject来注入DishesFragment的时候，Dagger2会自动帮我们判断DishesFragment所依赖的对象（@Inject注解标记），如果能直接注入的对象则直接注入到Fragment中，否则则从DishesModules中寻找是否有需要的对象，有的话则注入到DishesFragment中。而我们使用new来创建DishesFragment时Dagger2无法通过DishesModules来查找对象，因为我们没有声明DishesFragment与DishesModules的联系，DishesFragment也没有自动注入注解的标记（ 没有实现HasSupportFragmentInjector ）。所以Dagger2无法判断它们依赖关系也没办法自动帮DishesFragment自动注入依赖。</p>
+<p>如果我们坚持要使用new的方式来依赖DishesFragment的话，则可以通过@ContributesAndroidInjecto注解来实现它们之间的关联。具体实现方式如下：</p>
+<p><strong>DishesModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span>(includes = PresenterModules.class)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span></span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> DishesFragment <span class="title">dishesFragment</span><span class="params">()</span></span>; <span class="comment">//增加这个抽象方法</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> DishesAdapter <span class="title">providerDishesAdapter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DishesAdapter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> DishesContract.<span class="function">View <span class="title">dishesView</span><span class="params">(DishesFragment dishesFragment)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> RecyclerView.<span class="function">LayoutManager <span class="title">layoutManager</span><span class="params">(LinearLayoutManager linearLayoutManager)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>DishesFragment继承于DaggerFragment</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesFragment</span> <span class="keyword">extends</span> <span class="title">DaggerFragment</span> <span class="keyword">implements</span> <span class="title">DishesContract</span>.<span class="title">View</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改成这样，我们通过new方法来创建DishesFragment的时候也能实现通过注解进行依赖注入了，为什么会这样呢？因为@ContributesAndroidInjector的作用时帮我们生成需要的Subcomponent，然后在DaggerFragment通过 DispatchingAndroidInjector<fragment> 对象来实现依赖注入（ 底层原理和我们使用DaggerXXXComponent手动实现依赖注入差不多 ）。我们可以看看DishesModules中被@ContributesAndroidInjector注解的方法生成的代码。</fragment></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span>(subcomponents = DishesModules_DishesFragment.DishesFragmentSubcomponent.class)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesModules_DishesFragment</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">DishesModules_DishesFragment</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Binds</span></span><br><span class="line">  <span class="meta">@IntoMap</span></span><br><span class="line">  <span class="meta">@FragmentKey</span>(DishesFragment.class)</span><br><span class="line">  <span class="keyword">abstract</span> AndroidInjector.Factory&lt;? extends Fragment&gt; bindAndroidInjectorFactory(</span><br><span class="line">      DishesFragmentSubcomponent.Builder builder);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Subcomponent</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DishesFragmentSubcomponent</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>&lt;<span class="title">DishesFragment</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Subcomponent</span>.Builder</span><br><span class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>.<span class="title">Builder</span>&lt;<span class="title">DishesFragment</span>&gt; </span>&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出，编生成的代码符合我们上面的结论。</p>
+<h2 id="Dagger2-For-Android使用要点"><a href="#Dagger2-For-Android使用要点" class="headerlink" title="Dagger2 For Android使用要点"></a>Dagger2 For Android使用要点</h2><p>我们现在来总结下，简化版的Dagger实现依赖注入的几个必要条件：</p>
+<ol>
+<li>第三方库通过Modules的@provides注解来提供依赖</li>
+<li>提供一个全局唯一的Component，并且Modules中需要天际AndroidSupportInjectionModule类，它的作用时关联需求与依赖之间的关系</li>
+<li>Application需要继承DaggerApplication类，并且在applicationInjector构建并返回全剧唯一的Component实例</li>
+<li>其它需要使用依赖注入的组建都需要继承<strong>Dagger组件名字</strong>类，并且需要在相应的Modules中通过@ContributesAndroidInjector注解标记需要注入依赖的组建。</li>
+</ol>
+<p>上面四个步骤就是使用Dagger2实现依赖注入的要点了，总的来说，复杂度比之前的方法简单了非常多，要写的模版代码也减少了非常多。</p>
+<p>一般来说，上面的知识点已经足够让我们在项目中正常使用Dagger2了，但是在使用中还会遇到一些其它的问题，Dagger2也提供了解决方法。如果希望进一步了解的话，可以继续阅读下文。</p>
+<h2 id="Dagger2拓展"><a href="#Dagger2拓展" class="headerlink" title="Dagger2拓展"></a>Dagger2拓展</h2><h3 id="Scope"><a href="#Scope" class="headerlink" title="@Scope"></a>@Scope</h3><p>Scope字面的意思是作用域，在我们使用Dagger2的时候经常会用到@Singleton这个注解，这个注解的意思的作用是提供单例对象。而我们在使用@Singleton这个注解的时候，会同时@Provides和@Component，为什么要这样做呢？因为@Scope的作用范围其实就是单例的作用范围，这个范围主要是通过Component来确定的。</p>
+<p>所以@Scope的作用就是以指定Component的范围为边界，提供局部的单例对象。我们可以以上面的例子为例验证这个论点论点。</p>
+<p>我们在DishesActivity中增加一句代码，作用时注入DishesPresneter对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">DishesContract.Presenter mPresenter;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码中，我们知道DishesFragment中也用同样的方式来注入过DishesPresneter对象，那么它们有什么区别的，我们通过调试功能来看下。</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/normal_activity.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/normal_fragment.png" alt=""></p>
+<p>可以看出，DishesActivity和DishesFragment中的DishesPresenter不是同一个实例，它们的内存地址是不一样的。如果我们在PresenterModules的dishesPresenter方法中加上@Singleton</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="meta">@Binds</span></span><br><span class="line"><span class="keyword">abstract</span> DishesContract.<span class="function">Presenter <span class="title">dishesPresenter</span><span class="params">(DishesPresenter presenter)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>可以预见，DishesActivity和DishesFragment中的DishesPresenter会变成同一个实例，在这个例子中@Singleton的作用是提供全局的单例（ 因为OrderAppComponent这个全局唯一的Component也被标注成@Singleton ）。这种用法比较简单，这里不再深入。而比较难理解的就是自定义Scope了，下面我们通过一个例子来加深大家对自定义Scope的理解。</p>
+<p><strong>@DishesScoped</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Scope</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> DishesScoped &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了使测试效果更明显，我们稍微修改下Order这个Demo。</p>
+<p><strong>DishesModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesModules</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">    <span class="meta">@DishesScoped</span>  <span class="comment">// 添加注解</span></span><br><span class="line">    <span class="meta">@Binds</span></span><br><span class="line">    <span class="keyword">abstract</span> DishesContract.<span class="function">Presenter <span class="title">dishesPresenter</span><span class="params">(DishesPresenter presenter)</span></span>;</span><br><span class="line">   ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>ActivityModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DishesScoped</span>  <span class="comment">// 添加注解</span></span><br><span class="line">    <span class="meta">@ContributesAndroidInjector</span>(modules = DishesModules.class)</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">public</span> DishesActivity <span class="title">contributesDishActivity</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后现在我们来运行Demo，看下DishesActivity和DishesFragment中的DishesContract.Presenter的对象：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/scope_activity.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/dagger2/scope_fragment.png" alt=""></p>
+<p>可以看出，它们是同一个对象，这验证了我们上面的结论。这里又个小问题就是，我们之前说@Scope是通过Component来确定作用边界的，但是上面这个例子中，并没有对任何Component类使用@Dishes注解啊？那么这里是如何确认边界的呢？</p>
+<p>我们可以看看Dagger生成的类<strong>ActivityModules_ContributesDishActivity</strong>，这个类是根据ActivityModules中的contributesDishActivity方法生成的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span>(subcomponents = ActivityModules_ContributesDishActivity.DishesActivitySubcomponent.class)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityModules_ContributesDishActivity</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">ActivityModules_ContributesDishActivity</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Binds</span></span><br><span class="line">  <span class="meta">@IntoMap</span></span><br><span class="line">  <span class="meta">@ActivityKey</span>(DishesActivity.class)</span><br><span class="line">  <span class="keyword">abstract</span> AndroidInjector.Factory&lt;? extends Activity&gt; bindAndroidInjectorFactory(</span><br><span class="line">      DishesActivitySubcomponent.Builder builder);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Subcomponent</span>(modules = DishesModules.class)</span><br><span class="line">  <span class="meta">@DishesScoped</span>   <span class="comment">//看这里</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DishesActivitySubcomponent</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>&lt;<span class="title">DishesActivity</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Subcomponent</span>.Builder</span><br><span class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span> <span class="keyword">extends</span> <span class="title">AndroidInjector</span>.<span class="title">Builder</span>&lt;<span class="title">DishesActivity</span>&gt; </span>&#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>谜底揭晓，当我们为contributesDishActivity添加上@DishesScoped注解后，自动生成的DishesActivitySubcomponent类被@DishesScoped注解了。所以@DishesScoped是通过DishesActivitySubcomponent来确认作用范围的，这也符合上面的结论。</p>
+<p><strong>@Scope的实现原理</strong></p>
+<p>@Scope实现单例的原理其实很简单，我们可以看下加了@DishesScoped后Dagger为我们生成的注入辅助代码。在这里我们只看关键方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(<span class="keyword">final</span> DishesActivitySubcomponentBuilder builder)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.dishesFragmentSubcomponentBuilderProvider =</span><br><span class="line">          <span class="keyword">new</span> Provider&lt;DishesModules_DishesFragment.DishesFragmentSubcomponent.Builder&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> DishesModules_DishesFragment.DishesFragmentSubcomponent.<span class="function">Builder <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">new</span> DishesFragmentSubcomponentBuilder();</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;;</span><br><span class="line">      <span class="keyword">this</span>.dishesPresenterProvider =</span><br><span class="line">          DishesPresenter_Factory.create(</span><br><span class="line">              DaggerOrderAppComponent.<span class="keyword">this</span>.providerMenusProvider,</span><br><span class="line">              DaggerOrderAppComponent.<span class="keyword">this</span>.providerGsonProvider,</span><br><span class="line">              DaggerOrderAppComponent.<span class="keyword">this</span>.providerSharedPreferencesProvider);</span><br><span class="line">      <span class="keyword">this</span>.dishesPresenterProvider2 = DoubleCheck.provider((Provider) dishesPresenterProvider);   <span class="comment">//这句代码是实现单例的关键。</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们的dishesPresenterProvider2这个对象的初始化是通过双锁校验的方式来实现单例的，所以这个对象是一个单例对象。而其它没有使用@Spoce注解的类则没有使用双锁校验的方式实现初始化，Dagger通过@Scope实现单例的原理其实非常简单。关于@Spoce的介绍就到这里了，如果需要深入的话，可以进一步查看Dagger2生成的辅助代码。</p>
+<h3 id="Qualifier和-Named注解"><a href="#Qualifier和-Named注解" class="headerlink" title="@Qualifier和@Named注解"></a>@Qualifier和@Named注解</h3><p>除了作用域的问题之外我们还会经常会遇到一个问题，总所周知，Dagger2是自动判断依赖关系的，如果我们的代码中需要使用同一个类生成两个或多个不同的对象呢？例如我们的LinearManager，我们现在想用Dagger提供一个横向的Manager，如果直接写在项目中是会报错的，因为Dagger无法判断需要注入/依赖的对象是哪个。如下面的代码：</p>
+<p><strong>LayoutManagerModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutManagerModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LinearLayoutManager <span class="title">providesLinearLayoutManager</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinearLayoutManager(context);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Provides</span> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> LinearLayoutManager <span class="title">providesHorizonalLinearLayoutManager</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码肯定是会报错的，如果我们想实现这个功能的话，这个时候我们就需要用到@Qualifier或者@Named注解了。</p>
+<p>我们先用@Named来实现上面这个需求。</p>
+<p><strong>LayoutManagerModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Module</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutManagerModules</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named</span>(<span class="string">"vertical"</span>)</span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LinearLayoutManager <span class="title">providesLinearLayoutManager</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinearLayoutManager(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named</span>(<span class="string">"horizontal"</span>)</span><br><span class="line">    <span class="meta">@Provides</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LinearLayoutManager <span class="title">providesHorizonalLinearLayoutManager</span><span class="params">(Context context)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>DishesModules</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DishesFragment</span> <span class="keyword">extends</span> <span class="title">DaggerFragment</span> <span class="keyword">implements</span> <span class="title">DishesContract</span>.<span class="title">View</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    RecyclerView rvDishes;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    DishesAdapter dishesAdapter;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Named</span>(<span class="string">"horizontal"</span>)</span><br><span class="line">    <span class="meta">@Inject</span></span><br><span class="line">    LinearLayoutManager layoutManager;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在注入的时候，我们通过 @Named(“horizontal”)就能控制实际是注入哪个LayoutManager了。在定义依赖的时候@Name注解要配合@Providers，而在使用的时候配合@Inject来使用。</p>
+<p><strong>@Qualifier</strong></p>
+<p>@Qualifier的作用和@Named是一样的，@Name也被@Qualifier注解。在使用@Named的时候需要加上我们定义的key所以略显麻烦，我们可以通过自定义@Qualifier注解来解决这个问题。而自定义@Qualifier注解的方式和自定义@Spoce是一样的，非常简单，这里不作深入介绍了。</p>
+<p>Dagger2还提供了例如懒加载等功能，使用起来都是比较简单的，这里限于篇幅就不作进一步介绍了。有兴趣的读者可以查阅源码或者看官方文档来体验下。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Dagger2 For Android是一款非常适合移动端使用的依赖注入框架。它提供了静态编译的方式来实现依赖注入，性能非常好。并且最新版本的Dagger 2.17对Android提供了非常友好的支持，现在使用Dagger2的时候，我们不需要再手写注入代码，这一切Dagger2都帮我们自动实现了。总的来说，Dagger2是非常适合于应用到我们的项目中的。并且Dagger2实现依赖注入的方式非常有趣，能掌握这项技术的话，对我们的提升是非常大的，希望各位读者在阅读了本文后能够去体验一下。</p>
+<p>如果这篇文章对你有帮助的话，可以关注下笔者其它的文章，欢迎大家在我的github上面点star哦。</p>
+<p><a href="https://tangpj.com/2018/09/29/calces-screen/" target="_blank" rel="noopener">给你一个全自动的屏幕适配方案（基于SW方案）！—— 解放你和UI的双手</a></p>
+<p><a href="https://tangpj.com/2018/07/22/calces-componentization/" target="_blank" rel="noopener">Gradle自动实现Android组件化模块构建</a></p>
+<blockquote>
+<p>你的支持，是我前进的动力，如果我的项目对您有帮助的话，可以点下star</p>
+<p><a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Android开发辅助构建神器👍</a></p>
+<p><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">技术教程Demo地址（本文的Demo也在里面哟）👍</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-Android-Dagger2/" rel="tag"># Java,Android,Dagger2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/29/calces-screen/" rel="next" title="给你一个全自动的屏幕适配方案（基于SW方案）！—— 解放你和UI的双手">
+                <i class="fa fa-chevron-left"></i> 给你一个全自动的屏幕适配方案（基于SW方案）！—— 解放你和UI的双手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它文章和开源项目"><span class="nav-number">2.</span> <span class="nav-text">其它文章和开源项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖注入"><span class="nav-number">3.</span> <span class="nav-text">依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是依赖注入？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是依赖注入？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖注入的实现"><span class="nav-number">3.2.</span> <span class="nav-text">依赖注入的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2实现依赖注入"><span class="nav-number">4.</span> <span class="nav-text">Dagger2实现依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要使用Dagger2？"><span class="nav-number">4.1.</span> <span class="nav-text">为什么要使用Dagger2？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2的使用方式"><span class="nav-number">4.2.</span> <span class="nav-text">Dagger2的使用方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2-For-Android-使用要点分析"><span class="nav-number">4.3.</span> <span class="nav-text">Dagger2 For Android 使用要点分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2的优势"><span class="nav-number">4.4.</span> <span class="nav-text">Dagger2的优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2应用实战"><span class="nav-number">5.</span> <span class="nav-text">Dagger2应用实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo展"><span class="nav-number">5.1.</span> <span class="nav-text">Demo展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger在Demo中的应用解释"><span class="nav-number">5.2.</span> <span class="nav-text">Dagger在Demo中的应用解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dagger2-For-Android是如何注入依赖的？"><span class="nav-number">5.3.</span> <span class="nav-text">Dagger2 For Android是如何注入依赖的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2-For-Android使用要点"><span class="nav-number">6.</span> <span class="nav-text">Dagger2 For Android使用要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2拓展"><span class="nav-number">7.</span> <span class="nav-text">Dagger2拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope"><span class="nav-number">7.1.</span> <span class="nav-text">@Scope</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qualifier和-Named注解"><span class="nav-number">7.2.</span> <span class="nav-text">@Qualifier和@Named注解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.com/2018/10/19/dagger2_for_android/';
+        this.page.identifier = '2018/10/19/dagger2_for_android/';
+        this.page.title = '听说你还不会用Dagger2？Dagger2 For Android最佳实践教程';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "hwBIkjpCsCm04W07Al9c1amH-gzGzoHsz",
+                'X-LC-Key': "47Dgfa5Dws7kdOV3eEKDJQ17",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
