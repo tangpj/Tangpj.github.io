@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="什么是函数式编程？函数式编程（FP）是基于一个简单又意义深远的前提的：只用纯函数来构建程序。这句话的深层意思是，我们应该用无副作用的函数来构建程序。什么是副作用呢？带有副作用的函数在调用的过程中不仅仅是只有简单的输入和输出行为，它还干了一些其它的事情。并且这些副作用会把影响扩散到函数外.">
+<meta name="keywords" content="Java,Kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解Kotlin函数式编程">
+<meta property="og:url" content="http://www.tangpj.dev/2019/11/16/kotlinFp/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="什么是函数式编程？函数式编程（FP）是基于一个简单又意义深远的前提的：只用纯函数来构建程序。这句话的深层意思是，我们应该用无副作用的函数来构建程序。什么是副作用呢？带有副作用的函数在调用的过程中不仅仅是只有简单的输入和输出行为，它还干了一些其它的事情。并且这些副作用会把影响扩散到函数外.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/kotlinFp/kotlinFp_cover.jpg">
+<meta property="og:updated_time" content="2019-11-16T12:54:24.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解Kotlin函数式编程">
+<meta name="twitter:description" content="什么是函数式编程？函数式编程（FP）是基于一个简单又意义深远的前提的：只用纯函数来构建程序。这句话的深层意思是，我们应该用无副作用的函数来构建程序。什么是副作用呢？带有副作用的函数在调用的过程中不仅仅是只有简单的输入和输出行为，它还干了一些其它的事情。并且这些副作用会把影响扩散到函数外.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/kotlinFp/kotlinFp_cover.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://www.tangpj.dev/2019/11/16/kotlinFp/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>理解Kotlin函数式编程 | TANG BLOG</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.tangpj.dev/2019/11/16/kotlinFp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解Kotlin函数式编程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-16 20:25:04 / 修改时间：20:54:24" itemprop="dateCreated datePublished" datetime="2019-11-16T20:25:04+08:00">2019-11-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Kotlin/" itemprop="url" rel="index"><span itemprop="name">Kotlin</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/11/16/kotlinFp/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/11/16/kotlinFp/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/kotlinFp/kotlinFp_cover.jpg" alt="Material Render Phone"><br><br></p>
+
+
+<h2 id="什么是函数式编程？"><a href="#什么是函数式编程？" class="headerlink" title="什么是函数式编程？"></a>什么是函数式编程？</h2><p>函数式编程（FP）是基于一个简单又意义深远的前提的：只用纯函数来构建程序。这句话的深层意思是，我们应该用无副作用的函数来构建程序。什么是副作用呢？带有副作用的函数在调用的过程中不仅仅是只有简单的输入和输出行为，它还干了一些其它的事情。并且这些副作用会把影响扩散到函数外.</p>
+<a id="more"></a>
+<p>比如：</p>
+<ul>
+<li>修改一个外部变量（函数外定义）</li>
+<li>设置成员变量</li>
+<li>修改数据结构（List、Map、Set）</li>
+<li>抛出异常或以一个错误停止</li>
+<li>读取、写入文件</li>
+</ul>
+<p>举个简单的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookStore</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//书店的丛书，省略初始化过程</span></span><br><span class="line">    <span class="keyword">public</span> Map&lt;String, Book&gt; collection;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Book <span class="title">buyABook</span><span class="params">(CreateCard lc, String bookCode)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!collection.containsKey(bookCode))&#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Book book = collection.get(bookCode);</span><br><span class="line">        lc.charge(book.getPrice());</span><br><span class="line">        <span class="keyword">return</span> book;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>buyBook方法的的作用是根据图书编号从书店中买一本书，这个方法是一个副作用函数。因为买书的过程中会涉及一些外部操作的，例如需要和库存管理系统进行交互、需要通过web service联系支付公司进行支付等操作。而我们的函数只不过是返回了一本书，获取书的过程中发生了一些额外的行为，这些行为我们就称为“副作用”。</p>
+<p>为什么会把这些行为称为“副作用”呢？因为这些行为的作用域不单单是属于书店系统的范畴的了，它会把影响扩散到其它的系统中。副作用会导致这段代码很难测试，因为我们测试这段代码的时候，会影响到其它系统，牵一发而动全身。并且，客户端（调用这段代码的地方）没办法随心所欲的调用这段代码，在使用的时候，还要考虑副作用带来的具体影响，避免把系统带入异常状态。副作用让我们的代码使用、维护、测试、修改都更麻烦。</p>
+<p>函数式编程的最重要也是最基础的知识点是：<strong>通过纯函数构建程序</strong>。在开始之前，我们先简单介绍下Java的函数式风格的实现原理。</p>
+<blockquote>
+<p>在文章的最后，会给出一些思路解决上面例子中存在的副作用问题</p>
+</blockquote>
+<h2 id="JVM的Lambda表达式的实现原理"><a href="#JVM的Lambda表达式的实现原理" class="headerlink" title="JVM的Lambda表达式的实现原理"></a>JVM的Lambda表达式的实现原理</h2><p>我们在使用函数式编程时，最新接触的概念一般是闭包、Lambda表达式等，这两个概念表达的是同样的意思。Lambda表达式是一种语法糖，它能帮助我们写出更简洁，更容易理解的程序。所以在开始函数式编程之前，我们要先掌握Lambda表达式到底是什么，它的原理是什么。</p>
+<p>下面先看一段大家非常熟悉的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//匿名函数</span></span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"thread 1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//Lambda表达式</span></span><br><span class="line"><span class="keyword">new</span> Thread(() -&gt; System.out.println(<span class="string">"thread 2"</span>)).start();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>线程调度器运行线程时，线程的run方法会被执行，线程的调度原理这里不做介绍，有兴趣的读者可以自行了解。</p>
+</blockquote>
+<p>上面两段代码的作用是一样的，它们的作用都是：<strong>当线程被调度时，就执行run方法中的代码</strong>。可以看到，使用Lambda表达式会让我们的代码更简单，更容易理解，这一点在Kotlin上会更明显。</p>
+<p>Kotlin版本：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread&#123;</span><br><span class="line">   print(<span class="string">"kotlin thread"</span>)</span><br><span class="line">&#125;.start()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kotlin版本语法结构更简单</p>
+</blockquote>
+<p>Lambda和匿名函数它们有什么不一样呢？答案是，没有任何不同的地方。在JVM的角度来说，它们是一模一样的。无论是Java8还是Kotlin甚至是所有运行在JVM平台上的语言，它们的原理都是一样的，Lambda表达式只是匿名函数的一种高糖写法。那么什么样的匿名函数能用Lambda呢？答案是：<strong>只有一个方法的接口，也可以说是只有一个方法的匿名函数</strong>。</p>
+<p>我们可以看看Runnable这个接口的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们要注意一下<code>@FunctionalInterface</code>这个注解，这个注解的意思是，这是一个函数接口。函数接口的作用是，标明这个接口能使用Lambda表达式的风格来实现。这个注解是Java8后引入的，只起到提示作用。</p>
+<p>我们再来看看Kotlin的一些Lambda的基础类是怎么样的:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function0</span>&lt;<span class="type">out R</span>&gt; : <span class="type">Function</span>&lt;<span class="type">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/** Invokes the function. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">invoke</span><span class="params">()</span></span>: R</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们观察下Java的一些函数式接口，和Kotlin的一些能使用Lambda的接口就能发现，在JVM上，所有的Lambda都是通过只有一个方法的接口来实现的。例如Android中经常使用的<code>View#setOnClickListnner</code>方法。</p>
+<p>我们可以使用Kotlin写一个简单的demo体验下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    delay(<span class="number">2000</span>) &#123; println(<span class="string">"delay: <span class="variable">$it</span> ms hello word"</span>) &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">delay</span><span class="params">(ms: <span class="type">Long</span>, action: (<span class="type">Long</span>)</span></span> -&gt; <span class="built_in">Unit</span>)&#123;</span><br><span class="line">    Thread.sleep(ms)</span><br><span class="line">    action(ms)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们运行main函数时，会打印出：delay: 2000 ms hello word。我们重点关注下调用代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delay(<span class="number">2000</span>) &#123; println(<span class="string">"delay: <span class="variable">$it</span> ms hello word"</span>) &#125;</span><br></pre></td></tr></table></figure>
+<p>不是特别了解FP范式的同学可以这样理解：<strong>延迟2000毫秒后，我们就打印<code>&quot;delay: $it ms hello word&quot;</code></strong>。</p>
+<p>现在再回顾下线程调用的例子：<strong>当线程被调度时，就执行run方法中的代码</strong>。</p>
+<p>Android中的click事件的监听：<strong>当view被点击时，就执行onClick方法中代码</strong>。</p>
+<p>所以当我们大量使用Lambda时，其实会大大增强我们代码的可读性的，因为它们都可以这样去理解：<strong>当x发生时，我们就执行y行为</strong>，这会比匿名函数容易理解很多。</p>
+<p>现在，再来看看我们再Java中以匿名函数的方式调用delay方法时，代码是怎么样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MainKt.delay(<span class="number">2000</span>, <span class="keyword">new</span> Function1&lt;Long, Unit&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Unit <span class="title">invoke</span><span class="params">(Long aLong)</span> </span>&#123;</span><br><span class="line">                System.out.print(<span class="string">"delay: "</span> + aLong + <span class="string">" ms hello word"</span>)</span><br><span class="line">                <span class="keyword">return</span> Unit.INSTANCE;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Kotlin中定义delay方法中的action（注： fun delay(ms: Long, <strong>action: (Long) -&gt; Unit)</strong> ）变量在Java中会被编译成了Function1接口，这和上述讨论的函数式接口的结论一致。</p>
+</blockquote>
+<p>这段代码，一眼看下去很难理解它到底是做什么的。繁琐、难以理解、不够优雅。所以当我们使用FP范式编程时，建议大量使用Lambda表达式。当然，如果有人特别喜欢匿名函数的话，也是可以以FP的方式来使用匿名函数的，在Java7的环境中使用RxJava就会有类似的体验。（笔者不太推荐你们虐待自己，如果匿名函数里面的代码有几十行的话，画面太美我不敢看）</p>
+<p>这里总结一下，<strong>如果你们的项目比较保守，需要追求稳定的话，尽量把你们的语言升级到Java8，如果激进点的话，可以直接升级到Kotlin</strong>。好的语法糖，能大大加强我们代码的可读性的。</p>
+<h2 id="函数式编程带来的性能问题"><a href="#函数式编程带来的性能问题" class="headerlink" title="函数式编程带来的性能问题"></a>函数式编程带来的性能问题</h2><p>使用高阶函数是会带来一些性能损失的，因为每个Lambda表达式都是一个对象。从上文的分析可知，在JVM中，Lambda表达式其实是通过函数接口实现的。所以我们在使用lambda的时候，就相当于new了一个新对象出来。而且由于Lambda在访问外部变量时，会捕获变量的原因，捕获变量也会带来一定的内存开销。如果我们大量使用Lambda的时候不想带来这些影响的话，我们可以使用内联函数来解决这些问题。</p>
+<p>内联函数时如何解决这些问题的呢？我们可以尝试下把上面的<code>delay</code>函数改造成内联函数的形式。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    delay(<span class="number">2000</span>) &#123;</span><br><span class="line">        println(<span class="string">"delay: <span class="variable">$it</span> ms hello word"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">delay</span><span class="params">(ms: <span class="type">Long</span>, action: (<span class="type">Long</span>)</span></span> -&gt; <span class="built_in">Unit</span>)&#123;</span><br><span class="line">    Thread.sleep(ms)</span><br><span class="line">    action(ms)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们现在知道了，如果<code>delay</code>不是内联函数的话，编译器会把上面的代码编译成new函数接口对象的形式。而内联函数的调用代码会编译成下面的形式：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    Thread.sleep(<span class="number">2000</span>)</span><br><span class="line">    println(<span class="string">"delay: $2000 ms hello word"</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码不就是我们一开始编写的非函数式代码吗？没错。通过内联函数，我们可以通知编译器，让编译器帮我们做这种<strong>脱糖</strong>处理。这样做的好处是，避免了大量使用lambda表达式导致对象大量创建和lambda捕获导致的性能开销。如果我们能合理使用内联函数，我们的应用会在性能上有所提升。</p>
+<p>内联函数会导致编译生成的代码量变多，所以我们要合理使用避免内联过大的函数。举个简单的例子，如果我们的delay函数里面有100句代码的话，那么代码就会变成下面这个样子。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    Thread.sleep(<span class="number">2000</span>)</span><br><span class="line">    <span class="comment">//假设还有一百句代码</span></span><br><span class="line">    println(<span class="string">"delay: $2000 ms hello word"</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="title">delay</span><span class="params">(ms: <span class="type">Long</span>, action: (<span class="type">Long</span>)</span></span> -&gt; <span class="built_in">Unit</span>)&#123;</span><br><span class="line">    Thread.sleep(ms)</span><br><span class="line">    <span class="comment">//假设还有一百行代码</span></span><br><span class="line">    action(ms)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样看起来问题好像不大，但是如果delay函数在项目中被大量调用的话，这将是一场灾难(想象下如果有100处调用，内联导致的代码增量是 100 * 100 -100)。<strong>合理使用内联函数才能带来性能的提升</strong>。</p>
+<p>熟悉JVM编译器的小伙伴会对<strong>内联</strong>这个词非常熟悉。这里的内联函数的原理和JVM中内联的原理是一样的，有兴趣的读者可以了解JVM的内联优化下。</p>
+<blockquote>
+<p>篇幅有限，这里只对内联函数的作用与原理作个简单的介绍。读者有兴趣的话，可以自行查阅JVM内联优化的相关资料。</p>
+</blockquote>
+<h2 id="函数式编程的简单应用"><a href="#函数式编程的简单应用" class="headerlink" title="函数式编程的简单应用"></a>函数式编程的简单应用</h2><h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><p>函数式编程中，我们用得最多的就是集合操作。集合操作的链式调用比起普通的for循环会更直观、写法更简单。下面我们以一个简单的例子来学习下函数式的集合操作。</p>
+<p>现在假设有一个书店在线销售商场，他的初始化代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">initBookList</span><span class="params">()</span></span> = listOf(</span><br><span class="line">    Book(<span class="string">"Kotlin"</span>, <span class="string">"小明"</span>, <span class="number">55</span>, Group.Technology),</span><br><span class="line">    Book(<span class="string">"中国民俗"</span>, <span class="string">"小黄"</span>, <span class="number">25</span>, Group.Humanities),</span><br><span class="line">    Book(<span class="string">"娱乐杂志"</span>, <span class="string">"小红"</span>, <span class="number">19</span>, Group.Magazine),</span><br><span class="line">    Book(<span class="string">"灌篮"</span>, <span class="string">"小张"</span>, <span class="number">20</span>, Group.Magazine),</span><br><span class="line">    Book(<span class="string">"资本论"</span>, <span class="string">"马克思"</span>, <span class="number">50</span>, Group.Political),</span><br><span class="line">    Book(<span class="string">"Java"</span>, <span class="string">"小张"</span>, <span class="number">30</span>, Group.Technology),</span><br><span class="line">    Book(<span class="string">"Scala"</span>, <span class="string">"小明"</span>, <span class="number">75</span>, Group.Technology),</span><br><span class="line">    Book(<span class="string">"月亮与六便士"</span>, <span class="string">"毛姆"</span>, <span class="number">25</span>, Group.Fiction),</span><br><span class="line">    Book(<span class="string">"追风筝的人"</span>, <span class="string">"卡勒德"</span>, <span class="number">30</span>, Group.Fiction),</span><br><span class="line">    Book(<span class="string">"文明的冲突与世界秩序的重建"</span>, <span class="string">"塞缪尔·亨廷顿"</span>, <span class="number">24</span>, Group.Political),</span><br><span class="line">    Book(<span class="string">"人类简史"</span>, <span class="string">"尤瓦尔•赫拉利"</span>, <span class="number">40</span>, Group.Humanities)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span></span>(</span><br><span class="line">    <span class="keyword">val</span> name: String,</span><br><span class="line">    <span class="keyword">val</span> author: String,</span><br><span class="line">    <span class="comment">//单位元，假设只能标价整数</span></span><br><span class="line">    <span class="keyword">val</span> price: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="comment">//group为可空变量，假设可能会存在没有（不确定）分类的图书</span></span><br><span class="line">    <span class="keyword">val</span> group: Group?)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="class"><span class="keyword">class</span> <span class="title">Group</span></span>&#123;</span><br><span class="line">    <span class="comment">//科技</span></span><br><span class="line">    Technology,</span><br><span class="line">    <span class="comment">//人文</span></span><br><span class="line">    Humanities,</span><br><span class="line">    <span class="comment">//杂志</span></span><br><span class="line">    Magazine,</span><br><span class="line">    <span class="comment">//政治</span></span><br><span class="line">    Political,</span><br><span class="line">    <span class="comment">//小说</span></span><br><span class="line">    Fiction</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们先尝试用命令式的风格获取Technology类型的书名列表。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getTechnologyBookList</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;)</span></span> : List&lt;String&gt;&#123;</span><br><span class="line">    <span class="keyword">val</span> result = mutableListOf&lt;String&gt;()</span><br><span class="line">    <span class="keyword">for</span> (book <span class="keyword">in</span> books)&#123;</span><br><span class="line">        <span class="keyword">if</span> (book.group == Group.Technology)&#123;</span><br><span class="line">            result.add(book.name)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们要使用函数式的风格来实现这个功能的话，可以通过filter与map函数来实现。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getTechnologyBookListFp</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;)</span></span> =</span><br><span class="line">    books.filter &#123; it.group == Group.Technology &#125;.map &#123; it.name &#125;</span><br></pre></td></tr></table></figure>
+<p>这两段代码输出的结果都是一样的，我们可以把返回的列表打印出来看看。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Kotlin, Java, Scala]</span><br></pre></td></tr></table></figure>
+<p>可以看出来，如果用函数式的风格，代码会比使用for循环更容易理解，并且更简洁。上面的函数式代码实现的功能一目了然：<strong>先过滤出group 等于 Technology的书本，然后把书本转换成书本的名字</strong>。</p>
+<blockquote>
+<p>这个例子简单的介绍了filter和map的作用</p>
+</blockquote>
+<p>那么我们面对复杂一点的功能的时候又如何呢？</p>
+<p>现在有一个简单的需求: 把书按照分组分类放好。如果我们用命令式编程风格的话，我们会写出类似下面的代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">groupBooks</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;)</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> groupBooks = mutableMapOf&lt;Group?, MutableList&lt;Book&gt;&gt;()</span><br><span class="line">    <span class="keyword">for</span> (book <span class="keyword">in</span> books)&#123;</span><br><span class="line">        <span class="keyword">if</span> (groupBooks.containsKey(book.group))&#123;</span><br><span class="line">            <span class="keyword">val</span> subBooks = groupBooks[book.group] ?: mutableListOf()</span><br><span class="line">            subBooks.add(book)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">val</span> subBooks = mutableListOf&lt;Book&gt;()</span><br><span class="line">            subBooks.add(book)</span><br><span class="line">            groupBooks[book.group] = subBooks</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (entry <span class="keyword">in</span> groupBooks)&#123;</span><br><span class="line">        println(entry.key)</span><br><span class="line">        println(entry.value.joinToString(separator = <span class="string">""</span>) &#123; <span class="string">"<span class="variable">$it</span>\n"</span> &#125;)</span><br><span class="line">        println(<span class="string">"——————————————————————————————————————————————————————————"</span>)</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我们再看看，如果要用函数式的方式来实现一下这段函数要怎样写呢？我们可以使用操作符<strong>groupBy</strong>实现这个功能</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">groupBooksFp</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;)</span></span>&#123;</span><br><span class="line">    books.groupBy &#123; it.group &#125;.forEach &#123; (key, value) -&gt;</span><br><span class="line">        println(key)</span><br><span class="line">        println(value.joinToString(separator = <span class="string">""</span>) &#123; <span class="string">"<span class="variable">$it</span>\n"</span> &#125;)</span><br><span class="line">        println(<span class="string">"——————————————————————————————————————————————————————————"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们运行这两个方法看看这两段函数的输出结果：</p>
+<blockquote>
+<p>因为是输出没有区别，所以只贴一段结果</p>
+</blockquote>
+<p>Technology<br>Book(name=Kotlin, author=小明, price=55, group=Technology)<br>Book(name=Java, author=小张, price=30, group=Technology)<br>Book(name=Scala, author=小明, price=75, group=Technology)</p>
+<p>——————————————————————————————————————————————————————————<br>Humanities<br>Book(name=中国民俗, author=小黄, price=25, group=Humanities)<br>Book(name=人类简史, author=尤瓦尔•赫拉利, price=40, group=Humanities)</p>
+<p>——————————————————————————————————————————————————————————<br>Magazine<br>Book(name=娱乐杂志, author=小红, price=19, group=Magazine)<br>Book(name=灌篮, author=小张, price=20, group=Magazine)</p>
+<p>——————————————————————————————————————————————————————————<br>Political<br>Book(name=资本论, author=马克思, price=50, group=Political)<br>Book(name=文明的冲突与世界秩序的重建, author=塞缪尔·亨廷顿, price=24, group=Political)</p>
+<p>——————————————————————————————————————————————————————————<br>Fiction<br>Book(name=月亮与六便士, author=毛姆, price=25, group=Fiction)<br>Book(name=追风筝的人, author=卡勒德, price=30, group=Fiction)</p>
+<p>——————————————————————————————————————————————————————————</p>
+<p>可以看到，函数式的实现更简单，而且也更直观，当你习惯了这种方式之后，你的代码会更简洁。并且使用函数式的风格，能让你更容易避开烦人的副作用。</p>
+<p>关于集合的操作就介绍到这里了，集合还有很多其它的函数（flatMap、find等限于篇幅，这里不作深入介绍）能让你的代码更简洁。</p>
+<h3 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h3><p>高阶函数和我们在学习代数的时候的高级代数非常像，我们可以用一句话来解析清楚什么是高阶函数：<strong>入参是函数或者出参是函数的函数就是高阶函数。</strong>这句话非常绕口，直接看代码会更加容易理解：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//入参是函数的高阶函数</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">fooIn</span><span class="params">(func: ()</span></span> -&gt; <span class="built_in">Unit</span>)&#123;</span><br><span class="line">    println(<span class="string">"foo"</span>)</span><br><span class="line">    func()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//出参是函数的高阶函数</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">fooOut</span><span class="params">()</span></span> : () -&gt; <span class="built_in">Unit</span>&#123;</span><br><span class="line">    println(<span class="string">"hello"</span>)</span><br><span class="line">    <span class="keyword">return</span> &#123; println(<span class="string">" word!"</span>)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这两种就是最简单的两种形式的高阶函数，那么高阶函数有什么作用呢？我们先来介绍一下第一种高阶函数。我们先回顾下我们上面集合操作的函数，在这里以<code>filter</code>为例，<code>filter</code>函数是怎么样实现的呢？直接看源码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T&gt;</span> Iterable<span class="type">&lt;T&gt;</span>.<span class="title">filter</span><span class="params">(predicate: (<span class="type">T</span>)</span></span> -&gt; <span class="built_in">Boolean</span>): List&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> filterTo(ArrayList&lt;T&gt;(), predicate)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是filter的实现，我们再来看看filterTo是怎么样的：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> <span class="type">&lt;T, C : MutableCollection&lt;in T&gt;</span>&gt; Iterable<span class="type">&lt;T&gt;</span>.<span class="title">filterTo</span><span class="params">(destination: <span class="type">C</span>, predicate: (<span class="type">T</span>)</span></span> -&gt; <span class="built_in">Boolean</span>): C &#123;</span><br><span class="line">    <span class="comment">//具体实现</span></span><br><span class="line">    <span class="keyword">for</span> (element <span class="keyword">in</span> <span class="keyword">this</span>) <span class="keyword">if</span> (predicate(element)) destination.add(element)</span><br><span class="line">    <span class="keyword">return</span> destination</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从代码我们可以分析到，在我们调用filter函数的时候，会经历如下步骤：</p>
+<ul>
+<li>filetr方法接收一个叫predicate的函数参数。</li>
+<li>然后filter会调用filterTo方法，filterTo方法第一个入参是一个可变集合，第二个入参和filter的predicate是一样的。</li>
+<li>当filter调用filterTo的时候会创建一个名为destination的ArrayList对象，这个对象的作用就是一个收集器。在filter中，会遍历目标集合。</li>
+<li>如果predicate方法返回true，则会把当前元素添加到收集器中。便利完毕会返回destination收集器。</li>
+</ul>
+<blockquote>
+<p>这里可以看出，filter函数返回的是一个新集合，不会影响调用集合本身。</p>
+</blockquote>
+<p>对于函数式编程的初学者可能会觉得，无论是代码还是笔者的描述都非常难以理解（如果理解了，跳过这段）。如果理解不了的，我们可以把函数在Java里面脱糖后再理解。在这里我们会以上面<code>books.filter { it.group == Group.Technology }</code> 这段调用代码为例，进行脱糖处理。</p>
+<p>因为filter函数涉及到Function1这个函数，所以在看实际代码前先看下Function1的定义：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function1</span>&lt;<span class="type">in P1, out R</span>&gt; : <span class="type">Function</span>&lt;<span class="type">R</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/** Invokes the function with the specified argument. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> <span class="title">invoke</span><span class="params">(p1: <span class="type">P1</span>)</span></span>: R</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Function1其实就是一个普通的函数接口，没有什么特别。下面看看脱糖的代码。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  books.filter(<span class="keyword">object</span> : Function1&lt;Book, <span class="built_in">Boolean</span>&gt;&#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">invoke</span><span class="params">(p1: <span class="type">Book</span>)</span></span>: <span class="built_in">Boolean</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> p1.group == Group.Technology</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//为了更方便读者理解，这里把泛型也去掉了，并在语法上也做了一些处理</span></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> Iterable<span class="type">&lt;Book&gt;</span>.<span class="title">filter</span><span class="params">(predicate: <span class="type">Function1</span>&lt;<span class="type">Book</span>, <span class="built_in">Boolean</span>&gt;)</span></span>: List&lt;Book&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> filterTo(ArrayList&lt;Book&gt;(), predicate)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="function"><span class="keyword">fun</span> Collection<span class="type">&lt;Book&gt;</span>.<span class="title">filterTo</span><span class="params">(destination: <span class="type">MutableCollection</span>&lt;<span class="type">Book</span>&gt;, predicate:<span class="type">Function1</span>&lt;<span class="type">Book</span>, <span class="built_in">Boolean</span>&gt;)</span></span>: MutableCollection&lt;Book&gt; &#123;</span><br><span class="line">    <span class="keyword">for</span> (element <span class="keyword">in</span> <span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="keyword">val</span> isAdd = predicate.invoke(element)</span><br><span class="line">        <span class="keyword">if</span> (isAdd) destination.add(element)</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">return</span> destination</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，脱糖处理后的filter函数和我们常用的一种设计模式是非常类似的，这个filter函数我们可以看作是策略模式的一种实现，而传入的predicate实例就是我们的一种策略。在上面这种场景中，我们也可以用命令式编程的策略模式实现（如Java集合操作中的sorted函数）。</p>
+<p>函数式编程可读性更强更易于维护的原因之一就是：<strong>在函数式编程的过程中，我们会被动使用大量的设计模式</strong>。就算我们不刻意去定义/使用，我们也会大量使用类似设计模式中的策略模式和观察者模式去实现我们的代码。</p>
+<blockquote>
+<p>语法不重要，重要的是思想</p>
+</blockquote>
+<h3 id="柯里化函数"><a href="#柯里化函数" class="headerlink" title="柯里化函数"></a>柯里化函数</h3><p>柯里化函数，这个名词听起来逼格非常高，给我的感觉就和第一次听到依赖注入这个词一样（笑哭）。但是当你稍微了解下之后就能发现，柯里化函数和依赖注入一样，都是一些非常简单非常基本的东西。柯里化函数其实是高阶函数的一种，它的定义是：<strong>返回值是一个函数的函数。</strong>就是这么简单。但是这句话理解起来会有点抽象，我们直接看代码吧：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(x: <span class="type">Int</span>)</span></span> : (<span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; y: <span class="built_in">Int</span> -&gt;</span><br><span class="line">        x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是一个简单的求和柯里化函数，我们可以这样用它:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> s = sum(<span class="number">5</span>)</span><br><span class="line">    println(s(<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果是：15</p>
+<p>这种函数看起来合普通的求和函数好像也没有什么区别。我们可以拓展下上面的调用代码再看看：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> s = sum(<span class="number">5</span>)</span><br><span class="line">    println(s(<span class="number">10</span>))</span><br><span class="line">    println(s(<span class="number">20</span>))</span><br><span class="line">    println(s(<span class="number">30</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这下输出的结果是：</p>
+<p>15<br>25<br>35</p>
+<p>是不是觉得有点意思了。柯里化函数的特点是，第一次调用会得到一个特定功能的函数，上面的例子就是，得到一个和5求和的函数。然后第二次调用的作用是，求传入的值和5的和。这样看起来貌似也没有什么作用，只是语法上好像更炫了一点而已。</p>
+<p>我们可以把上面的例子改成普通函数的方式再对比下。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum1</span><span class="params">(x: <span class="type">Int</span>, y: <span class="type">Int</span>)</span></span> : <span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    println(sum(<span class="number">5</span>, <span class="number">10</span>))</span><br><span class="line">    println(sum(<span class="number">5</span>, <span class="number">20</span>))</span><br><span class="line">    println(sum(<span class="number">5</span>, <span class="number">30</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不用柯里化函数的话，会非常依赖调用方的自觉性，因为我们要得到5与某个数字的和的话，我们必须要要求调用方需要在使用函数的时候，第一个值需要传入5。</p>
+<p>我们换个角度想象下，如果我们现在有一个非常复杂的两段式运算，我们可能会需要复用第一段运算的结果。那么这种场景下使用柯里化函数是非常方便的，我们可以直接把第一段运算的结果直接缓存起来。并且由于柯里化函数第一次调用返回的是一个函数，所以，柯里化函数是无副作用的。<strong>柯里化函数会起到延迟作用的效果</strong>，第一次调用返回一个函数，第二次调用才会得到一个值，即在真正被消费的时候，才会生成值。</p>
+<p>柯里化函数非常适合框架的开发者使用，我们可以通过柯里化函数实现一些阅读简单并且非常有效的API。</p>
+<blockquote>
+<p>scala源码中有大量的柯里化函数</p>
+</blockquote>
+<h4 id="Kotlin柯里化函数的缺点"><a href="#Kotlin柯里化函数的缺点" class="headerlink" title="Kotlin柯里化函数的缺点"></a>Kotlin柯里化函数的缺点</h4><blockquote>
+<p>主要是scala和kotlin的对比，没兴趣可以跳过</p>
+</blockquote>
+<p>Kotlin的柯里化函数其实也是有自己的局限性的，从语法角度来说，Kotlin的柯里化函数更难以理解，远没有Scala的简单。例如我们上面的sum函数，从定义上来说就没这么好理解。而Scala的柯里化函数会更加简单明晰。下面我们对比下两种语言的柯里化函数的特点。</p>
+<p><strong>Scala</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">object</span> <span class="title">Main</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> s = sum(<span class="number">5</span>)(_)</span><br><span class="line">    println(s(<span class="number">10</span>))</span><br><span class="line">    println(s(<span class="number">20</span>))</span><br><span class="line">    println(s(<span class="number">30</span>))</span><br><span class="line">    <span class="comment">//最终打印出15，25，35</span></span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">sum</span></span>(x: <span class="type">Int</span>)(y: <span class="type">Int</span>) : <span class="type">Int</span> = x + y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Kotlin</strong></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">sum</span><span class="params">(x: <span class="type">Int</span>)</span></span> : (<span class="built_in">Int</span>) -&gt; <span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; y: <span class="built_in">Int</span> -&gt;</span><br><span class="line">        x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，Scala的柯里化函数从定义上来说是更简单的，和普通的函数定义差不多。而Kotlin的柯里化函数会更加难以理解一点。希望Kotlin有一天也能支持这种风格的柯里化函数。</p>
+<blockquote>
+<p>这里只是简单介绍下kotlin和scala柯里化函数的语法区别，限于篇幅，这里不对柯里化函数的应用作过多介绍</p>
+</blockquote>
+<h2 id="函数式设计的通用结构"><a href="#函数式设计的通用结构" class="headerlink" title="函数式设计的通用结构"></a>函数式设计的通用结构</h2><p>当我们掌握了上面的知识点后，我们就掌握了函数式编程的基础知识了。是的，掌握了上面的知识后，只是处于FP编程入门的状态。上文提到过，我们在使用函数式编程的时候，会被动地使用一些命令式编程中的设计模式，设计模式可以说是命令式编程的一种高阶应用。那么我们要进一步理解、提高函数式编程技能，我们需要了解一些函数式设计的通用结构。这种结构和我们常说的设计模式有点类似，但是又不太一样。在初学阶段可以把它当成是函数式编程中设计模式来理解。</p>
+<p>我们主要介绍三种比较常用的通用结构。</p>
+<h3 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h3><p>在我们刚接触Kotlin的时候，大部分人会先了解Kotlin的一个特性，就是：<strong>空安全</strong>。空安全是通过可空变量/常量实现的。在我们使用可空变量/常量的时候，编译器会强制我们要做空检查才能使用。一般我们会使用<code>?</code>这个语法糖实现，当然也可以在使用前先判空，判空后Kotlin会自动帮我们进行智能转换，会把可空变量转换成非空变量。一般情况下，我们可以使用类似下面的代码处理可空变量。</p>
+<p>现在假设我们需要定义一个函数，入参是可能为空的书本列表，当列表长度大于5时，返回下表为5的元素，小于5时，返回下标为1的元素，为0时返回空。我们可以用下面的三种方法来实现这个函数。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">foo</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;?)</span></span> : Book?&#123;</span><br><span class="line">    <span class="keyword">val</span> size = books?.size ?: <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (size &gt;  <span class="number">5</span>)&#123;</span><br><span class="line">        books?.<span class="keyword">get</span>(<span class="number">5</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        books?.firstOrNull()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">foo1</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;?)</span></span> : Book?&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (books != <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> (books.size &gt; <span class="number">5</span>)&#123;</span><br><span class="line">            books[<span class="number">5</span>]</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            books.firstOrNull()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">foo2</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;?)</span></span> : Book?&#123;</span><br><span class="line">    books ?: <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span> (books.size &gt; <span class="number">5</span>)&#123;</span><br><span class="line">        books[<span class="number">5</span>]</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        books.firstOrNull()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相对来说foo和foo2这两种风格可读性都比较强，而foo1就有点啰嗦了。在面对这种比较简单的场景的时候，Kotlin的空安全写起来十分简洁，维护也挺方便的。那么假如我们需要面对一些更为复杂的需求的时候呢？这种时候可能我们会需要写一堆<strong>?</strong>号来解决这种问题。</p>
+<p>例如：现在我们用Kotlin实现一次文章开头的那个BookStore的程序。</p>
+<p>CreateCard</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreateCard</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">charge</span><span class="params">(price: <span class="type">Int</span>)</span></span>&#123;</span><br><span class="line">        println(<span class="string">"pay <span class="variable">$price</span> yuan"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookStoreOption</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bookCollection = initBookCollection()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyABook1</span><span class="params">(lc: <span class="type">CreateCard</span>?, bookCode: <span class="type">Int</span>)</span></span> : Book?&#123;</span><br><span class="line">        <span class="keyword">val</span> result = bookCollection[bookCode]</span><br><span class="line">        <span class="comment">//判空，result为空时不能产生交易行为</span></span><br><span class="line">        <span class="comment">//lc?.charge(result?.price ?: 0) 这种写法会导致金额为0的交易行为</span></span><br><span class="line">        <span class="keyword">if</span> (lc != <span class="literal">null</span> &amp;&amp; result !=  <span class="literal">null</span>)&#123;</span><br><span class="line">            lc.charge(result.price)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是在不使用函数式通用结构时的比较合理的一种写法。</p>
+<p>这样写的时候，客户端的调用代码可能是这样的。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> buyBook1 = BookStoreOption().buyABook1(CreateCard(), <span class="number">1</span>)</span><br><span class="line"><span class="keyword">if</span>(buyBook1 != <span class="literal">null</span> ) &#123;</span><br><span class="line">    println(<span class="string">"book name = <span class="subst">$&#123;buyBook1.name&#125;</span>, author = <span class="subst">$&#123;buyBook1.author&#125;</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<p>pay 55 yuan<br>book name = Kotlin, author = 小明</p>
+<p>客户端的调用代码，我们通过Kotlin的语法糖稍微简化了下代码。现在加多个条件，当buyBook1不为空时，打印出购买的书名、作者名。并且当buyBook1的group不为空时，再打印书的分组。</p>
+<p>这种情况下我们很容易就能写出下面这种代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> buyBook1 = BookStoreOption().buyABook1(CreateCard(), <span class="number">1</span>)</span><br><span class="line"><span class="keyword">if</span>(buyBook1 != <span class="literal">null</span> ) &#123;</span><br><span class="line">    println(<span class="string">"book name = <span class="subst">$&#123;buyBook1.name&#125;</span>, author = <span class="subst">$&#123;buyBook1.author&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">if</span> (buyBook1.group != <span class="literal">null</span>)&#123;</span><br><span class="line">        println(<span class="string">"book group = <span class="subst">$&#123;it.group&#125;</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这种写法虽然功能上没什么问题，但是结构不太合理。假如我们再加多几个判断条件的话，这种代码几乎没有可读性。难以阅读，也难以维护。那我们试试用Option结构优化下这段代码。在优化之前，我们先简单介绍下Option</p>
+<h4 id="Option是什么？"><a href="#Option是什么？" class="headerlink" title="Option是什么？"></a>Option是什么？</h4><blockquote>
+<p>这里我们直接采用arrow开源库的Option演示，Option的结构非常简单，不想依赖库的话，可以自己定义一个。</p>
+</blockquote>
+<p>Kotlin里面的Option其实和Java8的Optional是一个意思，就是用来处理可空变量的。我们先简单看下Option是怎么用的：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">    fooOption(<span class="string">"hello word!!!"</span>)</span><br><span class="line">    println(<span class="string">"——————————————————————"</span>)</span><br><span class="line">    fooOption(<span class="literal">null</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">fooOption</span><span class="params">(str: <span class="type">String</span>?)</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> optionStr = Option.fromNullable(str)</span><br><span class="line">    <span class="keyword">val</span> printStr = optionStr.getOrElse &#123; <span class="string">"str is null"</span> &#125;</span><br><span class="line">    println(printStr)</span><br><span class="line">    optionStr.exists &#123;</span><br><span class="line">        println(<span class="string">"str is not null! str = <span class="variable">$it</span>"</span>)</span><br><span class="line">        <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Option.fromNullable(str)可以用语法糖str.toOption()代替</p>
+</blockquote>
+<p>我们看看打印结果：</p>
+<p>hello word!!!<br>str is not null! str = hello word!!!<br>——————————————————————<br>str is null</p>
+<p>结合例子，我们可以知道：</p>
+<p>Option.getOrElse函数的作用是：如果对象不为空，返回对象本身，为空则返回一个默认值。</p>
+<p>Option.exists函数的作用是：如果对象不为空，则执行Lambda（函数、闭包）里面的代码。</p>
+<p>对于Option，我们先了解这么多就行了。</p>
+<h4 id="如何使用Option写出结构更合理的代码"><a href="#如何使用Option写出结构更合理的代码" class="headerlink" title="如何使用Option写出结构更合理的代码"></a>如何使用Option写出结构更合理的代码</h4><p>我们直接看看，如果要用Option来优化buyABook1我们要如何优化：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookStoreOption</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bookCollection = initBookCollection()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyABook2</span><span class="params">(lc: <span class="type">CreateCard</span>?, bookCode: <span class="type">Int</span>)</span></span> : Option&lt;Book&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> lcOption = lc.toOption()</span><br><span class="line">        <span class="keyword">val</span> bookOption = bookCollection[bookCode].toOption()</span><br><span class="line">        lcOption.map2(bookOption)&#123;</span><br><span class="line">            it.a.charge(it.b.price)</span><br><span class="line">         &#125;</span><br><span class="line">        <span class="keyword">return</span> bookOption</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//客户端调用函数</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args: <span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span> &#123;</span><br><span class="line">   </span><br><span class="line">    println(<span class="string">"\n——————————— createCard is null, bookCode 1 ———————————————"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> bookStoreOption2 = BookStoreOption()</span><br><span class="line">    buyBook2ForStore(bookStoreOption2, <span class="literal">null</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"\n—————————————————————————— bookCode 1 ————————————————————————————————"</span>)</span><br><span class="line"></span><br><span class="line">    buyBook2ForStore(bookStoreOption2, CreateCard(), <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"\n—————————————————————————— bookCode 20————————————————————————————————"</span>)</span><br><span class="line">    buyBook2ForStore(bookStoreOption2, CreateCard(), <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">buyBook2ForStore</span><span class="params">(store: <span class="type">BookStoreOption</span>, createCard: <span class="type">CreateCard</span>?, bookCode: <span class="type">Int</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> buyBook2 = store.buyABook2(createCard, bookCode)</span><br><span class="line">    buyBook2.map&#123;</span><br><span class="line">            println(<span class="string">"book name = <span class="subst">$&#123;it.name&#125;</span>, author = <span class="subst">$&#123;it.author&#125;</span>"</span>)</span><br><span class="line">            it.group</span><br><span class="line">        &#125;.exists &#123;</span><br><span class="line">            println(<span class="string">"book group = <span class="variable">$it</span>"</span>)</span><br><span class="line">            <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，buyABook2和buyABook1的主要区别是，buyABook2返回的是一个非空的<code>Option&lt;Book&gt;</code>对象。单纯看这个函数我们看不出太大的优势，那我们们再看看buyBook2ForStore这个函数。我们回顾下前面的客户端调用函数：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> buyBook1 = BookStoreOption().buyABook1(CreateCard(), <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">if</span>(buyBook1 != <span class="literal">null</span> ) &#123;</span><br><span class="line">      println(<span class="string">"book name = <span class="subst">$&#123;buyBook1.name&#125;</span>, author = <span class="subst">$&#123;buyBook1.author&#125;</span>"</span>)</span><br><span class="line">      <span class="keyword">if</span> (buyBook1.group != <span class="literal">null</span>)&#123;</span><br><span class="line">          println(<span class="string">"book group = <span class="subst">$&#123;it.group&#125;</span>"</span>)</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>这样一看好像用Option后，代码反而更多了。但是不难看出，buyBook2ForStore的结构更加清晰，可读性更强。我们可以这样理解这个函数：</p>
+<ul>
+<li>调用调用store.buyABook2方法获取一个Option<book>对象。</book></li>
+<li>把Option<book>转换成Option<group>对象。</group></book></li>
+<li>如果Option<group>对象存在（不为空）的话，则处理事件。</group></li>
+</ul>
+<p>使用Option之后，代码结构和我们人类的思考方式是非常类似的，可读性会强很多。但是这样看起来，使用Option其实也没有带来太大的提升。但是如果当我们的代码规模和复杂度更高了之后呢？例如，Book中的Group其实是更加复杂的对象呢？Group还包含：名字，id，等等信息呢？并且他们都是可空变量（在Kotlin和Java混合编程里面非常常见，因为Java对变量是否可空的限制比较弱）呢？假如我们现在需要在打印group后再，读取group里面的name的值，可能要这样写：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> buyBook1 = BookStoreOption().buyABook1(CreateCard(), <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">if</span>(buyBook1 != <span class="literal">null</span> ) &#123;</span><br><span class="line">      println(<span class="string">"book name = <span class="subst">$&#123;buyBook1.name&#125;</span>, author = <span class="subst">$&#123;buyBook1.author&#125;</span>"</span>)</span><br><span class="line">      <span class="keyword">if</span> (buyBook1.group != <span class="literal">null</span> )&#123;</span><br><span class="line">          println(<span class="string">"book group = <span class="subst">$&#123;it.group&#125;</span>"</span>)</span><br><span class="line">          <span class="keyword">if</span>(buyBook1.group.name != <span class="literal">null</span>)&#123;</span><br><span class="line">            println(<span class="string">"book group name = <span class="subst">$&#123;it.group.name&#125;</span>"</span>)</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+<p>随着迭代，这段代码变得越来越难以理解了，现在它嵌套了三层了。在不使用Option的时候，我们只能一层层使用if语句去判断。<strong>代码嵌套会使复杂度暴增。</strong>我相信没什么人会想维护一段多重嵌套的代码，特别是这段代码还是别人写的。如果使用Option的话，上面这个需求，可以这样实现：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> buyBook2 = store.buyABook2(createCard, bookCode)</span><br><span class="line">buyBook2.map&#123;</span><br><span class="line">        println(<span class="string">"book name = <span class="subst">$&#123;it.name&#125;</span>, author = <span class="subst">$&#123;it.author&#125;</span>"</span>)</span><br><span class="line">        it.group</span><br><span class="line">    &#125;</span><br><span class="line">    .map &#123;</span><br><span class="line">         println(<span class="string">"book group = <span class="variable">$it</span>"</span>)</span><br><span class="line">         it.name</span><br><span class="line">    &#125;</span><br><span class="line">    .exists &#123;</span><br><span class="line">        println(<span class="string">"book name = <span class="variable">$it</span>"</span>)</span><br><span class="line">        <span class="literal">true</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>使用Option之后，会比我们使用if嵌套代码结构清晰很多。Option在处理大量可空值的时候，能以线性的方式去处理，而简单使用if的话，我们的代码需要以类似多重嵌套的方式去实现，代码复杂度会暴增。</p>
+<p>当然，在使用命令式编程的时候，我们可以通过设计模式去优化代码。而在函数式编程中，我们使用函数式的通用结构的话，天然就是在使用类似设计模式的方式去编写代码。函数式的通用结构和设计模式的作用是类似的，但是函数式结构能提供更高程度的抽象（例如，我们不需要为具体的业务场景定义一个具体的Option，所有场景使用Option的方式是一样的，而设计模式做不到这么彻底的抽象）。使用这些结构，能让我们以类似代数演算的方式去实现我们的代码，通过不同的组合能让我们构建出更加复杂的功能。</p>
+<blockquote>
+<p>虽然函数式通用模式在很多场景下工作得很好，但是并不能完全替代设计模式。在实际开发中要根据业务场景来选择，同时使用两种方式进行cc设计也是可以的。</p>
+</blockquote>
+<p>Option是一个比较简单的函数通用结构，但是它的功能场景比较局限。读者可以把它作为一个入门的函数式通用结构来学习。接下来我们会介绍其它两个更加强大也更有用的通用结构。</p>
+<h3 id="Monoid"><a href="#Monoid" class="headerlink" title="Monoid"></a>Monoid</h3><h4 id="分离副作用"><a href="#分离副作用" class="headerlink" title="分离副作用"></a>分离副作用</h4><p>前面我们介绍了如何使用Option更优雅的处理可空变量的问题，但是Option其实是没有解决我们文章开头提到的一个最核心的问题的。<strong>如何实现无副作用的函数。</strong>我们这里回顾下，因为我们在调用buyABook函数的时候，会包含一个支付行为。支付行为会和外界系统进行交互，所以这个buyABook行为不单单影响了我们的图书销售系统，还会把影响扩散到其它系统，这就是我们所说的副作用。</p>
+<p>要消除这个副作用，我们要做的是支付行为从图书销售系统中分离开，实现图书销售系统 —— 支付系统解耦。现在我们重新整理下我们的需求。我们的需求是要实用向书店购买书本并支付，现实场景中，我们可能会购买多本书本。如果使用我们上面的buyABook的话，我们可以循环遍历这个方法，直到全部购买成功为止。不过这里会有个问题，每购买一本书，就付款一次，显然是非常不合理的，并且可能会存在余额不足的问题。我们要重构BookStore这个对象，以实现我们的需求。整理一下，我们的重构的BookStore要支持下面的功能：</p>
+<ul>
+<li>支持批量购买</li>
+<li>销售和支付解耦</li>
+<li>支持拒绝策略</li>
+</ul>
+<p>为了实现这个需求，我们会增加一个Charge类，这个类的作用是记录费用。</p>
+<p>下面直接上代码，第一次重构：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 费用</span></span><br><span class="line"><span class="comment"> * [id] 唯一标识符，太懒了，用随机数表示</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Charge</span></span>(</span><br><span class="line">    <span class="keyword">val</span> createCard: CreateCard,</span><br><span class="line">    <span class="keyword">val</span> price: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="keyword">val</span> id: <span class="built_in">Int</span> = Random.nextInt()</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 第一次重构BookStore</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefactoringBookStore</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bookCollection = initBookCollection()</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 购买多个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyBooks</span><span class="params">(cc: <span class="type">CreateCard</span>, bookIds: <span class="type">List</span>&lt;<span class="type">Int</span>&gt;)</span></span> : Pair&lt;List&lt;Book&gt;, Charge&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> purchases = bookIds</span><br><span class="line">            .map &#123; buyABook(cc, it).orNull() &#125;</span><br><span class="line">            .filterNotNull()</span><br><span class="line">        <span class="keyword">val</span> (books, charges) = purchases.unzip()</span><br><span class="line">        <span class="comment">//传入的createCard是同一个，所以reduce操作的时候不用判断createCard是否一致</span></span><br><span class="line">        <span class="keyword">val</span> totalCharge = charges.reduce &#123;</span><br><span class="line">                acc, charge -&gt; Charge(acc.createCard, acc.price + charge.price) &#125;</span><br><span class="line">        <span class="keyword">return</span> books to totalCharge</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Suppress(<span class="meta-string">"MemberVisibilityCanBePrivate"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyABook</span><span class="params">(cc: <span class="type">CreateCard</span>, bookId: <span class="type">Int</span>)</span></span> : Option&lt;Pair&lt;Book, Charge&gt;&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> book = bookCollection[bookId]</span><br><span class="line">        <span class="keyword">return</span> book.toOption().map &#123; Pair(it, Charge(cc, it.price)) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重构后的代码已经把支付这个“副作用”分离出去了，购买书的函数中不会产生支付行为。支付行为客户端需要通过读取我们封装好的Charge对象，然后再调用支付模块实现支付（限于篇幅，省略支付模块）。</p>
+<p>现在我们来看看客户端的调用代码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  <span class="keyword">val</span> (books1, charge1) = </span><br><span class="line">        RefactoringBookStore().buyBooks(CreateCard(<span class="number">123</span>), <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>)</span><br><span class="line">    printBuyBooks(books1, charge1)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"——————————————————————————————\n"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> (books2, charge2) = </span><br><span class="line">        RefactoringBookStore().buyBooks(CreateCard(<span class="number">111</span>, <span class="number">120</span>), <span class="number">7</span>, <span class="number">2</span>, <span class="number">8</span>)</span><br><span class="line">    printBuyBooks(books2, charge2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printBuyBooks</span><span class="params">(books: <span class="type">List</span>&lt;<span class="type">Book</span>&gt;, charge: <span class="type">Charge</span>)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> buyBookName = books.map &#123; it.name &#125;</span><br><span class="line">    println(<span class="string">"希望购买书本名字： <span class="variable">$buyBookName</span>"</span>)</span><br><span class="line">    <span class="keyword">if</span> (charge.createCard.amount &gt;= charge.price)&#123;</span><br><span class="line">        <span class="keyword">val</span> cc = charge.createCard.charge(charge.price)</span><br><span class="line">        println(<span class="string">"支付成功，支付金额 = <span class="subst">$&#123;charge.price&#125;</span>; 剩余额度 = <span class="subst">$&#123;cc.amount&#125;</span>"</span>)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        println(<span class="string">"额度不足，需要支付金额 = <span class="subst">$&#123;charge.price&#125;</span>; 可用额度 = <span class="subst">$&#123;charge.createCard.amount&#125;</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看看调用结果:</p>
+<p>希望购买书本名字： [Kotlin, 娱乐杂志, 资本论, 文明的冲突与世界秩序的重建]<br>pay 148 yuan<br>支付成功，支付金额 = 148; 剩余额度 = 352<br>——————————————————————————————</p>
+<p>希望购买书本名字： [Scala, 中国民俗, 月亮与六便士]<br>额度不足，需要支付金额 = 125; 可用额度 = 120</p>
+<p>上面的这段代码已经成功把副作用分离出去了（省略支付模块）。一般情况下，这段代码已经能工作得很好了（经验丰富的同学可能会觉得，这种代码算是比较好维护的代码了😂）。但是其实这段代码还是有问题的，它的问题就是，我们需要通过List来维护Charge这个对象，在组合Charge的时候需要通过类似下面的方式来实现：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Charge(acc.createCard, acc.price + charge.price)</span><br><span class="line">    charge.copy(charge.createCard, charge.price + charge1.price)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样看起来好像也没什么问题。但是假如有这样的一个场景：书店里面有位客人，买了一批书后，发现还有书忘记买了，再买一批后，又发现了一本自己很想买的书。在这种场景下我们客户端的代码可能会变成类似这种：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> cc = CreateCard(<span class="number">12423</span>)</span><br><span class="line"><span class="keyword">val</span> (b1, c1) = RefactoringBookStore().buyBooks(cc, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">val</span> (b2, c2) = RefactoringBookStore().buyBooks(cc, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="keyword">val</span> (b3, c3) = RefactoringBookStore().buyBooks(cc, <span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> books = mutableListOf&lt;Book&gt;().apply &#123;</span><br><span class="line">    addAll(b1)</span><br><span class="line">    addAll(b2)</span><br><span class="line">    addAll(b3)</span><br><span class="line">&#125;</span><br><span class="line">printBuyBooks(books, Charge(c1.createCard, c1.price + c2.price + c3.price))</span><br></pre></td></tr></table></figure>
+<p>这种代码主要的问题就是在于Charge的合并上面，当我们在组合更多更复杂的Charge的时候，会写很多类似这种繁琐又不利于维护的代码。当然，你可以把多个Charge放到List里面再做处理，但是这两种方式都不是那么的方便。那么有没有更合理的方法解决这种问题呢？有的，我们可以使用Monoid来解决这个问题。</p>
+<h4 id="Monoid是什么？"><a href="#Monoid是什么？" class="headerlink" title="Monoid是什么？"></a>Monoid是什么？</h4><p>Monoid和Option一样，也是函数设计的通用结构的其中一种。Monoid是一种纯代数结构，它的中文名字叫<strong>幺半群</strong>，它是一个代数定义。Monoid在函数式编程中经常出现，操作列表、连接字符、循环中进行累加操作都可以背解析成Monoid。Monoid的主要作用是：<strong>将问题拆分成小部分然后并行计算和将简单的部分组装成复杂的计算</strong>。Monoid是一种数学上的概念。</p>
+<blockquote>
+<p>在抽象代数此一数学分支中，<strong>幺半群</strong>（英语：monoid，又称为单群、亚群、具幺半群或四分之三群）是指一个带有可结合二元运算和单位元的代数结构。—— 维基百科</p>
+</blockquote>
+<p>看不懂上面这段话也没关系，大部分第一次接触这个定义的时候，都会觉得很难理解。我们下面通过简单的例子来学习Monoid到底能做些什么。</p>
+<p>举个整数计算的例子，假设有 x 、y、z三个整数，那么我们很容易就能得出下面的一些公式：x  +  y + z 等于( x + y ) + z 等于x + ( y + z )。而且有一个单位元（Monoid的定义）元素0，当0和其它整数相加时，结果不会发生改变。乘法运算也有一个单位元元素1。</p>
+<p>我们先看看Kotlin中的Monoid的定义是怎么样的：</p>
+<p>Monoid</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * ank_macro_hierarchy(arrow.typeclasses.Monoid)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Monoid</span>&lt;<span class="type">A</span>&gt; : <span class="type">Semigroup</span>&lt;<span class="type">A</span>&gt;, <span class="type">MonoidOf</span>&lt;<span class="type">A</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * A zero value for this A</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">empty</span><span class="params">()</span></span>: A</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Combine an [Collection] of [A] values.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> Collection<span class="type">&lt;A&gt;</span>.<span class="title">combineAll</span><span class="params">()</span></span>: A =</span><br><span class="line">    <span class="keyword">if</span> (isEmpty()) empty() <span class="keyword">else</span> reduce &#123; a, b -&gt; a.combine(b) &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Combine an array of [A] values.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> <span class="title">combineAll</span><span class="params">(elems: <span class="type">List</span>&lt;<span class="type">A</span>&gt;)</span></span>: A = elems.combineAll()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">companion</span> <span class="keyword">object</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Semigroup</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Semigroup</span>&lt;<span class="type">A</span>&gt; </span>&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Combine two [A] values.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> A.<span class="title">combine</span><span class="params">(b: <span class="type">A</span>)</span></span>: A</span><br><span class="line"></span><br><span class="line">  <span class="keyword">operator</span> <span class="function"><span class="keyword">fun</span> A.<span class="title">plus</span><span class="params">(b: <span class="type">A</span>)</span></span>: A =</span><br><span class="line">    <span class="keyword">this</span>.combine(b)</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">fun</span> A.<span class="title">maybeCombine</span><span class="params">(b: <span class="type">A</span>?)</span></span>: A = Option.fromNullable(b).fold(&#123; <span class="keyword">this</span> &#125;, &#123; combine(it) &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这是Monoid在arrow开源库中的定义，如果在使用时不想依赖arrow库的话，自己实现一个Monoid也是非常简单的，30多行代码就足以。</p>
+</blockquote>
+<p>我们简单使用下Monoid：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> monoid = <span class="built_in">Int</span>.monoid()</span><br><span class="line">    <span class="keyword">val</span> sum = listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>).foldMap(monoid, ::identity)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"sum = <span class="variable">$sum</span>"</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p>sum = 15</p>
+<p>可以看到IntMonoid在这里的作用就是定义了元素之间的结合规则。</p>
+<p><code>Int.monoid()</code>给我们返回了一个IntMonoid。我们再来看看IntMonoid的定义:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IntMonoid</span> : <span class="type">Monoid</span>&lt;<span class="type">Int</span>&gt;, <span class="type">IntSemigroup &#123;</span></span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">empty</span><span class="params">()</span></span>: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">IntSemiring</span> : <span class="type">Semiring</span>&lt;<span class="type">Int</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">zero</span><span class="params">()</span></span>: <span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">one</span><span class="params">()</span></span>: <span class="built_in">Int</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">combine</span><span class="params">(b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> = <span class="keyword">this</span> + b</span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="built_in">Int</span>.<span class="title">combineMultiplicate</span><span class="params">(b: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> = <span class="keyword">this</span> * b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>IntMonoid的定义也非常简单，主要是定义了0值，1值和它们两两结合的操作。</p>
+<p>这样看来Monoid好像给人一点画蛇添足的感觉，我们不用monoid的话，折叠集合的时候可以这样写啊:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">listOf(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>).fold(<span class="number">0</span>)&#123;acc, i -&gt;</span><br><span class="line">        acc + i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么我们为什么要使用Monoid呢，上一小节我们通过Charge把副作用分离了，但是Charge的后续处理还是存在不完善的地方。那么我们来尝试使用Monoid来优化我们的代码。</p>
+<h4 id="如何使用Monoid"><a href="#如何使用Monoid" class="headerlink" title="如何使用Monoid"></a>如何使用Monoid</h4><p>我们先定义个<code>Monoid&lt;Charge&gt;</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 需要传入[CreateCard] 因为同一张信用卡的费用才能做合并处理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChargeMonoid</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> cc: CreateCard) : Monoid&lt;Charge&gt;&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 固定的单位元值，id也需要是固定的</span></span><br><span class="line"><span class="comment">     * 因为同一个ChargeMonoid（equals 为 true）的单位元([empty])是相等(equals 为 true）的</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">empty</span><span class="params">()</span></span>: Charge = Charge(cc, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 只会合并createCard等于[cc]的Charge</span></span><br><span class="line"><span class="comment">     * 不同信用卡的费用无法合并</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> Charge.<span class="title">combine</span><span class="params">(b: <span class="type">Charge</span>)</span></span>: Charge =</span><br><span class="line">        <span class="keyword">if</span> (cc == b.createCard)&#123;</span><br><span class="line">            Charge(cc, b.price + price)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">this</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们回顾下上文说的书店的例子：</p>
+<p>我们先来看看新的书店的代码:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MonoidBookStore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> bookCollection = initBookCollection()</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * bookId可以传入多个</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyBooks</span><span class="params">(cc: <span class="type">CreateCard</span>, <span class="keyword">vararg</span> bookIds: <span class="type">Int</span>)</span></span> : Pair&lt;List&lt;Book&gt;, Charge&gt;&#123;</span><br><span class="line">        <span class="keyword">val</span> purchases = bookIds</span><br><span class="line">            .map &#123; buyABook(cc, it).orNull() &#125;</span><br><span class="line">            .filterNotNull()</span><br><span class="line">        <span class="keyword">val</span> (books, charges) = purchases.unzip()</span><br><span class="line"></span><br><span class="line">        <span class="comment">//使用ChargeMonoid折叠列表</span></span><br><span class="line">        <span class="keyword">val</span> totalCharge =  charges.foldMap(Charge.monoid(cc), ::identity)</span><br><span class="line">        <span class="keyword">return</span> books to totalCharge</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Suppress(<span class="meta-string">"MemberVisibilityCanBePrivate"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">buyABook</span><span class="params">(cc: <span class="type">CreateCard</span>, bookId: <span class="type">Int</span>)</span></span> : Option&lt;Pair&lt;Book, Charge&gt;&gt; &#123;</span><br><span class="line">        <span class="keyword">val</span> book = bookCollection[bookId]</span><br><span class="line">        <span class="keyword">return</span> book.toOption().map &#123; Pair(it, Charge(cc, it.price)) &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和第一次重构后的<code>RefactoringBookStore</code>非常像，他们只有一句代码是有区别的：</p>
+<p>RefactoringBookStore</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//传入的createCard是同一个，所以reduce操作的时候不用判断createCard是否一致</span></span><br><span class="line"><span class="keyword">val</span> totalCharge = charges.reduce &#123;</span><br><span class="line">        acc, charge -&gt; Charge(acc.createCard, acc.price + charge.price) &#125;</span><br></pre></td></tr></table></figure>
+<p>MonoidBookStore</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用ChargeMonoid折叠列表</span></span><br><span class="line"><span class="keyword">val</span> totalCharge =  charges.foldMap(Charge.monoid(cc), ::identity)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>::identity是Kotlin的一个语法糖，在这里的作用是，返回折叠后的Charge对象。::identity的作用是返回本身，有兴趣的可以看看它的具体实现。</p>
+</blockquote>
+<p>我们可以看到它们的差别很小，那么我们这样写有什么好处呢？我们再来回顾一下上面的一个场景：店里面有位客人，买了一批书后，发现还有书忘记买了，再买一批后，又发现了一本自己很想买的书。</p>
+<p>那么我们用ChargeMonoid要怎么实现这个功能呢？直接看代码。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> cc = CreateCard(<span class="number">12423</span>)</span><br><span class="line">    <span class="keyword">val</span> (b1, c1) = MonoidBookStore().buyBooks(cc, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">val</span> (b2, c2) = MonoidBookStore().buyBooks(cc, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">val</span> (b3, c3) = MonoidBookStore().buyBooks(cc, <span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> books = listOf(b1, b2, b3).flatten()</span><br><span class="line">    <span class="keyword">val</span> charge = listOf(c1, c2, c3).foldMap(Charge.monoid(cc),::identity)</span><br><span class="line"></span><br><span class="line">    printBuyBooks(books, charge )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在来看看输出：</p>
+<p>希望购买书本名字： [Kotlin, 中国民俗, 灌篮, 资本论, Java, Scala]<br>pay 255 yuan<br>支付成功，支付金额 = 255; 剩余额度 = 245</p>
+<p>单单看代码的话，上面这段代码和前面的对比起来貌似只有一个好处：不需要人工维护Charge对象的合并。是的，它就真的只有这一个好处。Monoid它的主要作用就是这个，它定义了相同类型（群）的对象的合并规律。在这里我们Charge的合并规律就是：<strong>CreateCard相同的Charge对象以价格累计的方式合并在一起</strong>。</p>
+<p>我们为了这个简单的功能引入一个这样复杂的概念（对初学者来说，这的确是有点难以理解）值得吗？</p>
+<p>现在我们再来改一下这个需求（ 敏捷开发😂 ）：店里面有位客人，买了一批书后，发现还有书忘记买了，再买一批后，又发现了一本自己很想买的书。然后他又想再买一批书，但是现在想用另外一张卡付款，然后再买一批，再用另外一张卡付款。这个过程中，一共用了三张卡付款，大家可以尝试用命令式编程实现这个需求，这里就不演示了，直接上Monoid的例子：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">   </span><br><span class="line">    <span class="comment">//数据初始化</span></span><br><span class="line">    <span class="keyword">val</span> cc2 = CreateCard(<span class="number">124234</span>)</span><br><span class="line">    <span class="keyword">val</span> (b4, c4) = MonoidBookStore().buyBooks(cc2, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">val</span> (b5, c5) = MonoidBookStore().buyBooks(cc2, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">val</span> (b6, c6) = MonoidBookStore().buyBooks(cc2, <span class="number">6</span>, <span class="number">7</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> cc3 = CreateCard(<span class="number">124234512</span>)</span><br><span class="line">    <span class="keyword">val</span> (b7, c7) = MonoidBookStore().buyBooks(cc3, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> cc4 = CreateCard(<span class="number">151212</span>)</span><br><span class="line">    <span class="keyword">val</span> (b8, c8) = MonoidBookStore().buyBooks(cc4, <span class="number">8</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//数据处理</span></span><br><span class="line">    <span class="keyword">val</span> monoid3 = monoidTuple3(</span><br><span class="line">        <span class="comment">//a monoid</span></span><br><span class="line">        Charge.monoid(cc2),</span><br><span class="line">        <span class="comment">//b monoid</span></span><br><span class="line">        Charge.monoid(cc3),</span><br><span class="line">        <span class="comment">//c monoid</span></span><br><span class="line">        Charge.monoid(cc4))</span><br><span class="line">    <span class="keyword">val</span> result =  listOf(c6, c7 ,c8).foldMap(monoid3)&#123;</span><br><span class="line">        Tuple3(it, it, it)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"\n—————————————————第一张信用卡———————————————————"</span>)</span><br><span class="line">    <span class="comment">//result.a -&gt; monoid a收集的数据</span></span><br><span class="line">    printBuyBooks(listOf(b4, b5, b6).flatten(), result.a)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"\n—————————————————第二张信用卡———————————————————"</span>)</span><br><span class="line">    <span class="comment">//result.b -&gt; monoid b收集的数据</span></span><br><span class="line">    printBuyBooks(b7 , result.b)</span><br><span class="line"></span><br><span class="line">    println(<span class="string">"\n—————————————————第二张信用卡———————————————————"</span>)</span><br><span class="line">    <span class="comment">//result.b -&gt; monoid b收集的数据</span></span><br><span class="line">    printBuyBooks(b8, result.c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 不用理解下面的代码（Tuple3是另外一种函数设计通用结构）</span></span><br><span class="line"><span class="comment"> * 只需要明白个函数的作用值组合3个Monoid就行了</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="type">&lt;A, B, C&gt;</span> <span class="title">monoidTuple</span><span class="params">(MA: <span class="type">Monoid</span>&lt;<span class="type">A</span>&gt;, MB: <span class="type">Monoid</span>&lt;<span class="type">B</span>&gt;, MC: <span class="type">Monoid</span>&lt;<span class="type">C</span>&gt;)</span></span>: Monoid&lt;Tuple3&lt;A, B, C&gt;&gt; =</span><br><span class="line">    <span class="keyword">object</span>: Monoid&lt;Tuple3&lt;A, B, C&gt;&gt; &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> Tuple3<span class="type">&lt;A, B, C&gt;</span>.<span class="title">combine</span><span class="params">(y: <span class="type">Tuple3</span>&lt;<span class="type">A</span>, B, C&gt;)</span></span>: Tuple3&lt;A, B, C&gt; &#123;</span><br><span class="line">            <span class="keyword">val</span> (xa, xb, xc) = <span class="keyword">this</span></span><br><span class="line">            <span class="keyword">val</span> (ya, yb, yc) = y</span><br><span class="line">            <span class="keyword">return</span> Tuple3(MA.run &#123; xa.combine(ya) &#125;, MB.run &#123; xb.combine(yb) &#125;, MC.run &#123; xc.combine(yc) &#125;)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">empty</span><span class="params">()</span></span>: Tuple3&lt;A, B, C&gt; = Tuple3(MA.empty(), MB.empty(), MC.empty())</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们看看输出的内容</p>
+<p>—————————————————第一张信用卡———————————————————<br>希望购买书本名字： [Kotlin, 中国民俗, 灌篮, 资本论, Java, Scala]<br>pay 105 yuan<br>支付成功，支付金额 = 105; 剩余额度 = 395</p>
+<p>—————————————————第二张信用卡———————————————————<br>希望购买书本名字： [娱乐杂志]<br>pay 19 yuan<br>支付成功，支付金额 = 19; 剩余额度 = 481</p>
+<p>—————————————————第二张信用卡———————————————————<br>希望购买书本名字： [月亮与六便士]<br>pay 25 yuan<br>支付成功，支付金额 = 25; 剩余额度 = 475</p>
+<p>我们回顾下代码的数据处理部分</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> monoid3 = monoidTuple3(</span><br><span class="line">    <span class="comment">//a monoid</span></span><br><span class="line">    Charge.monoid(cc2),</span><br><span class="line">    <span class="comment">//b monoid</span></span><br><span class="line">    Charge.monoid(cc3),</span><br><span class="line">    <span class="comment">//c monoid</span></span><br><span class="line">    Charge.monoid(cc4))</span><br><span class="line"><span class="keyword">val</span> result =  listOf(c6, c7 ,c8).foldMap(monoid3)&#123;</span><br><span class="line">    Tuple3(it, it, it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是的，数据处理就这么多代码，在这里我们通过了Monoid来处理了数据。ChargeMonoid会把数据按照CreateCard的类型来收集，所以我们不用关心数据是如何收集的。如果采用命令式编程，大家能想象到代码的糟糕程度。</p>
+<p>并且在上面的场景中，就算我们再用多几张信用卡用来支付也不会增加太多代码量，这就是Monoid的优势。</p>
+<blockquote>
+<p> monoidTuple3在这里的作用是组合Monoid，它能组合任何三个Monoid，是一段复用性非常强的代码。当然读者也可以自己写一个monoidTuple2用于组合两个Monoid。</p>
+</blockquote>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>从文章开头的思维导图可以看出来，这里少写了一个函数式通用结构：Monad。少写的原因是：文章的文字量已经接近1.2W字了，作为一篇博客，内容量已经是过于多了。所以这里就暂时就不继续Monad结构了。对函数式通用结构有兴趣的同学可以继续关注我的博客/公众号：<strong>代码之外的程序员</strong>（懒鬼，一年没更新了还好意思叫我关注。好吧，我今年会努力保持跟新的）。笔者会慢慢继续更新函数式通用结构中其它的实用结构的。</p>
+<p>函数式编程，大家可以不局限于Kotlin，因为FP更多是一种思想，类似一条条代数公式，和语言是无关的。当大家掌握了FP之后，就算是切换到别的FP语言中，大部分</p>
+<h2 id="学习函数式编程建议"><a href="#学习函数式编程建议" class="headerlink" title="学习函数式编程建议"></a>学习函数式编程建议</h2><p>这里给大家一个学习建议，我知道大家看到一篇感兴趣的文章的时候，都喜欢当一个马来人（mark）。大家回想下，收藏夹里面有多少篇文章是大家只看了题目的？感兴趣的东西，要马上过一遍，因为这个时候你的热情是最高的，过了一天你可能就没兴趣了。学习就是一个这样的过程：兴趣 -&gt; 理解 -&gt; 实战 -&gt; 深入</p>
+<p>所以这里建议有兴趣的同学（看到这里的同学很赞），下载Demo体验一下，自己再尝试写感兴趣的部分。最后祝大家尽快在自己的项目中愉快地使用FP风格进行编程。</p>
+<h2 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h2><p><a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">Demo： KotlinFp</a></p>
+<blockquote>
+<p> Demo是开源库中的KotlinFp项目，请使用IntelliJ打开。如果觉得本文对你有帮助的话，可以点一下star以资鼓励😊。</p>
+</blockquote>
+<h2 id="友情推荐"><a href="#友情推荐" class="headerlink" title="友情推荐"></a>友情推荐</h2><h3 id="项目推荐"><a href="#项目推荐" class="headerlink" title="项目推荐"></a>项目推荐</h3><p>如果下面的项目你有兴趣的话，也可以点进去看看。如果觉得还可以的话，可以点一下star</p>
+<ul>
+<li><a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">Android自动屏幕适配插件</a></li>
+<li><a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">Android MVVM架构项目MVVMRecurve —— 使用Jecpack助理开发</a></li>
+<li><a href="https://github.com/Tangpj/GitHubRecurve" target="_blank" rel="noopener">Android MVVMRecurve实战项目GithubRecurve —— 教你如何使用新技术进行实际开发</a></li>
+</ul>
+<blockquote>
+<p>关于MVVM的两个项目的文档还在整理中，笔者会尽快整理出来。有兴趣的同学可以关注下我的github动态，最后，我写的这么辛苦大家记得点个star哦。</p>
+</blockquote>
+<h3 id="文章推荐："><a href="#文章推荐：" class="headerlink" title="文章推荐："></a>文章推荐：</h3><p><a href="https://tangpj.dev/2018/09/29/calces-screen/" target="_blank" rel="noopener">给你一个全自动的屏幕适配方案（基于SW方案）</a><br><a href="https://tangpj.dev/2018/10/19/dagger2_for_android/" target="_blank" rel="noopener">听说你还不会用Dagger2？Dagger2 For Android最佳实践教程</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望即使收到更新，请长按或扫描上方微信二维码</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java-Kotlin/" rel="tag"># Java,Kotlin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/27/calces_screen_2/" rel="next" title="给你一个全自动的屏幕适配方案（基于SW方案）二 —— Calces.Screen插件拓展功能升级">
+                <i class="fa fa-chevron-left"></i> 给你一个全自动的屏幕适配方案（基于SW方案）二 —— Calces.Screen插件拓展功能升级
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是函数式编程？"><span class="nav-number">1.</span> <span class="nav-text">什么是函数式编程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM的Lambda表达式的实现原理"><span class="nav-number">2.</span> <span class="nav-text">JVM的Lambda表达式的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式编程带来的性能问题"><span class="nav-number">3.</span> <span class="nav-text">函数式编程带来的性能问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式编程的简单应用"><span class="nav-number">4.</span> <span class="nav-text">函数式编程的简单应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合操作"><span class="nav-number">4.1.</span> <span class="nav-text">集合操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高阶函数"><span class="nav-number">4.2.</span> <span class="nav-text">高阶函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#柯里化函数"><span class="nav-number">4.3.</span> <span class="nav-text">柯里化函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kotlin柯里化函数的缺点"><span class="nav-number">4.3.1.</span> <span class="nav-text">Kotlin柯里化函数的缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数式设计的通用结构"><span class="nav-number">5.</span> <span class="nav-text">函数式设计的通用结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Option"><span class="nav-number">5.1.</span> <span class="nav-text">Option</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Option是什么？"><span class="nav-number">5.1.1.</span> <span class="nav-text">Option是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何使用Option写出结构更合理的代码"><span class="nav-number">5.1.2.</span> <span class="nav-text">如何使用Option写出结构更合理的代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Monoid"><span class="nav-number">5.2.</span> <span class="nav-text">Monoid</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分离副作用"><span class="nav-number">5.2.1.</span> <span class="nav-text">分离副作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Monoid是什么？"><span class="nav-number">5.2.2.</span> <span class="nav-text">Monoid是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何使用Monoid"><span class="nav-number">5.2.3.</span> <span class="nav-text">如何使用Monoid</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习函数式编程建议"><span class="nav-number">7.</span> <span class="nav-text">学习函数式编程建议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo地址"><span class="nav-number">8.</span> <span class="nav-text">Demo地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#友情推荐"><span class="nav-number">9.</span> <span class="nav-text">友情推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目推荐"><span class="nav-number">9.1.</span> <span class="nav-text">项目推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章推荐："><span class="nav-number">9.2.</span> <span class="nav-text">文章推荐：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://www.tangpj.dev/2019/11/16/kotlinFp/';
+        this.page.identifier = '2019/11/16/kotlinFp/';
+        this.page.title = '理解Kotlin函数式编程';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
