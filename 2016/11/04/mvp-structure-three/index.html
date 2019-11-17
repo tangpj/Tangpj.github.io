@@ -112,7 +112,7 @@
 <meta name="keywords" content="MVP开发框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理">
-<meta property="og:url" content="http://www.tangpj.dev/2016/11/04/mvp-structure-three/index.html">
+<meta property="og:url" content="https://tangpj.dev/2016/11/04/mvp-structure-three/index.html">
 <meta property="og:site_name" content="TANG BLOG">
 <meta property="og:description" content="原创声明： 该文章为原创文章，未经博主同意严禁转载。  摘要：  在上一篇文章中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter">
 <meta property="og:locale" content="zh-CN">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://www.tangpj.dev/2016/11/04/mvp-structure-three/"/>
+  <link rel="canonical" href="https://tangpj.dev/2016/11/04/mvp-structure-three/"/>
 
 
 
@@ -332,7 +332,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.tangpj.dev/2016/11/04/mvp-structure-three/">
+    <link itemprop="mainEntityOfPage" href="https://tangpj.dev/2016/11/04/mvp-structure-three/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Tang">
@@ -465,9 +465,9 @@
         <blockquote>
 <p>原创声明： 该文章为原创文章，未经博主同意严禁转载。</p>
 </blockquote>
-<p><em>摘要：</em>  在<a href="http://tangpj.dev/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="noopener">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
+<p><em>摘要：</em>  在<a href="http://tangpj.dev/2016/10/15/mvp-structure-two/" title="上一篇文章">上一篇文章</a>中我们讨论了关于如何对普通的数据请求进行封装，对MVP模式进行优化。而在实际项目中，除了普通的数据外，一般我们还有列表型的数据，列表型的数据和普通的数据的主要区别是：列表型的数据需要分页获取。在实际项目中，我们一般获取分页型的数据时需要向服务器发送页码和一页的数据条数这两个数据。我们可以通过对列表型的Presenter进行封装，把大部分列表型数据需要处理的时间自动处理好。</p>
 <a id="more"></a>
-<h2 id="封装列表型的Presenter基类"><a href="#封装列表型的Presenter基类" class="headerlink" title="封装列表型的Presenter基类"></a>封装列表型的Presenter基类</h2><p>有了<a href="http://tangpj.dev/2016/10/15/mvp-structure-two/" title="上一篇文章" target="_blank" rel="noopener">上一篇文章</a>的铺垫我们知道，在MVP模式中Model的主要作用就是向服务器发起请求然后把服务器返回的数据交给Presenter处理就可以了。所以在封装列表型Presenter的时候，直接沿用了上一章提到的BaseModel来获取数据与回调数据。在这里要注意的一点就是，笔者在开发这个框架的时候，对部分类名有部分改动，一切以系列文章结束时提供的完善的框架为准。</p>
+<h2 id="封装列表型的Presenter基类"><a href="#封装列表型的Presenter基类" class="headerlink" title="封装列表型的Presenter基类"></a>封装列表型的Presenter基类</h2><p>有了<a href="http://tangpj.dev/2016/10/15/mvp-structure-two/" title="上一篇文章">上一篇文章</a>的铺垫我们知道，在MVP模式中Model的主要作用就是向服务器发起请求然后把服务器返回的数据交给Presenter处理就可以了。所以在封装列表型Presenter的时候，直接沿用了上一章提到的BaseModel来获取数据与回调数据。在这里要注意的一点就是，笔者在开发这个框架的时候，对部分类名有部分改动，一切以系列文章结束时提供的完善的框架为准。</p>
 <p>下面我们来看看列表型Presenter的接口与实际实现</p>
 <h3 id="IBasePaginationPresenter"><a href="#IBasePaginationPresenter" class="headerlink" title="IBasePaginationPresenter"></a>IBasePaginationPresenter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IBasePaginationPresenter</span>&lt;<span class="title">Params</span>,<span class="title">Bean</span>&gt; <span class="keyword">extends</span> <span class="title">IBasePresenter</span>&lt;<span class="title">Params</span>&gt; </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//刷新全部数据  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refresh</span><span class="params">(Params params)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//加载下一页数据  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">loading</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">    /  </span><br><span class="line">      <span class="meta">@Method</span>: refreshAssignPage  </span><br><span class="line">      <span class="meta">@author</span> create by Tang  </span><br><span class="line">      <span class="meta">@date</span> date <span class="number">16</span>/<span class="number">10</span>/<span class="number">19</span> 上午<span class="number">11</span>:<span class="number">07</span>  </span><br><span class="line">      <span class="meta">@Description</span>: 刷新index所在页页面  </span><br><span class="line">      <span class="meta">@param</span> index 待刷新数据的位置  </span><br><span class="line">     /  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refreshIndexPage</span><span class="params">(<span class="keyword">int</span> index)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//设置一次取数据数量  </span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCount</span><span class="params">(<span class="keyword">int</span> count)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accessServer</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>从上面的代码可以看出，IBasePaginationPresenter\&lt;Params,Bean>接口是在IBasePresenter的基础上进行拓展的，拓展的方法是关于处理列表型数据的一些方法。</p>
@@ -969,7 +969,7 @@
   
     <script type="text/javascript">
       var disqus_config = function () {
-        this.page.url = 'http://www.tangpj.dev/2016/11/04/mvp-structure-three/';
+        this.page.url = 'https://tangpj.dev/2016/11/04/mvp-structure-three/';
         this.page.identifier = '2016/11/04/mvp-structure-three/';
         this.page.title = 'Android框架篇—— 从零开始搭建一个完善的MVP开发框架(三)，对列表型数据请求进行抽象，优化列表型数据的处理';
         };
