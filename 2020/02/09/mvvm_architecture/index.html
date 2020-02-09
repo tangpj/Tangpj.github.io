@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Android开发架构已经由由最最初的Activity架构（MVC），发展到到现在主流的MVP、MVVM架构了。社区也有不少优秀的实践。今天笔者想结合自己的经验谈一谈，一个合理的Android架构应该是怎么样的呢？">
+<meta name="keywords" content="Kotlin,Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Android开发架构，我们还能做些什么？">
+<meta property="og:url" content="https://tangpj.dev/2020/02/09/mvvm_architecture/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="Android开发架构已经由由最最初的Activity架构（MVC），发展到到现在主流的MVP、MVVM架构了。社区也有不少优秀的实践。今天笔者想结合自己的经验谈一谈，一个合理的Android架构应该是怎么样的呢？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/architecture_cover.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvc_recurve_architecture.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvp_recurve_architecture.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvvm_recurve_architecture.png">
+<meta property="og:updated_time" content="2020-02-09T04:58:44.841Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于Android开发架构，我们还能做些什么？">
+<meta name="twitter:description" content="Android开发架构已经由由最最初的Activity架构（MVC），发展到到现在主流的MVP、MVVM架构了。社区也有不少优秀的实践。今天笔者想结合自己的经验谈一谈，一个合理的Android架构应该是怎么样的呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/architecture_cover.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://tangpj.dev/2020/02/09/mvvm_architecture/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>关于Android开发架构，我们还能做些什么？ | TANG BLOG</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">13</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">5</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">20</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tangpj.dev/2020/02/09/mvvm_architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于Android开发架构，我们还能做些什么？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-09 11:37:14 / 修改时间：12:58:44" itemprop="dateCreated datePublished" datetime="2020-02-09T11:37:14+08:00">2020-02-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/09/mvvm_architecture/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/02/09/mvvm_architecture/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/architecture_cover.png" alt="Material Render Phone"><br><br></p>
+
+<p>Android开发架构已经由由最最初的Activity架构（MVC），发展到到现在主流的MVP、MVVM架构了。社区也有不少优秀的实践。今天笔者想结合自己的经验谈一谈，一个合理的Android架构应该是怎么样的呢？</p>
+<a id="more"></a>
+<h2 id="MVC、MVP、MVVM三种分层架构"><a href="#MVC、MVP、MVVM三种分层架构" class="headerlink" title="MVC、MVP、MVVM三种分层架构"></a>MVC、MVP、MVVM三种分层架构</h2><h3 id="MVC，上帝模型"><a href="#MVC，上帝模型" class="headerlink" title="MVC，上帝模型"></a>MVC，上帝模型</h3><p>相信一些经验丰富的开发者，都经历过面向Activity（Fragment）编程的时代，也就是所谓的MVC架构时代。那个时代，在开发的时候，会把我们的业务模块氛围三层。如下图：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvc_recurve_architecture.png" alt="MVC"></p>
+<p>如果我们能严格按照上图来开发我们的架构的话，那么这会是一种比较好的实现。但是这种架构在Android中的实践存在一个非常严重的问题。在划分View层的时候，我们是要把layout作为View层，还是把Activity/Fragment 加layout文件一起作为View层呢？如果是后者，那么我们应该还要引入一个新的Control层。在比较初期（15、14年前）的Android开发中，一般情况下都没有考虑这么多，直接把layout文件作为View层，Activity/Fragment作为所谓的Control层了。</p>
+<p>把xml文件作为View层会带来什么问题呢？xml文件的控制力是非常弱的，它只能在开发更改UI，一旦发布了，xml的UI就是固定的了。如果你要在App运行期间修改UI（文本更新）的话，那么我们就需要借助Java代码了。一般我们会在Activity/Fragment中通过代码更新UI。</p>
+<p>那么这就带来一个新的问题，Activity/Fragment作为一个C层，同时承载了C层和V层的业务。所以MVC在Android中的实现一般会变成VC模型。而这种模型，在业务复杂的场景中，造就了大量的上帝,也就所谓的God Class。一般来说，我们的上千行的Activity都是这种模型的结果。</p>
+<h3 id="MVP，万物皆回调"><a href="#MVP，万物皆回调" class="headerlink" title="MVP，万物皆回调"></a>MVP，万物皆回调</h3><p>在经历了维护God Class的痛苦时代，所以我们又选择了新的MVP架构，其实MVP架构和MVC架构也是很像的。在Android中的MVP就是把layout文件和Activity/Fragment作为了View层，这里面只包含UI相关的代码，不包含业务逻辑的。而Presenter就是作为逻辑层，这个其实和传统的MVC架构有点像，但是和MVC又有一点不同。MVP架构中，V层是不能直接查询M层的数据的（MVC中是允许的）。另外一个就是，不同层级之间数据交互的方式是基于Callback的异步回调模式的，所以MVP的具体实现中，会包含大量的Interface。</p>
+<p>MVP的架构图如下：</p>
+<p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvp_recurve_architecture.png" alt="MVP"><br><br></p>
+
+
+<p>图片也印证了，MVP和MVC在架构上来说其实是非常像的。最大的不同点就是在MVP中，V层和M层是不能直接交互的。MVP虽然能把我们的业务分割成三个相互独立的部分，但是MVP的缺点也非常明显。模版代码非常多、基于接口的通讯方式会导致我们定义大量一次性接口。并且，P层和V层的生命周期是不一致的，会存在P层还存活，V层被回收的情况。这样会导致UI更新失败，很容易Crash。</p>
+<p>为了分割逻辑，增加这么多代码与一次性接口是否值得，这是一个需要充分考虑的问题。</p>
+<h3 id="MVVM，数据驱动模型"><a href="#MVVM，数据驱动模型" class="headerlink" title="MVVM，数据驱动模型"></a>MVVM，数据驱动模型</h3><p>因为MVP样板代码太多的原因，所以我们又开始尝试MVVM架构了。Google也推出了不少辅助工具帮助我们在Android中实现MVVM架构，如：DataBinding，LiveData，ViewModel系列等。MVVM架构的核心就是数据驱动，数据驱动的意思就是，数据更新的时候，自动刷新UI。</p>
+<p>打个比喻：</p>
+<p>我们把View比作一个罪犯，更新View的行为比作是把罪犯送进监狱的话。那么在MVC、MVP中，我们C，和P就是警察，他要负责把罪犯送进监狱。而在MVVM中，罪犯犯罪（数据变化）后，它自己会走进监狱里面。</p>
+<p>采用MVVM架构会帮我们节省大量的更新UI的代码，并且数据更新后主动出发UI更新这种方式，更难出错，鲁棒性更强。我们不需要关注数据变化的时机，是需要关注数据变化的结果即可。MVVM架构图如下：</p>
+<p align="center"><br><br><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/recurve/mvvm_recurve_architecture.png" alt="MVVM"><br><br></p>
+
+
+
+<p>MVVM架构，因为有官方Jetpack的加持，所以逐渐成为了架构中的主流，如果是新的项目开发的话，可以考虑采用MVVM架构。而针对老业务的新模块，也可以尝试过度到MVVM架构中。</p>
+<h2 id="不止于分层"><a href="#不止于分层" class="headerlink" title="不止于分层"></a>不止于分层</h2><p>通过分析，上面三种架构都是为了解决一个问题的，就是把UI、逻辑、数据层分开，实现解耦。这三种架构其实没有优劣之分，实现的方式才有优劣之分。MVVM架构因为有官方组件加持，所以实现中一般推荐使用MVVM架构。那么架构单单只限于分层吗？</p>
+<p>不是的，因为实际开发中，我们面对的业务场景是非常复杂的，除了把业务分层之外，我们还需要关注：缓存、限流、分页、领域设计（本文不会过于关注）等。下面先简单介绍下缓存和限流这两个场景。</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>我们先来关注一个Android中经常遇到的一个问题，缓存问题。在Android开发中，大部分场景中，我们并不会缓存数据，就算要缓存数据，大部分场景我们都会使用SharedPreferences来实现。无论是不缓存数据，还是大量使用SharedPreferences缓存数据，其实都会带来一些问题。</p>
+<p>大部分情况下，我们从服务器中请求的数据在某个时间段内都是一样的。例如，我们请求个人信息接口，现在请求和一分钟后请求，很可能数据都是一样的。所以如果我们能把第一次请求的数据缓存下来，那么第二次数据我们就没必要重复请求了。这个就是缓存的作用，当然缓存还存在超时时间，这个超时时间的需要根据具体业务来设置。而且缓存还能让我们在网络异常的时候，让用户看到他上一次看到的数据。所以一个设计良好的APP，它肯定会考虑到缓存的设计的。</p>
+<p>而SharedPreferences的问题就是它的效率问题，因为它是基于文件的实现数据持久化的，并且读取/写入数据的时候都是全量读写的，所以大量使用SharedPreferences实现缓存也是不合适的。</p>
+<h3 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h3><p>限流的主要作用是，限制客户端在短时间内发起大量重复请求，导致后台的流量洪峰问题。一般来说，我们可以通过限制重复点击的时间间隔来实现限流。但是这种方案一是会侵入我们的UI实现，二是有部分场景的请求不是由UI发起的。</p>
+<p>我们在解决上述问题的时候，可以说是一千个人眼中有一千个哈姆雷特了，每个人的可能都实现都不一样。而且有些实现可以说是比较糟糕的。那么我们能不能制定个比较统一的机制来解决上述问题呢？答案是可以的，笔者在阅读了Google的某个开源项目后，发现其实官方很早就提供了一个非常优秀的实现机制。下面我们就来分享下这一套方法论，这个机制是基于MVVM架构的。</p>
+<h2 id="在Android上实现一个比较合理的MVVM架构"><a href="#在Android上实现一个比较合理的MVVM架构" class="headerlink" title="在Android上实现一个比较合理的MVVM架构"></a>在Android上实现一个比较合理的MVVM架构</h2><p>可以看到，一个满足我们要求的Repository还是非常复杂的，如果要在每一个Repository都实现这么一套逻辑其实是不现实。不过这种通用的逻辑我们可以封装起来，我们先来看看封装好后的Rpository是怎么样的。</p>
+<h3 id="RepoRepository"><a href="#RepoRepository" class="headerlink" title="RepoRepository"></a>RepoRepository</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RepoRepository</span> <span class="keyword">constructor</span></span>(</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">val</span> db: GithubDb,</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">val</span> githubService: GithubService) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> repoRateLimiter = RateLimiter&lt;String&gt;(<span class="number">15</span>, TimeUnit.SECONDS)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">search</span><span class="params">(query: <span class="type">String</span>)</span></span>: LiveData&lt;Resource&lt;List&lt;Repo&gt;&gt;&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">object</span> : NetworkBoundResource&lt;List&lt;Repo&gt;, RepoSearchResponse&gt;() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">saveCallResult</span><span class="params">(item: <span class="type">RepoSearchResponse</span>)</span></span> &#123;</span><br><span class="line">                <span class="keyword">val</span> repoIds = item.items.map &#123; it.id &#125;</span><br><span class="line">                <span class="keyword">val</span> repoSearchResult = RepoSearchResult(</span><br><span class="line">                        query = query,</span><br><span class="line">                        repoIds = repoIds,</span><br><span class="line">                        totalCount = item.total,</span><br><span class="line">                        next = item.nextPage</span><br><span class="line">                )</span><br><span class="line">                db.runInTransaction &#123;</span><br><span class="line">                    db.repoDao().insertRepos(item.items)</span><br><span class="line">                    db.repoDao().insert(repoSearchResult)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">shouldFetch</span><span class="params">(<span class="keyword">data</span>: <span class="type">List</span>&lt;<span class="type">Repo</span>&gt;?)</span></span> =</span><br><span class="line">                    <span class="keyword">data</span> == <span class="literal">null</span> || repoRateLimiter.shouldFetch(query)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadFromDb</span><span class="params">()</span></span>: LiveData&lt;List&lt;Repo&gt;&gt; &#123;</span><br><span class="line">                <span class="keyword">return</span> Transformations.switchMap(db.repoDao().search(query)) &#123; searchData -&gt;</span><br><span class="line">                    <span class="keyword">if</span> (searchData == <span class="literal">null</span>) &#123;</span><br><span class="line">                        AbsentLiveData.create()</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        db.repoDao().loadOrdered(searchData.repoIds)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">createCall</span><span class="params">()</span></span> = githubService.searchRepos(query)</span><br><span class="line"></span><br><span class="line">        &#125;.asLiveData()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里用到了Room框架来管理数据库，Retrofit2来调用Github的接口，这里不对这两个框架作过多说明，有兴趣的朋友直接阅读源码<a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a>，demo源码在sample目录下。</p>
+</blockquote>
+<p>我们把具体的调度逻辑都放到<code>NetworkBoundResource</code>这个类里面了，这样所有的业务都能服用这一套逻辑。细心的读者可能会发现，其实Repository只承担了很少一部分工作的，网络请求是通过Retrofit2实现的，而数据缓存是通过Room实现的，Repository只做了资源调度的工作。这是一种比较优秀的设计，实现了比较彻底的解耦，而且天然支持单元测试。</p>
+<p>在Repository中是通过RateLimiter限流类实现的，它的创建很简单，就是接收一个时间单位。它的作用是针对同一查询参数，它的请求时间间隔是多少，在上面的例子中是15秒。</p>
+<h3 id="NetworkBoundResource"><a href="#NetworkBoundResource" class="headerlink" title="NetworkBoundResource"></a>NetworkBoundResource</h3><p>NetworkBoundResource这个类其实就是封装了Repository流程图里面的数据调度内容，我们在实现新的业务的时候，不需要重复实现调度逻辑，只需要关注业务本身即可。附上源码：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkBoundResource</span>&lt;<span class="type">ResultType, RequestType</span>&gt;</span></span><br><span class="line"><span class="meta">@MainThread</span> <span class="keyword">constructor</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">val</span> result = MediatorLiveData&lt;Resource&lt;ResultType&gt;&gt;()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        result.value = Resource.loading(<span class="literal">null</span>)</span><br><span class="line">        <span class="meta">@Suppress(<span class="meta-string">"LeakingThis"</span>)</span></span><br><span class="line">        <span class="keyword">val</span> dbSource = loadFromDb()</span><br><span class="line"></span><br><span class="line">        result.addSource(dbSource) &#123; <span class="keyword">data</span> -&gt;</span><br><span class="line">            result.removeSource(dbSource)</span><br><span class="line">            <span class="keyword">if</span> (shouldFetch(<span class="keyword">data</span>)) &#123;</span><br><span class="line">                fetchFromNetwork(dbSource)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                result.addSource(dbSource) &#123; newData -&gt;</span><br><span class="line">                    setValue(Resource.success(newData))</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@MainThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">fun</span> <span class="title">setValue</span><span class="params">(newValue: <span class="type">Resource</span>&lt;<span class="type">ResultType</span>&gt;)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (result.value != newValue) &#123;</span><br><span class="line">            result.value = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchFromNetwork</span><span class="params">(dbSource: <span class="type">LiveData</span>&lt;<span class="type">ResultType</span>&gt;)</span></span> = runBlocking&#123;</span><br><span class="line">        <span class="keyword">val</span> apiResponse = createCall()</span><br><span class="line">        <span class="comment">// we re-attach dbSource as a new source, it will dispatch its latest value quickly</span></span><br><span class="line">        result.addSource(dbSource) &#123; newData -&gt;</span><br><span class="line">            setValue(Resource.loading(newData))</span><br><span class="line">        &#125;</span><br><span class="line">        result.addSource(apiResponse) &#123; response -&gt;</span><br><span class="line">            result.removeSource(apiResponse)</span><br><span class="line">            result.removeSource(dbSource)</span><br><span class="line">            <span class="keyword">when</span> (response) &#123;</span><br><span class="line">                <span class="keyword">is</span> ApiSuccessResponse -&gt; &#123;</span><br><span class="line">                    <span class="keyword">val</span> ioResult = com.recurve.coroutines.io &#123; saveCallResult(processResponse(response)) &#125;</span><br><span class="line">                    ioResult&#123;</span><br><span class="line">                        result.addSource(loadFromDb())&#123;</span><br><span class="line">                            setValue(Resource.success(it))</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">is</span> ApiEmptyResponse -&gt; &#123;</span><br><span class="line">                    result.addSource(loadFromDb()) &#123; newData</span><br><span class="line">                        -&gt; setValue(Resource.success(newData))</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">is</span> ApiErrorResponse -&gt; &#123;</span><br><span class="line">                    onFetchFailed()</span><br><span class="line">                    result.addSource(dbSource) &#123; newData -&gt;</span><br><span class="line">                        setValue(Resource.error(response.errorMessage, newData))</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">onFetchFailed</span><span class="params">()</span></span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">asLiveData</span><span class="params">()</span></span> = result</span><br><span class="line"></span><br><span class="line">    <span class="meta">@WorkerThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">open</span> <span class="function"><span class="keyword">fun</span> <span class="title">processResponse</span><span class="params">(response: <span class="type">ApiSuccessResponse</span>&lt;<span class="type">RequestType</span>&gt;)</span></span> = response.body</span><br><span class="line"></span><br><span class="line">    <span class="meta">@WorkerThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">saveCallResult</span><span class="params">(item: <span class="type">RequestType</span>)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@MainThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">shouldFetch</span><span class="params">(<span class="keyword">data</span>: <span class="type">ResultType</span>?)</span></span>: <span class="built_in">Boolean</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@MainThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadFromDb</span><span class="params">()</span></span>: LiveData&lt;ResultType&gt;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@MainThread</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">createCall</span><span class="params">()</span></span>: LiveData&lt;ApiResponse&lt;RequestType&gt;&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="SearchRepoViewModel"><a href="#SearchRepoViewModel" class="headerlink" title="SearchRepoViewModel"></a>SearchRepoViewModel</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SearchRepoViewModel</span> : <span class="type">ViewModel</span></span>()&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> repoRepository: RepoRepository? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> _query = MutableLiveData&lt;String&gt;()</span><br><span class="line">    <span class="keyword">val</span> query : LiveData&lt;String&gt; = _query</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> results = Transformations</span><br><span class="line">            .switchMap&lt;String, Resource&lt;List&lt;Repo&gt;&gt;&gt;(_query) &#123; search -&gt;</span><br><span class="line">                <span class="keyword">if</span> (search.isNullOrBlank()) &#123;</span><br><span class="line">                    AbsentLiveData.create()</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    repoRepository?.search(search)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">setQuery</span><span class="params">(originalInput: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> input = originalInput.toLowerCase(Locale.getDefault()).trim()</span><br><span class="line">        <span class="keyword">if</span> (input == _query.value) &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        _query.value = input</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，ViewModel的逻辑非常简单，它包含一个方法，setQuery方法接受查询参数，而results则是Repository返回的LiveData对象（关于LiveData的使用这里不作介绍）。如果我们需要处理回调数据的话，直接使用LiveData的变换功能就行了。</p>
+<h3 id="View"><a href="#View" class="headerlink" title="View"></a>View</h3><p>View层我们就不多做介绍了，你可以通过观察LiveData的数据变化来手动更新数据，也可以通过DataBinding来实现自动更新数据。根据自己的习惯来实现就行了。下面我们来看下例子中的关键代码:</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> binding: FragmentSearchRepoBinding</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> searchViewModel <span class="keyword">by</span> lazy &#123; ViewModelProviders.of(<span class="keyword">this</span>).<span class="keyword">get</span>(SearchRepoViewModel::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)&#125;</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> creator: SearchRepoCreator</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateBinding</span><span class="params">(inflater: <span class="type">LayoutInflater</span>, container: <span class="type">ViewGroup</span>?, savedInstanceState: <span class="type">Bundle</span>?)</span></span>: ViewDataBinding &#123;</span><br><span class="line">        binding = DataBindingUtil.inflate(</span><br><span class="line">                inflater, R.layout.fragment_search_repo, container, <span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">        initViewRecyclerView(binding.repoList)</span><br><span class="line">        creator = SearchRepoCreator()</span><br><span class="line">        addItemCreator(creator)</span><br><span class="line">        <span class="keyword">return</span> binding</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onViewCreated</span><span class="params">(view: <span class="type">View</span>, savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onViewCreated(view, savedInstanceState)</span><br><span class="line">        binding.lifecycleOwner = <span class="keyword">this</span></span><br><span class="line">        binding.query = searchViewModel.query</span><br><span class="line">        initSearchInputListener()</span><br><span class="line">        initRepository()</span><br><span class="line"></span><br><span class="line">        binding.searchResult = searchViewModel.results</span><br><span class="line">        searchViewModel.results.observe(viewLifecycleOwner, Observer &#123; result -&gt;</span><br><span class="line">            result?.<span class="keyword">data</span>?.let &#123;</span><br><span class="line">                creator.setDataList(it)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p>其实说了这么多，上面演示的只是一个架构中的一个简单的功能，如果要在自己的项目中重新实现一遍是不现实的。所以笔者其实已经把这个框架封装了，框架的名字叫：<a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a>。一切基础架构相关的都封装好了，你要做的只是依赖下项目即可。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">buildscript &#123;</span><br><span class="line">  ext.recurve_version = <span class="string">'1.0.1'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//modules build.gradle</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve.core:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-retrofit2-support:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-module-adapter:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:coroutines-ktx:$recurve_version"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果你想支持更多功能的话，可以依赖下面的库</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-apollo-support:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-dagger2-support:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-module-paging-support:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:recurve-glide-support:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:viewpager2-navigation-ktx:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:bottom-navigation-ktx:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:viewpager2-tablayout-ktx:$recurve_version"</span></span><br><span class="line">implementation <span class="string">"com.recurve:navigation-dialog:$recurve_version"</span></span><br></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a>致力于打造一个还算可用的Android开发框架，并且会积极跟进官方的新技术。如果你想了解一个开发架构要如何设计的话，可以多多阅读源码，大家一起交流。笔者也在尝试使用这个框架开发一个高可用的项目，该项目是：<a href="https://github.com/Tangpj/GitHubRecurve" target="_blank" rel="noopener">GitHubRecurve</a>。</p>
+<p>对于<a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a>，这篇文章直接少了其中一小部分，后面我会持续推出其它的一些技术模块和设计思想的，欢迎大家关注。如果大家觉得本文还不错的话，可以点个star。</p>
+<h2 id="如果你希望了解更多"><a href="#如果你希望了解更多" class="headerlink" title="如果你希望了解更多"></a>如果你希望了解更多</h2><ul>
+<li><p>如果你想了解屏幕适配的话，可以点击：<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">calces-gradle-plugin</a></p>
+</li>
+<li><p>如果你想了解jetpack以及一些新技术的使用和demo的话，可以点击：<a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">Android-advanced-blueprint</a></p>
+</li>
+</ul>
+<p>最后的最后，你们的star是我坚持的动力，如果你们觉得上述项目还不错的话，可以顺手点个star。如果你觉得<a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a>还不错的话，除了点star外还可以参与到这个开源项目中。如果你希望开发一个完整的项目的话，你可以参与到<a href="https://github.com/Tangpj/GitHubRecurve" target="_blank" rel="noopener">GitHubRecurve</a>中。笔者会持续维护这些项目并且会定期更新一些技术文章的，感谢能看到这里的每一位读写。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望及时收到更新，请长按或扫描上方微信二维码</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Kotlin-Android/" rel="tag"># Kotlin,Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/16/kotlinFp/" rel="next" title="理解Kotlin函数式编程">
+                <i class="fa fa-chevron-left"></i> 理解Kotlin函数式编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC、MVP、MVVM三种分层架构"><span class="nav-number">1.</span> <span class="nav-text">MVC、MVP、MVVM三种分层架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVC，上帝模型"><span class="nav-number">1.1.</span> <span class="nav-text">MVC，上帝模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVP，万物皆回调"><span class="nav-number">1.2.</span> <span class="nav-text">MVP，万物皆回调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVVM，数据驱动模型"><span class="nav-number">1.3.</span> <span class="nav-text">MVVM，数据驱动模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不止于分层"><span class="nav-number">2.</span> <span class="nav-text">不止于分层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存"><span class="nav-number">2.1.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限流"><span class="nav-number">2.2.</span> <span class="nav-text">限流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Android上实现一个比较合理的MVVM架构"><span class="nav-number">3.</span> <span class="nav-text">在Android上实现一个比较合理的MVVM架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RepoRepository"><span class="nav-number">3.1.</span> <span class="nav-text">RepoRepository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NetworkBoundResource"><span class="nav-number">3.2.</span> <span class="nav-text">NetworkBoundResource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SearchRepoViewModel"><span class="nav-number">3.3.</span> <span class="nav-text">SearchRepoViewModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View"><span class="nav-number">3.4.</span> <span class="nav-text">View</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速开始"><span class="nav-number">4.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你希望了解更多"><span class="nav-number">6.</span> <span class="nav-text">如果你希望了解更多</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://tangpj.dev/2020/02/09/mvvm_architecture/';
+        this.page.identifier = '2020/02/09/mvvm_architecture/';
+        this.page.title = '关于Android开发架构，我们还能做些什么？';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
