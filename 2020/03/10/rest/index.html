@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="REST和RESTFul其实无论是RPC、RESTFUL、还是GraphQL，都和REST这个词有千丝万缕的关系的。所以在文章的开篇，先简单介绍下REST和RESTFul。REST和RESTFul这两个词经常会出现在开发者的眼中，我相信很多开发者都不知道它们的区别是什么，也有很多开发者认为REST就是RESTFul。那么它们真的就是一个东西吗？下面我们就来探究下它们之间的关系。">
+<meta name="keywords" content="architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单谈谈RPC、RestFul和GraphQL">
+<meta property="og:url" content="https://tangpj.dev/2020/03/10/rest/index.html">
+<meta property="og:site_name" content="TANG BLOG">
+<meta property="og:description" content="REST和RESTFul其实无论是RPC、RESTFUL、还是GraphQL，都和REST这个词有千丝万缕的关系的。所以在文章的开篇，先简单介绍下REST和RESTFul。REST和RESTFul这两个词经常会出现在开发者的眼中，我相信很多开发者都不知道它们的区别是什么，也有很多开发者认为REST就是RESTFul。那么它们真的就是一个东西吗？下面我们就来探究下它们之间的关系。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/covert.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/rpc.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/restful.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/graphql.png">
+<meta property="og:updated_time" content="2020-03-10T15:07:18.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单谈谈RPC、RestFul和GraphQL">
+<meta name="twitter:description" content="REST和RESTFul其实无论是RPC、RESTFUL、还是GraphQL，都和REST这个词有千丝万缕的关系的。所以在文章的开篇，先简单介绍下REST和RESTFul。REST和RESTFul这两个词经常会出现在开发者的眼中，我相信很多开发者都不知道它们的区别是什么，也有很多开发者认为REST就是RESTFul。那么它们真的就是一个东西吗？下面我们就来探究下它们之间的关系。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/covert.jpg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="TANG BLOG" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="https://tangpj.dev/2020/03/10/rest/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>简单谈谈RPC、RestFul和GraphQL | TANG BLOG</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?494063533bacc8f59d95b9bb0634f27e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANG BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Tang的技术笔记</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">14</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">6</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">21</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404.html" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tangpj.dev/2020/03/10/rest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tang">
+      <meta itemprop="description" content="努力的人运气一般不会太差">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANG BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">简单谈谈RPC、RestFul和GraphQL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-10 23:04:44 / 修改时间：23:07:18" itemprop="dateCreated datePublished" datetime="2020-03-10T23:04:44+08:00">2020-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/architecture/" itemprop="url" rel="index"><span itemprop="name">architecture</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/10/rest/#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/10/rest/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/covert.jpg" alt="covert"></p>
+<h2 id="REST和RESTFul"><a href="#REST和RESTFul" class="headerlink" title="REST和RESTFul"></a>REST和RESTFul</h2><p>其实无论是RPC、RESTFUL、还是GraphQL，都和REST这个词有千丝万缕的关系的。所以在文章的开篇，先简单介绍下REST和RESTFul。REST和RESTFul这两个词经常会出现在开发者的眼中，我相信很多开发者都不知道它们的区别是什么，也有很多开发者认为REST就是RESTFul。那么它们真的就是一个东西吗？下面我们就来探究下它们之间的关系。</p>
+<a id="more"></a>
+<h3 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h3><p>REST的全称是：Representational State Transfer ，它的直接中文翻译是：表现层状态转移。这个词，基本上没什么人能直接看懂它表达的意思。从系统架构的角度上来讲，它表示一种分布式超媒体系统的架构风格。也就是说，它代表一种系统架构的风格。在这里我们不深入讨论REST架构是怎样的，我们只需要知道，现在大部分人接触的前后端分离的架构一般都是REST风格的就行了。</p>
+<h3 id="RESTFul"><a href="#RESTFul" class="headerlink" title="RESTFul"></a>RESTFul</h3><p>那RESTFul又是什么呢？RESTFul是指：基于REST架构风格的Server端为其它组件（这个其它组件可以是前端应用，也可以是其它后端系统）提供交互的一个统一接口。这样做的目的是，简化整体系统架构，改善交互的可见性。也避免了Server端组件的内部逻辑泄露到其它组件的可能性。<strong>实现Server端与它提供的服务解耦的目标</strong>，这使组件之间独立演进成为了可能。</p>
+<blockquote>
+<p>从架构角度来看，我们所说的解耦一般被会理解为：前后端解耦，又或者后端服务和后端服务之间的解耦。但是从REST的架构上来说，它其实是指：<strong>Server端与它提供的服务解耦</strong>。这样带来的好处是：<strong>提供的服务是可信任的，不会因为Server的演变而发生改版。</strong>这是Rest架构的一个非常重要的特点。</p>
+</blockquote>
+<p>简单来说，我们最常见的基于HTTP协议的服务端接口、API等，就是我们说的RESTFul接口。</p>
+<h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>RPC的全称是Remote Procedure Call，即远程过程调用，与之对应的是本地过程调用。为了方面大家理解什么是RPC，我们先通过简单的代码来看看本地过程调用是怎样的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = -<span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> y = -<span class="number">99</span>;</span><br><span class="line"><span class="keyword">int</span> result = Math.max(x, y);</span><br><span class="line">System.out.println(<span class="string">"max = "</span> + result);</span><br></pre></td></tr></table></figure>
+<p>调用<code>Math.max</code>就是一个本地过程调用。即通俗来讲，我们调用我们本地代码中的提供的一些API的过程，就称为本地过程调用。</p>
+<p><strong>远程过程调用，最终调用的API不是运行在本地的</strong>。这个提供服务的程序有可能是运行在不同进程，甚至是不同机器上的。RPC的调用过程从代码上来看，和我们调用本地的代码其实是非常像的。我们可以尝试使用伪代码实现一个RPC的max函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = -<span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> y = -<span class="number">99</span>;</span><br><span class="line">RPCMath.max(x, y, &#123; result -&gt;</span><br><span class="line">    System.out.println(<span class="string">"max = "</span> + result);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看到，RPC的调用过程和调用本地代码其实是有点像的，我们可以像调用本地代码一样调用我们远程服务的代码。唯一的区别就是，本地过程调用可以是同步的，也可以是异步的，但是远程过程调用一般都是异步的。因为本地过程调用我们能确认这个“过程”是否是耗时的，而远程过程调用，这个“过程”一定是耗时的。一般来说，我们耗时的任务都会倾向于使用异步调用。但是这也不是一定的，因为我们也可以阻塞等待结果，这样其实也是可以的。</p>
+<p>RPC调用一般是CS模型的，整个调用过程可以概括为：</p>
+<p>Client发起调用 -&gt; 通过中转层发送到Server端 -&gt; Server处理 -&gt; 把结果通过中转层发送给Client</p>
+<p>图示如下：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/rpc.png" alt="RPC"></p>
+<p>这里的中转层一般来说是通过网络实现（TCP、Socket、也有可能是HTTP），也有可能是夸进程通信中使用的系统服务，如Android的Binder机制其实也是一种RPC调用。</p>
+<p>RPC一般是通过约定协议来实现夸端通信的。双方会遵守同一套协议，客户端会通过协议把需要调用的服务告诉服务端，然后服务端运算完毕后，再通过协议把结果回传给客户端。业内比较知名的RPC框架是Google公司的grpc，grpc是使用ProtoBuf（接口描述语言<a href="https://en.wikipedia.org/wiki/Interface_description_language" target="_blank" rel="noopener">Interface Definition Language，IDL</a>）定义双方的通信协议的。总的来说，RPC调用虽然看起来很像调用我们代码库里面的代码，但是最终的处理单元却是运行在另一个的进程甚至是另一台计算机中的。</p>
+<h2 id="HTTP协议下的RESTFul"><a href="#HTTP协议下的RESTFul" class="headerlink" title="HTTP协议下的RESTFul"></a>HTTP协议下的RESTFul</h2><p>前面我们简单讨论过REST和RESTFul的关系，现在我们来探讨下，我们经常使用的基于HTTP协议的RESTFul又是如何工作的。</p>
+<p>经过上文的讨论，现在我们知道了，RESTFul其实是指REST架构下的一种用于提供资源的接口。在平时访问远程接口时，我们一般会通过统一资源定位符（URI）来定位资源的位置，建立连接后再通过HTTP协议来传输数据。整个过程可<br>以用下图来展示。</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/restful.png" alt="RESTFul"></p>
+<p>可以看到，在RESET架构下，Client会通过URI来确定自己需要请求的资源。建立连接后，会通过HTTP来发送/接收数据。<strong>Client的请求目标通过统一接口访问是资源（Resource），而不是Server本身</strong>。如果你理解REST的话，你会大概看懂这句话的意思，如果你不太理解REST也没关系。我们对比下上面讨论到的RPC风格的接口和RESTFul接口就能大概理解了。</p>
+<h3 id="RPC和RESTFul的区别"><a href="#RPC和RESTFul的区别" class="headerlink" title="RPC和RESTFul的区别"></a>RPC和RESTFul的区别</h3><p>我们回顾下可以发现，RPC是通过双方约定协议来实现通信的。如果协议改变了，那么Client和Server的代码都需要作出改变。不然很容易会导致通信失败，甚至会编译失败。grpc就是一个典型，在proto协议文件改变的情况下，客户端和服务端的代码都需要更新，否则会有可能编译失败。这种编译失败也是一种安全机制，可以避免由于协议更新导致的线上故障。总的来说，RPC是一种强耦合的模型。</p>
+<p>而REST架构，是一种松耦合的模型。在调用RESTFul接口的时候，我们不需要关心服务端代码的实现，Client和Server只需要按照接口文档的定义来开发即可。接口文档可以看作是对资源的描述。RESTFul资源增加字段是不会影响其它Client的调用的，但是如果要删减字段的时候则需要更谨慎一些。RESTFul架构通过能帮助我们进一步实现前后端分离，使前端和后端能分别独立演进（和RPC的区别）。</p>
+<p> RESTFul的统一接口简化了整体的系统性和也改善了交互的可见性，实现了资源与它们所提供的服务解耦。而RPC由于是建立在双方所约定的协议的技术上的，所以耦合度会更高。</p>
+<h2 id="什么是GraphQL？"><a href="#什么是GraphQL？" class="headerlink" title="什么是GraphQL？"></a>什么是GraphQL？</h2><p>GraphQL这种技术大部分都是流行在前端领域，后端的同学会比较少接触。那为什么GraphQL会让大部分前端，客户端开发沉迷呢？先看看GraphQL官网自己的介绍：</p>
+<p><strong>GraphQL 既是一种用于 API 的查询语言也是一个满足你数据查询的运行时。 GraphQL 对你的 API 中的数据提供了一套易于理解的完整描述，使得客户端能够准确地获得它需要的数据，而且没有任何冗余，也让 API 更容易地随着时间推移而演进，还能用于构建强大的开发者工具。</strong></p>
+<p>从这句话来看，GraphQL的主要功能是让客户端的同学查询自己想查询的数据。简单来说，就是客户端不用天天求着后端帮忙改接口了。举个例子：</p>
+<p>我们现在想请求用户的个人信息，现在和后端约定好，需要name、id、address字段。双方开发完后，产品问：我们能不能（必须）也把用户的年龄也显示出来啊。这个时候，前端就会去请求我们的后端同学帮忙加一下了。</p>
+<p>如果GraphQL能实现它介绍的功能的话，下面这个场景会变成这样。</p>
+<p>前端想请求用户的个人信息，主要包含name、id、address。现在不需要前端和后端约定的东西了，只需要前端告诉后端的服务器想要什么数据就行了。前端可以写出下面的graph查询语言:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user(userId:<span class="string">"11111"</span>)&#123;</span><br><span class="line">  name</span><br><span class="line">  id</span><br><span class="line">  address</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就能得到需要的数据。如果产品现在想把年龄也显示出来，那我们只需要这样写就行了：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user(userId:<span class="string">"11111"</span>)&#123;</span><br><span class="line">  name</span><br><span class="line">  id</span><br><span class="line">  address</span><br><span class="line">  age</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GraphQL对自己的定义非常明晰：<strong>一种用于 API 的查询语言。</strong>它能让客户端脱离后端的接口，实现按需获取数据。</p>
+<h3 id="为什么需要GraphQL？"><a href="#为什么需要GraphQL？" class="headerlink" title="为什么需要GraphQL？"></a>为什么需要GraphQL？</h3><p>GraphQL更多是用来解决前端的痛点的，为什么这么说呢？因为现代Web系统大部分是基于REST架构风格的，所以各个子系统和前后端之间的独立演进是非常方便的。但是因为前后端的特殊性，这就导致了一个现象：<strong>后端的核心业务往往是稳定运行的，但是前端页面的变化是非常迅速的。</strong></p>
+<p>这样导致的结果就是，后端的核心业务代码往往是很稳定的。但是为了适应前端页面的各种变化，后端需要频繁的开发变更各种接口，以适应前端业务的快速变化。导致这个现象的原因有很多，其中RESTFul的接口被滥用是非常重要的一点。</p>
+<h3 id="被滥用的RESTFul"><a href="#被滥用的RESTFul" class="headerlink" title="被滥用的RESTFul"></a>被滥用的RESTFul</h3><p>为什么说RESTFul被滥用了呢？因为在一个大型系统中，在做一个新业务的时候，往往会考虑创建一个新的接口。这样做的目的大部分是为了不让新业务影响到旧业务。但是一旦这种接口多起来，那么接口（这里指RESTFUL接口，下同）的管理会变成一件十分令人抓狂的工作。新增接口很简单，但是什么时候要废弃一个接口就是一个难以决策的事情了。如果不废弃的话，那系统中就会充满各种为“一次性页面（如时限性的活动页面）”服务的接口，各种个样的聚合接口。甚至会出现，接口与接口之间相互耦合的可怕结果。</p>
+<p>当然，我们可以根据接口的流量来决定，当接口的流量降到一定的程度的时候，我们就废弃这个接口。但是什么时候流量才算是较低呢？这又是一个问题。</p>
+<p>通过分析，我们知道，后端核心系统的接口往往是数量很少并且非常稳定的。后端系统之间能通过少量的接口实现系统与系统之间的交互。后端和客户端/前端之间的交互往往会产生大量不太稳定的接口，而这些接口对后端来说不是必须的，对前端来说是必须的。需要快速增加/变动各种接口这种痛点，其实更多实在前端同学的身上。</p>
+<p>所以GraphQL一般都是前端的同学先了解，并且倾向于尝试。</p>
+<h3 id="GraphQL的作用"><a href="#GraphQL的作用" class="headerlink" title="GraphQL的作用"></a>GraphQL的作用</h3><p>GraphQL和REST架构风格是不冲突的，我们可以看作在REST架构中再介入薄薄的一层，专门用来处理数据查询。如下图：</p>
+<p><img src="https://raw.githubusercontent.com/Tangpj/MarkdownRes/master/mBlog/rest/graphql.png" alt="RESTFul"></p>
+<p>GraphQL有一个统一的入口，它只有一个接口，但是这个接口非常聪明，能按需返回你想要的数据。它会根据访问者的需要来返回数据，不会缺少，也不会像聚合接口这样，返回一堆你不太需要的数据。</p>
+<p>使用GraphQL时，我们一边会有三个步骤：</p>
+<ul>
+<li>描述你的数据</li>
+<li>请求你的数据</li>
+<li>得到可预测的结果</li>
+</ul>
+<p>简单来说，搭建完GraphQL体系后，前端就不再需要频繁需要后端增加、更新、聚合接口。当然，这也要求前端工程师更了解后端的业务体系。还需要后端工程师帮我们搭建好能有助于我们构建GraphQL的后端体系。</p>
+<p>这是一种前期投入大，产出低，但是后期潜力和价值都非常高的技术。</p>
+<h2 id="如何去选择"><a href="#如何去选择" class="headerlink" title="如何去选择"></a>如何去选择</h2><p>GraphQL和RPC、RESTFul有什么不同的地方呢？它们最大的不同就是架构上的不同，我们在分析RPC和RESTFul的时候可以发现，它们是和我们Web后端系统的整体架构是息息相关的。但是GraphQL不一样，它是在我们的前端和后端架构中加多薄薄的一层，这一层的作用是让我们能按需查询数据。</p>
+<p>那么那一种更好呢？从技术上来说，这几种技术都各有优缺点。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">RPC</th>
+<th style="text-align:center">RESTFul</th>
+<th style="text-align:center">GraphQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">优点</td>
+<td style="text-align:center">速度快</td>
+<td style="text-align:center">接入简单</td>
+<td style="text-align:center">查询方便，按需查询</td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">耦合度高</td>
+<td style="text-align:center">接口管理问题</td>
+<td style="text-align:center">会增加架构复杂度</td>
+</tr>
+</tbody>
+</table>
+<p>我们又要如何选择呢？这问题的答案是离不开我们的应用场景的。在稳定的系统核心服务的交互中，我们可以用RPC，这样能获取最高的性能。在小型Web系统中，我们使用RESTFul来实现前后端通信也是可行的。而在大型Web系统中，我们可以在整体架构中加多一层GraphQL层，可以达到更高的开发效率。</p>
+<h3 id="它们是对立的吗？"><a href="#它们是对立的吗？" class="headerlink" title="它们是对立的吗？"></a>它们是对立的吗？</h3><p>看到这里可能有人会有一些疑问，这三种技术看起来都是运行在不同的层级的，那它们是对立的关系吗？是不是选择了其中一种，就意味着必须要放弃其它的方案？</p>
+<p>其实它们并不是对立的，甚至如果你想，你可以同时使用它们。举个例子，一般情况下，我们使用了RPC就不会再使用RESTFul。但是上文我们也说过，RESTFul是指REST架构风格的服务器提供的API，只是一般来说，我们会基于HTTP协议去实现它（最佳实践）。但是有一些特殊情况，我们既需要追求高性能的同时，又不想直面RPC的缺点，那么我们可以基于RPC实现一些RESTFul风格的接口。有些追求高性能的移动客户端就是这样做的。一般前端要使用RPC和后台通信的话，比较好的方案是建立一层防腐层，避免RPC定义的一些协议直接侵入到前端的代码中。这样也能达到松耦合的目的。因为REST是一种架构风格，所以它们并不是绝对对立的。</p>
+<p>而GraphQL更是能直接使用我们原来的接口，我们可以通过搭建一个GraphQL服务器。这个服务器的作用就是聚合已经上线的RPC，RESTFul接口，最终提供一个GraphQL数据查询的服务，具体细节这里就不细谈了。最后，有一点大家需要注意，GraphQL并不是说直接让前端去查询后端数据库的（当然，你也可以这样做），在技术上，有更多更好的方案。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>本文主要是介绍性质的，所以就不在这里探讨如何去实施/使用这几种技术了。如果对RPC感兴趣可以看看Google的grpc；如果的GraphQL感兴趣，看FaceBook的官方文档就可以了。GraphQL的社区热度非常高，社区比较优秀的框架是Apollo系列。</p>
+<h2 id="如果你希望了解更多"><a href="#如果你希望了解更多" class="headerlink" title="如果你希望了解更多"></a>如果你希望了解更多</h2><ul>
+<li>如果你想了解Android屏幕适配的话，可以点击：<a href="https://github.com/Tangpj/calces-gradle-plugin" target="_blank" rel="noopener">calces-gradle-plugin</a></li>
+<li>如果你想了解Android jetpack以及一些新技术的使用和demo的话，可以点击：<a href="https://github.com/Tangpj/Android-advanced-blueprint" target="_blank" rel="noopener">Android-advanced-blueprint</a></li>
+<li>如果你想了解Android架构的话，可以点击<a href="https://github.com/Tangpj/MVVMRecurve" target="_blank" rel="noopener">MVVMRecurve</a></li>
+</ul>
+<p>以上项目如果你感兴趣或者对你有用的话，可以点一下star，Thanks。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/qrcode_for_tangpj.jpg" alt="Tang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果希望及时收到更新，请长按或扫描上方微信二维码</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>你的支持，是我坚持的动力👍</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpeg" alt="Tang 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpeg" alt="Tang 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/architecture/" rel="tag"># architecture</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/09/mvvm_architecture/" rel="next" title="关于Android开发架构，我们还能做些什么？">
+                <i class="fa fa-chevron-left"></i> 关于Android开发架构，我们还能做些什么？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpeg"
+                alt="Tang" />
+            
+              <p class="site-author-name" itemprop="name">Tang</p>
+              <p class="site-description motion-element" itemprop="description">努力的人运气一般不会太差</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Tangpj" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:developertpj@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#REST和RESTFul"><span class="nav-number">1.</span> <span class="nav-text">REST和RESTFul</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#REST"><span class="nav-number">1.1.</span> <span class="nav-text">REST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RESTFul"><span class="nav-number">1.2.</span> <span class="nav-text">RESTFul</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC"><span class="nav-number">2.</span> <span class="nav-text">RPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP协议下的RESTFul"><span class="nav-number">3.</span> <span class="nav-text">HTTP协议下的RESTFul</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC和RESTFul的区别"><span class="nav-number">3.1.</span> <span class="nav-text">RPC和RESTFul的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是GraphQL？"><span class="nav-number">4.</span> <span class="nav-text">什么是GraphQL？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要GraphQL？"><span class="nav-number">4.1.</span> <span class="nav-text">为什么需要GraphQL？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被滥用的RESTFul"><span class="nav-number">4.2.</span> <span class="nav-text">被滥用的RESTFul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GraphQL的作用"><span class="nav-number">4.3.</span> <span class="nav-text">GraphQL的作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何去选择"><span class="nav-number">5.</span> <span class="nav-text">如何去选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#它们是对立的吗？"><span class="nav-number">5.1.</span> <span class="nav-text">它们是对立的吗？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写在最后"><span class="nav-number">6.</span> <span class="nav-text">写在最后</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你希望了解更多"><span class="nav-number">7.</span> <span class="nav-text">如果你希望了解更多</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tang</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Muse</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://tangpj-com.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://tangpj.dev/2020/03/10/rest/';
+        this.page.identifier = '2020/03/10/rest/';
+        this.page.title = '简单谈谈RPC、RestFul和GraphQL';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://tangpj-com.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
